@@ -19,7 +19,7 @@ const StyledNote = styled.div`
 class Note extends Component {
     constructor(props) {
         super(props);
-        bindAll(this, 'onMouseDownHandler', 'onMouseUpHandler')
+        bindAll(this, 'onMouseDownHandler')
     }
 
     onMouseDownHandler(e) {
@@ -27,17 +27,12 @@ class Note extends Component {
         this.props.onMouseDownHandler(this.props.i)
     }
 
-    onMouseUpHandler(e) {
-        e.preventDefault();
-        this.props.onMouseUpHandler()
-    }
-
     render() {
         return (
             <StyledNote 
                 noteAmount={this.props.noteAmount}
                 onMouseDown={this.onMouseDownHandler}
-                onMouseUp={this.onMouseUpHandler}
+                onMouseUp={this.props.onMouseUpHandler}
             />
         )
     }
@@ -70,6 +65,10 @@ export default class Keyboard extends Component {
         bindAll(this, 'onKeyUpHandler', 'onKeyDownHandler', 'onMouseDownHandler', 'onMouseUpHandler');
     }
 
+    componentDidMount() {
+        
+    }
+
     onKeyUpHandler(e) {
         e.preventDefault();
     }
@@ -79,10 +78,13 @@ export default class Keyboard extends Component {
     }
 
     onMouseDownHandler(key) {
-        this.props.synth.instance.triggerAttack(key);
+        this.props.synth.instance.triggerAttack(
+            this.state.notes[key]
+        );
     }
 
     onMouseUpHandler(e) {
+        e.preventDefault();
         this.props.synth.instance.triggerRelease();
     }
 

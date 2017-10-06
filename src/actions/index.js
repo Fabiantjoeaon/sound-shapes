@@ -1,4 +1,5 @@
-export const initSynth = (synth) => ({
-    type: 'INIT_SYNTH',
-    synth
+export const updateAmpEnvelope = (value, envelope) => ({
+    type: 'UPDATE_AMP_ENVELOPE',
+    value,
+    envelope
 });

@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
-import {Synth} from 'tone';
 import {connect} from 'react-redux';
 import {initSynth} from '../actions';
 import Keyboard from './Keyboard';
+import EnvelopeGenerator from './EnvelopeGenerator';
+import {updateAmpEnvelope} from '../actions';
 
-class Synthesizer extends Component {
-    componentDidMount() {
-        this.props.initSynth(new Synth().toMaster())
-    }
-
-    render() {
-        return (
-            <Keyboard {...this.props}/>
-        );
-    }
-}
+const Synthesizer = (props) => (
+    <div>
+        <EnvelopeGenerator {...props}/>
+        <Keyboard {...props}/>
+    </div>
+);
 
 const mapStateToProps = (state) => ({...state});
 const mapDispatchToProps = (dispatch) => ({
-    initSynth(synth) {
-        dispatch(initSynth(synth))
+    updateAmpEnvelope(value, envelope) {
+        dispatch(updateAmpEnvelope(value, envelope))
     }
-});
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Synthesizer);
