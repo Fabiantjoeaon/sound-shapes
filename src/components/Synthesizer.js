@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {initSynth} from '../actions';
 import Keyboard from './Keyboard';
-import EnvelopeGenerator from './EnvelopeGenerator';
+import AmpEnvelopeGenerator from './AmpEnvelopeGenerator';
 import {updateAmpEnvelope} from '../actions';
 
-const Synthesizer = (props) => (
+const Synthesizer = ({synth, updateAmpEnvelope}) => (
     <div>
-        <EnvelopeGenerator {...props}/>
-        <Keyboard {...props}/>
+        <AmpEnvelopeGenerator 
+            synth={synth} 
+            updateAmpEnvelope={updateAmpEnvelope} 
+        />
+        <Keyboard synth={synth} />
     </div>
 );
 

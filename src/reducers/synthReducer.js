@@ -14,6 +14,7 @@ const synthReducer = (state = {
             })
             
             return newState;
+        break;
 
         default:
             return state;

@@ -59,7 +59,8 @@ export default class Keyboard extends Component {
         }
 
         this.state =  {
-            notes: Object.values(this.keyMap)
+            notes: Object.values(this.keyMap),
+            down: null
         }
 
         bindAll(this, 'onKeyUpHandler', 'onKeyDownHandler', 'onMouseDownHandler', 'onMouseUpHandler');
@@ -69,22 +70,36 @@ export default class Keyboard extends Component {
         
     }
 
-    onKeyUpHandler(e) {
-        e.preventDefault();
-    }
-
     onKeyDownHandler(e) {
         e.preventDefault();
+        if(this.state.down) return;
+
+        const note = this.keyMap[e.which];
+        this.setState({down: note});
+        this.props.synth.instance.triggerAttack(
+            note
+        );
+    }
+
+    onKeyUpHandler(e) {
+        e.preventDefault();
+        this.setState({down: null});
+        this.props.synth.instance.triggerRelease();
     }
 
     onMouseDownHandler(key) {
+        if(this.state.down) return;
+
+        const note = this.state.notes[key];
+        this.setState({down: note});
         this.props.synth.instance.triggerAttack(
-            this.state.notes[key]
+            note
         );
     }
 
     onMouseUpHandler(e) {
         e.preventDefault();
+        this.setState({down: null});
         this.props.synth.instance.triggerRelease();
     }
 
