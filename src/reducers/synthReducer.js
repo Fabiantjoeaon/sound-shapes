@@ -1,6 +1,7 @@
 import {Synth} from 'tone';
 import cloneDeep from 'lodash/cloneDeep';
 
+//TODO: initial state is function that returns synth setup (diff file) with filters attached etc
 const synthReducer = (state = {
     instance: new Synth().toMaster()
 }, action) => {

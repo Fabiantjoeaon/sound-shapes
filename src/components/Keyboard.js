@@ -9,11 +9,12 @@ const StyledKeyboard = styled.div`
     width: 500px;
 `;
 
+//TODO: Is black prop? then render in between two
 const StyledNote = styled.div`
     width: calc(100% / ${props => props.noteAmount});
     height: 100%;
-    background-color: red;
     border: 1px solid black;
+    background-color: ${props => props.isPressed ? 'red' : props.isBlackKey ? 'black' : 'white'};
 `;  
 
 class Note extends Component {
@@ -33,6 +34,8 @@ class Note extends Component {
                 noteAmount={this.props.noteAmount}
                 onMouseDown={this.onMouseDownHandler}
                 onMouseUp={this.props.onMouseUpHandler}
+                isBlackKey={this.props.note.includes('#')}
+                isPressed={this.props.isPressed}
             />
         )
     }
@@ -66,15 +69,13 @@ export default class Keyboard extends Component {
         bindAll(this, 'onKeyUpHandler', 'onKeyDownHandler', 'onMouseDownHandler', 'onMouseUpHandler');
     }
 
-    componentDidMount() {
-        
-    }
-
     onKeyDownHandler(e) {
         e.preventDefault();
         if(this.state.down) return;
 
         const note = this.keyMap[e.which];
+        if(!note) return;
+
         this.setState({down: note});
         this.props.synth.instance.triggerAttack(
             note
@@ -103,7 +104,7 @@ export default class Keyboard extends Component {
         this.props.synth.instance.triggerRelease();
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('keydown', this.onKeyDownHandler);
         document.addEventListener('keyup', this.onKeyUpHandler);
     }
@@ -120,9 +121,11 @@ export default class Keyboard extends Component {
                     <Note 
                         i={i}
                         key={i} 
+                        note={note}
                         onMouseDownHandler={this.onMouseDownHandler} 
                         onMouseUpHandler={this.onMouseUpHandler} 
                         noteAmount={this.state.notes.length} 
+                        isPressed={note == this.state.down}
                     />
                 )}
             </StyledKeyboard>
