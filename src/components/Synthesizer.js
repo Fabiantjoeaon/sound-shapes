@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { initSynth } from '../actions';
 import Keyboard from './Keyboard';
 import AmpEnvelopeGenerator from './AmpEnvelopeGenerator';
-import { updateAmpEnvelope } from '../actions';
+import { updateParameter } from '../actions';
 import Oscillator from './Oscillator';
 
-const Synthesizer = ({ synth, updateAmpEnvelope }) => (
+const Synthesizer = ({ synth, updateParameter }) => (
     <div>
         <AmpEnvelopeGenerator
             ampEnvelope={synth.ampEnvelope}
-            updateAmpEnvelope={updateAmpEnvelope}
+            updateParameter={updateParameter}
         />
         <Keyboard synth={synth} />
     </div>
@@ -18,8 +18,8 @@ const Synthesizer = ({ synth, updateAmpEnvelope }) => (
 
 const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
-    updateAmpEnvelope(value, envelope) {
-        dispatch(updateAmpEnvelope(value, envelope));
+    updateParameter(module, parameter, value) {
+        dispatch(updateParameter(module, parameter, value));
     }
 });
 

@@ -3,11 +3,11 @@ import initSynth from '../synth';
 
 const synthReducer = (state = initSynth(), action) => {
     switch (action.type) {
-        case 'UPDATE_AMP_ENVELOPE':
+        case 'UPDATE_PARAMETER':
             const newState = { ...state };
 
-            newState.ampEnvelope.set({
-                [action.envelope]: action.value
+            newState[action.module].set({
+                [action.parameter]: action.value
             });
 
             return newState;

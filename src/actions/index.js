@@ -1,5 +1,5 @@
-export const updateAmpEnvelope = (value, envelope) => ({
-    type: 'UPDATE_AMP_ENVELOPE',
-    value,
-    envelope
+export const updateParameter = (module, parameter, value) => ({
+    type: 'UPDATEPARAMETER',
+    parameter,
+    value
 });

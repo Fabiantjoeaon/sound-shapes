@@ -10,7 +10,11 @@ export default class Parameter extends Component {
 
     handleChange(e) {
         e.preventDefault();
-        this.props.updateSynth(e.target.value, this.props.param);
+        this.props.updateSynth(
+            this.props.module,
+            this.props.param,
+            e.target.value
+        );
     }
 
     render() {
