@@ -14,32 +14,39 @@ const StyledNote = styled.div`
     width: calc(100% / ${props => props.noteAmount});
     height: 100%;
     border: 1px solid black;
-    background-color: ${props => props.isPressed ? 'red' : props.isBlackKey ? 'black' : 'white'};
-`;  
+    background-color: ${props =>
+        props.isPressed ? 'red' : props.isBlackKey ? 'black' : 'white'};
+
+    span {
+        color: green;
+    }
+`;
 
 class Note extends Component {
     constructor(props) {
         super(props);
-        bindAll(this, 'onMouseDownHandler')
+        bindAll(this, 'onMouseDownHandler');
     }
 
     onMouseDownHandler(e) {
         e.preventDefault();
-        this.props.onMouseDownHandler(this.props.i)
+        this.props.onMouseDownHandler(this.props.i);
     }
 
     render() {
         return (
-            <StyledNote 
+            <StyledNote
                 noteAmount={this.props.noteAmount}
                 onMouseDown={this.onMouseDownHandler}
                 onMouseUp={this.props.onMouseUpHandler}
                 isBlackKey={this.props.note.includes('#')}
                 isPressed={this.props.isPressed}
-            />
-        )
+            >
+                <span>{this.props.note}</span>
+            </StyledNote>
+        );
     }
-} 
+}
 
 export default class Keyboard extends Component {
     constructor(props) {
@@ -59,52 +66,57 @@ export default class Keyboard extends Component {
             72: 'A5',
             85: 'A#5',
             74: 'B5'
-        }
+        };
 
-        this.state =  {
+        this.state = {
             notes: Object.values(this.keyMap),
             down: null
-        }
+        };
 
-        bindAll(this, 'onKeyUpHandler', 'onKeyDownHandler', 'onMouseDownHandler', 'onMouseUpHandler');
+        bindAll(
+            this,
+            'onKeyUpHandler',
+            'onKeyDownHandler',
+            'onMouseDownHandler',
+            'onMouseUpHandler'
+        );
     }
 
     onKeyDownHandler(e) {
         e.preventDefault();
-        if(this.state.down) return;
+        if (this.state.down) return;
 
         const note = this.keyMap[e.which];
-        if(!note) return;
+        if (!note) return;
 
-        this.setState({down: note});
-        this.props.synth.instance.triggerAttack(
-            note
-        );
+        this.setState({ down: note });
+        this.props.synth.oscillator.frequency.value = note;
+        this.props.synth.ampEnvelope.triggerAttack();
     }
 
     onKeyUpHandler(e) {
         e.preventDefault();
-        this.setState({down: null});
-        this.props.synth.instance.triggerRelease();
+        this.setState({ down: null });
+        this.props.synth.ampEnvelope.triggerRelease();
     }
 
     onMouseDownHandler(key) {
-        if(this.state.down) return;
+        if (this.state.down) return;
 
         const note = this.state.notes[key];
-        this.setState({down: note});
-        this.props.synth.instance.triggerAttack(
-            note
-        );
+        this.setState({ down: note });
+        this.props.synth.oscillator.frequency.value = note;
+        this.props.synth.ampEnvelope.triggerAttack();
     }
 
     onMouseUpHandler(e) {
         e.preventDefault();
-        this.setState({down: null});
-        this.props.synth.instance.triggerRelease();
+        this.setState({ down: null });
+        this.props.synth.ampEnvelope.triggerRelease();
     }
 
     componentDidMount() {
+        console.log(this.props);
         document.addEventListener('keydown', this.onKeyDownHandler);
         document.addEventListener('keyup', this.onKeyUpHandler);
     }
@@ -117,18 +129,18 @@ export default class Keyboard extends Component {
     render() {
         return (
             <StyledKeyboard>
-                {this.state.notes.map((note, i) => 
-                    <Note 
+                {this.state.notes.map((note, i) => (
+                    <Note
                         i={i}
-                        key={i} 
+                        key={i}
                         note={note}
-                        onMouseDownHandler={this.onMouseDownHandler} 
-                        onMouseUpHandler={this.onMouseUpHandler} 
-                        noteAmount={this.state.notes.length} 
-                        isPressed={note == this.state.down}
+                        onMouseDownHandler={this.onMouseDownHandler}
+                        onMouseUpHandler={this.onMouseUpHandler}
+                        noteAmount={this.state.notes.length}
+                        isPressed={note === this.state.down}
                     />
-                )}
+                ))}
             </StyledKeyboard>
-        )
+        );
     }
 }

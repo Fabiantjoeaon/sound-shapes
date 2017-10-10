@@ -16,9 +16,16 @@ export default class Parameter extends Component {
     render() {
         return (
             <div>
-                <label>{this.props.param} {this.props.value}</label>
-                <input type='range' step='0.001' value={this.props.value} onChange={this.handleChange}/>
+                <label>
+                    {this.props.param} {this.props.value}
+                </label>
+                <input
+                    type="range"
+                    step="0.001"
+                    value={this.props.value}
+                    onChange={this.handleChange}
+                />
             </div>
-        )
+        );
     }
 }
