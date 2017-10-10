@@ -5,6 +5,8 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Table of Contents
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Fabiantjoeaon/sound-shapes.svg?token=0986dae1a1ecc923122f814ab6d8aac23f8c60c8b83e02de51772efc28957e84&ts=1507662972229)](https://greenkeeper.io/)
+
 - [Updating to New Releases](#updating-to-new-releases)
 - [Sending Feedback](#sending-feedback)
 - [Folder Structure](#folder-structure)
