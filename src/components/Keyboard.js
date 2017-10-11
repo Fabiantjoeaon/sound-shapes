@@ -59,10 +59,7 @@ export default class Keyboard extends Component {
             74: 'B5'
         };
 
-        this.state = {
-            notes: Object.values(this.keyMap),
-            down: null
-        };
+        this.state = { notes: Object.values(this.keyMap), down: null };
     }
 
     onKeyDownHandler = e => {
@@ -72,31 +69,37 @@ export default class Keyboard extends Component {
         const note = this.keyMap[e.which];
         if (!note) return;
 
-        this.setState({ down: note });
-        this.props.synth.oscillator.frequency.value = note;
-        this.props.synth.ampEnvelope.triggerAttack();
+        this.playNote(note);
     };
 
     onKeyUpHandler = e => {
         e.preventDefault();
-        this.setState({ down: null });
-        this.props.synth.ampEnvelope.triggerRelease();
+        this.releaseNote();
     };
 
     onMouseDownHandler = key => {
         if (this.state.down) return;
 
         const note = this.state.notes[key];
-        this.setState({ down: note });
-        this.props.synth.oscillator.frequency.value = note;
-        this.props.synth.ampEnvelope.triggerAttack();
+        this.playNote(note);
     };
 
     onMouseUpHandler = e => {
         e.preventDefault();
+        this.releaseNote();
+    };
+
+    playNote(note) {
+        this.setState({ down: note });
+        this.props.synth.oscillatorA.frequency.value = note;
+        this.props.synth.oscillatorB.frequency.value = note;
+        this.props.synth.ampEnvelope.triggerAttack();
+    }
+
+    releaseNote() {
         this.setState({ down: null });
         this.props.synth.ampEnvelope.triggerRelease();
-    };
+    }
 
     componentDidMount() {
         document.addEventListener('keydown', this.onKeyDownHandler);

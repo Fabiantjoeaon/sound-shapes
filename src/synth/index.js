@@ -9,13 +9,15 @@ const filter = new Filter({
 });
 
 const initSynth = () => {
-    const oscillator = new OmniOscillator().start();
+    const oscillatorA = new OmniOscillator().start();
+    const oscillatorB = new OmniOscillator().start();
     const ampEnvelope = new AmplitudeEnvelope();
 
-    oscillator.connect(ampEnvelope);
+    oscillatorA.connect(ampEnvelope);
+    oscillatorB.connect(ampEnvelope);
     ampEnvelope.toMaster();
 
-    return { oscillator, ampEnvelope };
+    return { oscillatorA, oscillatorB, ampEnvelope };
 };
 
 export default initSynth;
