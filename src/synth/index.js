@@ -1,20 +1,35 @@
-import { OmniOscillator, AmplitudeEnvelope, Normalize } from 'tone';
+import {
+    OmniOscillator,
+    AmplitudeEnvelope,
+    Filter,
+    Freeverb,
+    FrequencyEnvelope
+} from 'tone';
 
 const initSynth = () => {
-    const oscillatorA = new OmniOscillator().start();
-    const oscillatorB = new OmniOscillator().start();
+    const oscillatorA = new OmniOscillator({ volume: 3 }).start();
+    const oscillatorB = new OmniOscillator({ volume: 3 }).start();
     const ampEnvelope = new AmplitudeEnvelope();
+    const reverb = new Freeverb();
+    const filter = new Filter({ Q: 12 });
+    const filterEnvelope = new FrequencyEnvelope();
 
-    oscillatorA.connect(ampEnvelope);
-    oscillatorB.connect(ampEnvelope);
+    filterEnvelope.connect(filter.frequency);
+    oscillatorA.chain(ampEnvelope, reverb, filter);
+    oscillatorB.chain(ampEnvelope, reverb, filter);
+
     ampEnvelope.toMaster();
+    reverb.toMaster();
+    filter.toMaster();
 
-    // const normalize = new Normalize(0, 1);
-    // oscillatorA.connect(normalize);
-    // oscillatorB.connect(normalize);
-    // ampEnvelope.connect(normalize);
-
-    return { oscillatorA, oscillatorB, ampEnvelope };
+    return {
+        oscillatorA,
+        oscillatorB,
+        ampEnvelope,
+        filter,
+        filterEnvelope,
+        reverb
+    };
 };
 
 export default initSynth;

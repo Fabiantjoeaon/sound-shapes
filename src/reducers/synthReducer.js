@@ -9,6 +9,8 @@ const synthReducer = (state = initSynth(), action) => {
                 [action.parameter]: action.value
             });
 
+            // newState[action.module][action.parameter] = action.value;
+
             return newState;
 
         default:

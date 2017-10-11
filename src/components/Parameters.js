@@ -2,29 +2,52 @@ import React, { Component } from 'react';
 
 // HINT: You can pass multiple arguments to a HOC as its just a function
 const withParameter = WrappedInput =>
-    class extends Component {
+    class Parameter extends Component {
         render() {
+            const {
+                updateParameter,
+                param,
+                options,
+                value,
+                step,
+                module,
+                min,
+                max
+            } = this.props;
+
+            const showValue = !isNaN(parseFloat(value))
+                ? parseFloat(value).toFixed(2)
+                : value;
+
             return (
                 <div>
                     <label>
-                        {this.props.param}{' '}
-                        {parseFloat(this.props.value).toFixed(2)}
+                        {param} {options ? null : showValue}
                     </label>
                     <WrappedInput
-                        value={this.props.value}
+                        value={value}
+                        step={step}
+                        min={min ? min : null}
+                        max={max ? max : null}
                         onChange={e =>
-                            this.props.updateParameter(
-                                this.props.module,
-                                this.props.param,
-                                e.target.value
-                            )}
-                    />
+                            updateParameter(module, param, e.target.value)}
+                    >
+                        {options &&
+                            options.map(option => (
+                                <option key={option} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                    </WrappedInput>
                 </div>
             );
         }
     };
 
-const Knob = ({ ...props }) => <input type="range" {...props} />;
-const KnobParameter = withParameter(Knob);
+const KnobParameter = withParameter(({ ...props }) => (
+    <input type="range" {...props} />
+));
 
-export { KnobParameter };
+const SwitchParameter = withParameter(({ ...props }) => <select {...props} />);
+
+export { KnobParameter, SwitchParameter };
