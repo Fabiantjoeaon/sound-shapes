@@ -7,6 +7,16 @@ import Oscillator from './Oscillator';
 
 const Synthesizer = ({ synth, updateParameter }) => (
     <div>
+        <Oscillator
+            oscillator={synth.oscillatorA}
+            updateParameter={updateParameter}
+            oscillatorId="A"
+        />
+        <Oscillator
+            oscillator={synth.oscillatorB}
+            updateParameter={updateParameter}
+            oscillatorId="B"
+        />
         <AmpEnvelopeGenerator
             ampEnvelope={synth.ampEnvelope}
             updateParameter={updateParameter}

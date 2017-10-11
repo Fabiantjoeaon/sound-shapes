@@ -1,28 +1,28 @@
 import React from 'react';
-import Parameter from './Parameter';
+import { KnobParameter } from './Parameters';
 
 const AmpEnvelopeGenerator = ({ ampEnvelope, updateParameter }) => (
     <div>
-        <h1>Amplifier envelope</h1>
-        <Parameter
+        <h2>Amplifier envelope</h2>
+        <KnobParameter
             module="ampEnvelope"
             param="attack"
             value={ampEnvelope.attack}
             updateParameter={updateParameter}
         />
-        <Parameter
+        <KnobParameter
             module="ampEnvelope"
             param="release"
             value={ampEnvelope.release}
             updateParameter={updateParameter}
         />
-        <Parameter
+        <KnobParameter
             module="ampEnvelope"
             param="sustain"
             value={ampEnvelope.sustain}
             updateParameter={updateParameter}
         />
-        <Parameter
+        <KnobParameter
             module="ampEnvelope"
             param="decay"
             value={ampEnvelope.decay}

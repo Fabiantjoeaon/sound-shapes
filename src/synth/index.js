@@ -1,12 +1,4 @@
-import { OmniOscillator, AmplitudeEnvelope, Filter, Master, Gain } from 'tone';
-
-const filter = new Filter({
-    type: 'lowpass',
-    frequency: 1000,
-    rolloff: -48,
-    Q: 1,
-    gain: 0
-});
+import { OmniOscillator, AmplitudeEnvelope, Normalize } from 'tone';
 
 const initSynth = () => {
     const oscillatorA = new OmniOscillator().start();
@@ -16,6 +8,11 @@ const initSynth = () => {
     oscillatorA.connect(ampEnvelope);
     oscillatorB.connect(ampEnvelope);
     ampEnvelope.toMaster();
+
+    // const normalize = new Normalize(0, 1);
+    // oscillatorA.connect(normalize);
+    // oscillatorB.connect(normalize);
+    // ampEnvelope.connect(normalize);
 
     return { oscillatorA, oscillatorB, ampEnvelope };
 };
