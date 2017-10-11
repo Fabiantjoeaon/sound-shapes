@@ -24,13 +24,12 @@ const StyledNote = styled.div`
 class Note extends Component {
     constructor(props) {
         super(props);
-        bindAll(this, 'onMouseDownHandler');
     }
 
-    onMouseDownHandler(e) {
+    onMouseDownHandler = e => {
         e.preventDefault();
         this.props.onMouseDownHandler(this.props.i);
-    }
+    };
 
     render() {
         return (
