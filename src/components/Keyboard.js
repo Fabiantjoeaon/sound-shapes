@@ -8,7 +8,6 @@ const StyledKeyboard = styled.div`
     width: 500px;
 `;
 
-//TODO: Is black prop? then render in between two
 const StyledNote = styled.div`
     width: calc(100% / ${props => props.noteAmount});
     height: 100%;
@@ -21,30 +20,24 @@ const StyledNote = styled.div`
     }
 `;
 
-class Note extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onMouseDownHandler = e => {
-        e.preventDefault();
-        this.props.onMouseDownHandler(this.props.i);
-    };
-
-    render() {
-        return (
-            <StyledNote
-                noteAmount={this.props.noteAmount}
-                onMouseDown={this.onMouseDownHandler}
-                onMouseUp={this.props.onMouseUpHandler}
-                isBlackKey={this.props.note.includes('#')}
-                isPressed={this.props.isPressed}
-            >
-                <span>{this.props.note}</span>
-            </StyledNote>
-        );
-    }
-}
+const Note = ({
+    i,
+    noteAmount,
+    onMouseDownHandler,
+    onMouseUpHandler,
+    note,
+    isPressed
+}) => (
+    <StyledNote
+        noteAmount={noteAmount}
+        onMouseDown={e => onMouseDownHandler(i)}
+        onMouseUp={onMouseUpHandler}
+        isBlackKey={note.includes('#')}
+        isPressed={isPressed}
+    >
+        <span>{note}</span>
+    </StyledNote>
+);
 
 export default class Keyboard extends Component {
     constructor(props) {

@@ -8,25 +8,25 @@ const AmpEnvelopeGenerator = ({ ampEnvelope, updateParameter }) => (
             module="ampEnvelope"
             param="attack"
             value={ampEnvelope.attack}
-            updateSynth={updateParameter}
+            updateParameter={updateParameter}
         />
         <Parameter
             module="ampEnvelope"
             param="release"
             value={ampEnvelope.release}
-            updateSynth={updateParameter}
+            updateParameter={updateParameter}
         />
         <Parameter
             module="ampEnvelope"
             param="sustain"
             value={ampEnvelope.sustain}
-            updateSynth={updateParameter}
+            updateParameter={updateParameter}
         />
         <Parameter
             module="ampEnvelope"
             param="decay"
             value={ampEnvelope.decay}
-            updateSynth={updateParameter}
+            updateParameter={updateParameter}
         />
     </div>
 );

@@ -1,11 +1,4 @@
-import {
-    OmniOscillator,
-    AmplitudeEnvelope,
-    PolySynth,
-    Filter,
-    Master,
-    Gain
-} from 'tone';
+import { OmniOscillator, AmplitudeEnvelope, Filter, Master, Gain } from 'tone';
 
 const filter = new Filter({
     type: 'lowpass',
@@ -16,10 +9,7 @@ const filter = new Filter({
 });
 
 const initSynth = () => {
-    const oscillator = new OmniOscillator();
-    oscillator.frequency.value = 'C4';
-    oscillator.start();
-
+    const oscillator = new OmniOscillator().start();
     const ampEnvelope = new AmplitudeEnvelope();
 
     oscillator.connect(ampEnvelope);

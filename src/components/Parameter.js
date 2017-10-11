@@ -1,32 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class Parameter extends Component {
-    constructor(props) {
-        super(props);
-    }
+const Parameter = ({ param, value, module, updateParameter }) => (
+    <div>
+        <label>
+            {param} {value}
+        </label>
+        <input
+            type="range"
+            step="0.001"
+            value={value}
+            onChange={e => updateParameter(module, param, e.target.value)}
+        />
+    </div>
+);
 
-    handleChange = e => {
-        e.preventDefault();
-        this.props.updateSynth(
-            this.props.module,
-            this.props.param,
-            e.target.value
-        );
-    };
-
-    render() {
-        return (
-            <div>
-                <label>
-                    {this.props.param} {this.props.value}
-                </label>
-                <input
-                    type="range"
-                    step="0.001"
-                    value={this.props.value}
-                    onChange={this.handleChange}
-                />
-            </div>
-        );
-    }
-}
+export default Parameter;

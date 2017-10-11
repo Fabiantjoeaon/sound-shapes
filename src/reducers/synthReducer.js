@@ -10,7 +10,6 @@ const synthReducer = (state = initSynth(), action) => {
             });
 
             return newState;
-            break;
 
         default:
             return state;

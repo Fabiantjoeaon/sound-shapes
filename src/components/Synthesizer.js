@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { initSynth } from '../actions';
 import Keyboard from './Keyboard';
 import AmpEnvelopeGenerator from './AmpEnvelopeGenerator';
 import { updateParameter } from '../actions';
