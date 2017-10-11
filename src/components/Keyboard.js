@@ -116,7 +116,6 @@ export default class Keyboard extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         document.addEventListener('keydown', this.onKeyDownHandler);
         document.addEventListener('keyup', this.onKeyUpHandler);
     }

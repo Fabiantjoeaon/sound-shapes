@@ -1,5 +1,6 @@
 export const updateParameter = (module, parameter, value) => ({
-    type: 'UPDATEPARAMETER',
+    type: 'UPDATE_PARAMETER',
+    module,
     parameter,
     value
 });

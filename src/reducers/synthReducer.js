@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
 import initSynth from '../synth';
 
 const synthReducer = (state = initSynth(), action) => {
