@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import bindAll from 'lodash/bindAll';
 
 const StyledKeyboard = styled.div`
     display: flex;
@@ -72,17 +71,9 @@ export default class Keyboard extends Component {
             notes: Object.values(this.keyMap),
             down: null
         };
-
-        bindAll(
-            this,
-            'onKeyUpHandler',
-            'onKeyDownHandler',
-            'onMouseDownHandler',
-            'onMouseUpHandler'
-        );
     }
 
-    onKeyDownHandler(e) {
+    onKeyDownHandler = e => {
         e.preventDefault();
         if (this.state.down) return;
 
@@ -92,28 +83,28 @@ export default class Keyboard extends Component {
         this.setState({ down: note });
         this.props.synth.oscillator.frequency.value = note;
         this.props.synth.ampEnvelope.triggerAttack();
-    }
+    };
 
-    onKeyUpHandler(e) {
+    onKeyUpHandler = e => {
         e.preventDefault();
         this.setState({ down: null });
         this.props.synth.ampEnvelope.triggerRelease();
-    }
+    };
 
-    onMouseDownHandler(key) {
+    onMouseDownHandler = key => {
         if (this.state.down) return;
 
         const note = this.state.notes[key];
         this.setState({ down: note });
         this.props.synth.oscillator.frequency.value = note;
         this.props.synth.ampEnvelope.triggerAttack();
-    }
+    };
 
-    onMouseUpHandler(e) {
+    onMouseUpHandler = e => {
         e.preventDefault();
         this.setState({ down: null });
         this.props.synth.ampEnvelope.triggerRelease();
-    }
+    };
 
     componentDidMount() {
         document.addEventListener('keydown', this.onKeyDownHandler);
