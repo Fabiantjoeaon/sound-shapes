@@ -5,7 +5,9 @@ import {
     Filter,
     Freeverb,
     FrequencyEnvelope,
-    Master
+    Master,
+    AutoFilter,
+    Oscillator
 } from 'tone';
 
 const initSynth = () => {
@@ -15,14 +17,15 @@ const initSynth = () => {
     const reverb = new Freeverb();
     const filter = new Filter({ Q: 12 });
     const filterEnvelope = new FrequencyEnvelope();
+    const lowFrequencyOscillator = new AutoFilter().toMaster().start();
 
     filterEnvelope.connect(filter.frequency);
-    oscillatorA.chain(ampEnvelope, reverb, filter);
-    oscillatorB.chain(ampEnvelope, reverb, filter);
+    oscillatorA.chain(ampEnvelope, lowFrequencyOscillator, filter, reverb);
+    oscillatorB.chain(ampEnvelope, lowFrequencyOscillator, filter, reverb);
 
     ampEnvelope.toMaster();
-    reverb.toMaster();
     filter.toMaster();
+    reverb.toMaster();
 
     const masterCompressor = new Compressor({
         threshold: -6,
@@ -38,8 +41,9 @@ const initSynth = () => {
         oscillatorA,
         oscillatorB,
         ampEnvelope,
-        filter,
         filterEnvelope,
+        filter,
+        lowFrequencyOscillator,
         reverb,
         master: Master
     };

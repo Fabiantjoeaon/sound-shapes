@@ -44,19 +44,19 @@ export default class Keyboard extends Component {
         super(props);
 
         this.keyMap = {
-            65: 'C5',
-            87: 'C#5',
-            83: 'D5',
-            69: 'D#5',
-            68: 'E5',
-            70: 'F5',
-            84: 'F#5',
-            71: 'G5',
-            89: 'G#5',
-            90: 'G#5',
-            72: 'A5',
-            85: 'A#5',
-            74: 'B5'
+            65: 'C3',
+            87: 'C#3',
+            83: 'D3',
+            69: 'D#3',
+            68: 'E3',
+            70: 'F3',
+            84: 'F#3',
+            71: 'G3',
+            89: 'G#3',
+            90: 'G#3',
+            72: 'A3',
+            85: 'A#3',
+            74: 'B3'
         };
 
         this.state = { notes: Object.values(this.keyMap), down: null };
@@ -93,7 +93,6 @@ export default class Keyboard extends Component {
         this.setState({ down: note });
         this.props.synth.oscillatorA.frequency.value = note;
         this.props.synth.oscillatorB.frequency.value = note;
-        // this.props.synth.filterEnvelope.baseFrequency.value = note;
         this.props.synth.ampEnvelope.triggerAttack();
         this.props.synth.filterEnvelope.triggerAttack();
     }

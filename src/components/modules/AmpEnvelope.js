@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter } from './Parameters';
+import { KnobParameter } from '../Parameters';
 
 const AmpEnvelope = ({ ampEnvelope, updateParameter }) => (
     <div>

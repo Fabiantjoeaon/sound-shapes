@@ -1,4 +1,27 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
+const StyledKnobParameter = styled.input`
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 200px; /* Specific width is required for Firefox. */
+    background-color: red; /* Otherwise white in Chrome */
+
+    &::-webkit-slider-thumb {
+    }
+
+    &:focus {
+        outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+    }
+
+    &::-ms-track {
+        cursor: pointer;
+
+        /* Hides the slider so custom styles can be added */
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+    }
+`;
 
 // HINT: You can pass multiple arguments to a HOC as its just a function
 const withParameter = WrappedInput =>

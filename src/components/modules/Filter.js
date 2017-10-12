@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter, SwitchParameter } from './Parameters';
+import { KnobParameter, SwitchParameter } from '../Parameters';
 
 const Filter = ({ filter, updateParameter }) => (
     <div>
@@ -23,9 +23,9 @@ const Filter = ({ filter, updateParameter }) => (
             updateParameter={updateParameter}
             value={filter.frequency.value}
             module="filter"
-            step={10}
-            min={-500}
-            max={500}
+            step={100}
+            min={-5000}
+            max={5000}
         />
         <KnobParameter
             param="Q"
@@ -35,7 +35,7 @@ const Filter = ({ filter, updateParameter }) => (
             module="filter"
             step={1}
             min={0}
-            max={100}
+            max={70}
         />
         <KnobParameter
             param="gain"

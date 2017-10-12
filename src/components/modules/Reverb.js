@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter, SwitchParameter } from './Parameters';
+import { KnobParameter, SwitchParameter } from '../Parameters';
 
 const Reverb = ({ reverb, updateParameter }) => (
     <div>

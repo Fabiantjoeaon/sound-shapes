@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Master from './Master';
-import Keyboard from './Keyboard';
-import Oscillator from './Oscillator';
-import AmpEnvelope from './AmpEnvelope';
-import FilterEnvelope from './FilterEnvelope';
-import Filter from './Filter';
-import Reverb from './Reverb';
+import Master from './modules/Master';
+import Keyboard from './modules/Keyboard';
+import Oscillator from './modules/Oscillator';
+import AmpEnvelope from './modules/AmpEnvelope';
+import FilterEnvelope from './modules/FilterEnvelope';
+import Filter from './modules/Filter';
+import LowFrequencyOscillator from './modules/LowFrequencyOscillator';
+import Reverb from './modules/Reverb';
 import { updateParameter } from '../actions';
 
 const Synthesizer = ({ synth, updateParameter }) => {
@@ -33,6 +34,10 @@ const Synthesizer = ({ synth, updateParameter }) => {
                 updateParameter={updateParameter}
             />
             <Filter filter={synth.filter} updateParameter={updateParameter} />
+            <LowFrequencyOscillator
+                lowFrequencyOscillator={synth.lowFrequencyOscillator}
+                updateParameter={updateParameter}
+            />
             <Reverb reverb={synth.reverb} updateParameter={updateParameter} />
             <Keyboard synth={synth} />
         </div>

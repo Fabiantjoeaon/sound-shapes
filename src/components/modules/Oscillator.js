@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter, SwitchParameter } from './Parameters';
+import { KnobParameter, SwitchParameter } from '../Parameters';
 
 const Oscillator = ({ oscillator, oscillatorId, updateParameter }) => (
     <div>
@@ -29,12 +29,12 @@ const Oscillator = ({ oscillator, oscillatorId, updateParameter }) => (
             max={100}
             step={1}
         />
-        <KnobParameter
+        <SwitchParameter
             param="phase"
             updateParameter={updateParameter}
             value={oscillator.phase.value}
             module={`oscillator${oscillatorId}`}
-            step={1}
+            options={['180', '90', '45', '0']}
         />
     </div>
 );

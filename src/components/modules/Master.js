@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter } from './Parameters';
+import { KnobParameter } from '../Parameters';
 
 const Master = ({ master, updateParameter }) => (
     <div>
