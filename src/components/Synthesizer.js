@@ -9,6 +9,7 @@ import FilterEnvelope from './modules/FilterEnvelope';
 import Filter from './modules/Filter';
 import LowFrequencyOscillator from './modules/LowFrequencyOscillator';
 import Reverb from './modules/Reverb';
+import Delay from './modules/Delay';
 import { updateParameter } from '../actions';
 
 const Synthesizer = ({ synth, updateParameter }) => {
@@ -38,6 +39,7 @@ const Synthesizer = ({ synth, updateParameter }) => {
                 lowFrequencyOscillator={synth.lowFrequencyOscillator}
                 updateParameter={updateParameter}
             />
+            <Delay delay={synth.delay} updateParameter={updateParameter} />
             <Reverb reverb={synth.reverb} updateParameter={updateParameter} />
             <Keyboard synth={synth} />
         </div>

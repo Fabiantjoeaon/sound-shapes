@@ -7,24 +7,39 @@ import {
     FrequencyEnvelope,
     Master,
     AutoFilter,
-    Oscillator
+    Oscillator,
+    FeedbackDelay
 } from 'tone';
 
 const initSynth = () => {
     const oscillatorA = new OmniOscillator({ volume: 24 }).start();
     const oscillatorB = new OmniOscillator({ volume: 24 }).start();
     const ampEnvelope = new AmplitudeEnvelope();
-    const reverb = new Freeverb();
+    const reverb = new Freeverb({ wet: 0 });
     const filter = new Filter({ Q: 12 });
     const filterEnvelope = new FrequencyEnvelope();
     const lowFrequencyOscillator = new AutoFilter().toMaster().start();
+    const delay = new FeedbackDelay({ wet: 0 });
 
     filterEnvelope.connect(filter.frequency);
-    oscillatorA.chain(ampEnvelope, lowFrequencyOscillator, filter, reverb);
-    oscillatorB.chain(ampEnvelope, lowFrequencyOscillator, filter, reverb);
+    oscillatorA.chain(
+        ampEnvelope,
+        lowFrequencyOscillator,
+        filter,
+        delay,
+        reverb
+    );
+    oscillatorB.chain(
+        ampEnvelope,
+        lowFrequencyOscillator,
+        filter,
+        delay,
+        reverb
+    );
 
     ampEnvelope.toMaster();
     filter.toMaster();
+    delay.toMaster();
     reverb.toMaster();
 
     const masterCompressor = new Compressor({
@@ -44,6 +59,7 @@ const initSynth = () => {
         filterEnvelope,
         filter,
         lowFrequencyOscillator,
+        delay,
         reverb,
         master: Master
     };

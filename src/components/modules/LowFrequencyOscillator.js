@@ -5,7 +5,6 @@ const LowFrequencyOscillator = ({
     lowFrequencyOscillator,
     updateParameter
 }) => {
-    console.log(lowFrequencyOscillator);
     return (
         <div>
             <h2>LFO</h2>
