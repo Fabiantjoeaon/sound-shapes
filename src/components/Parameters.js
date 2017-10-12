@@ -12,7 +12,8 @@ const withParameter = WrappedInput =>
                 step,
                 module,
                 min,
-                max
+                max,
+                name
             } = this.props;
 
             const showValue = !isNaN(parseFloat(value))
@@ -22,7 +23,7 @@ const withParameter = WrappedInput =>
             return (
                 <div>
                     <label>
-                        {param} {options ? null : showValue}
+                        {name ? name : param} {options ? null : showValue}
                     </label>
                     <WrappedInput
                         value={value}

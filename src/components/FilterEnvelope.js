@@ -2,7 +2,6 @@ import React from 'react';
 import { KnobParameter } from './Parameters';
 
 const FilterEnvelope = ({ filterEnvelope, updateParameter }) => {
-    console.log(filterEnvelope);
     return (
         <div>
             <h2>Filter envelope</h2>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Master from './Master';
 import Keyboard from './Keyboard';
 import Oscillator from './Oscillator';
 import AmpEnvelope from './AmpEnvelope';
@@ -12,6 +13,7 @@ import { updateParameter } from '../actions';
 const Synthesizer = ({ synth, updateParameter }) => {
     return (
         <div>
+            <Master master={synth.master} updateParameter={updateParameter} />
             <Oscillator
                 oscillator={synth.oscillatorA}
                 updateParameter={updateParameter}

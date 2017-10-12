@@ -16,7 +16,7 @@ const Filter = ({ filter, updateParameter }) => (
             value={filter.rolloff.value}
             module="filter"
             updateParameter={updateParameter}
-            options={['-12', '-24', '-48']}
+            options={['-24', '-48']}
         />
         <KnobParameter
             param="frequency"
@@ -24,8 +24,18 @@ const Filter = ({ filter, updateParameter }) => (
             value={filter.frequency.value}
             module="filter"
             step={10}
-            min={-700}
-            max={700}
+            min={-500}
+            max={500}
+        />
+        <KnobParameter
+            param="Q"
+            name="resonance"
+            updateParameter={updateParameter}
+            value={filter.Q.value}
+            module="filter"
+            step={1}
+            min={0}
+            max={100}
         />
         <KnobParameter
             param="gain"
