@@ -9,7 +9,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
             name="oscillator A volume"
             updateParameter={updateParameter}
             value={oscillatorA.volume.value}
-            module={'oscillatorA'}
+            module="oscillatorA"
             min={-6}
             max={24}
             step={1}
@@ -19,7 +19,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
             name="oscillator B volume"
             updateParameter={updateParameter}
             value={oscillatorB.volume.value}
-            module={'oscillatorB'}
+            module="oscillatorB"
             min={-6}
             max={24}
             step={1}
@@ -29,7 +29,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
             name="noise volume"
             updateParameter={updateParameter}
             value={noise.volume.value}
-            module={'noise'}
+            module="noise"
             min={-40}
             max={24}
             step={1}

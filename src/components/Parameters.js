@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const StyledKnobParameter = styled.input`
-    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-    width: 200px; /* Specific width is required for Firefox. */
-    background-color: red; /* Otherwise white in Chrome */
+    -webkit-appearance: none;
+    width: 200px;
+    background-color: red;
 
     &::-webkit-slider-thumb {
     }
 
     &:focus {
-        outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+        outline: none;
     }
 
     &::-ms-track {
@@ -32,11 +32,9 @@ const withParameter = WrappedInput =>
                 param,
                 options,
                 value,
-                step,
                 module,
-                min,
-                max,
-                name
+                name,
+                ...rest
             } = this.props;
 
             const showValue = !isNaN(parseFloat(value))
@@ -50,11 +48,11 @@ const withParameter = WrappedInput =>
                     </label>
                     <WrappedInput
                         value={value}
-                        step={step}
-                        min={min ? min : null}
-                        max={max ? max : null}
-                        onChange={e =>
-                            updateParameter(module, param, e.target.value)}
+                        {...rest}
+                        onChange={e => {
+                            console.log(e);
+                            updateParameter(module, param, e.target.value);
+                        }}
                     >
                         {options &&
                             options.map(option => (
@@ -74,4 +72,8 @@ const KnobParameter = withParameter(({ ...props }) => (
 
 const SwitchParameter = withParameter(({ ...props }) => <select {...props} />);
 
-export { KnobParameter, SwitchParameter };
+const NumberParameter = withParameter(({ ...props }) => (
+    <input type="text" {...props} />
+));
+
+export { KnobParameter, SwitchParameter, NumberParameter };

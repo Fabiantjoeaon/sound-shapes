@@ -63,7 +63,6 @@ export default class Keyboard extends Component {
     }
 
     onKeyDownHandler = e => {
-        e.preventDefault();
         if (this.state.down) return;
 
         const note = this.keyMap[e.which];
