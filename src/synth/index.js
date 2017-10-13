@@ -8,7 +8,8 @@ import {
     Master,
     AutoFilter,
     Oscillator,
-    FeedbackDelay
+    FeedbackDelay,
+    Noise
 } from 'tone';
 
 const initSynth = () => {
@@ -20,6 +21,7 @@ const initSynth = () => {
     const filterEnvelope = new FrequencyEnvelope();
     const lowFrequencyOscillator = new AutoFilter().toMaster().start();
     const delay = new FeedbackDelay({ wet: 0 });
+    const noise = new Noise({ volume: -40 }).toMaster();
 
     filterEnvelope.connect(filter.frequency);
     oscillatorA.chain(
@@ -55,6 +57,7 @@ const initSynth = () => {
     return {
         oscillatorA,
         oscillatorB,
+        noise,
         ampEnvelope,
         filterEnvelope,
         filter,

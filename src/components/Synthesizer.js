@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Master from './modules/Master';
+import Mixer from './modules/Mixer';
 import Keyboard from './modules/Keyboard';
 import Oscillator from './modules/Oscillator';
 import AmpEnvelope from './modules/AmpEnvelope';
@@ -25,6 +26,12 @@ const Synthesizer = ({ synth, updateParameter }) => {
                 oscillator={synth.oscillatorB}
                 updateParameter={updateParameter}
                 oscillatorId="B"
+            />
+            <Mixer
+                oscillatorA={synth.oscillatorA}
+                oscillatorB={synth.oscillatorB}
+                noise={synth.noise}
+                updateParameter={updateParameter}
             />
             <AmpEnvelope
                 ampEnvelope={synth.ampEnvelope}

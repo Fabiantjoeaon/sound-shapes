@@ -12,15 +12,6 @@ const Oscillator = ({ oscillator, oscillatorId, updateParameter }) => (
             options={['sine', 'triangle', 'sawtooth', 'square', 'pulse', 'pwm']}
         />
         <KnobParameter
-            param="volume"
-            updateParameter={updateParameter}
-            value={oscillator.volume.value}
-            module={`oscillator${oscillatorId}`}
-            min={-6}
-            max={24}
-            step={1}
-        />
-        <KnobParameter
             param="detune"
             updateParameter={updateParameter}
             value={oscillator.detune.value}
