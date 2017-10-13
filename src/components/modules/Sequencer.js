@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import times from 'lodash/times';
 
 const StyledStepSequencer = styled.div`
+    //FIXME: width + gap??
     width: calc(${props => props.steps} * ${props => props.cellSize}px);
     height: calc(${props => props.notes} * ${props => props.cellSize}px);
     display: grid;
@@ -20,24 +21,43 @@ const StyledStepSequencer = styled.div`
     );
 `;
 
-const StyledNote = styled.div`border: 1px solid #000;`;
+const StyledStep = styled.div`
+    border: 1px solid #000;
 
-const StepSequencer = ({ steps, notes, cellSize }) => (
-    <StyledStepSequencer steps={steps} notes={notes} cellSize={cellSize}>
-        {times(steps * notes, i => <Note key={i} />)}
-    </StyledStepSequencer>
-);
+    background-color: ${props =>
+        props.row === props.currentStep ? 'rgba(0,0,0,0.6)' : 'white'};
+`;
 
-const Note = ({ ...props }) => <StyledNote />;
+const StepSequencer = ({ steps, notes, cellSize, currentStep }) => {
+    const total = steps * notes;
+    return (
+        <StyledStepSequencer steps={steps} notes={notes} cellSize={cellSize}>
+            {times(total, i => (
+                <StyledStep
+                    step={i}
+                    row={i % steps}
+                    currentStep={currentStep}
+                    key={i}
+                />
+            ))}
+        </StyledStepSequencer>
+    );
+};
+
+const Step = ({ ...props }) => <StyledStep />;
 
 export default class Sequencer extends Component {
+    state = {
+        steps: 16,
+        currentStep: 0
+    };
+
     componentDidMount() {
-        const steps = 16;
         let stepCounter = 0;
         this.props.transport.schedule(time => {
             stepCounter++;
-            stepCounter = stepCounter % steps;
-            console.log(stepCounter);
+            stepCounter = stepCounter % this.state.steps;
+            this.setState({ currentStep: stepCounter });
         }, 0);
 
         this.props.transport.start();
@@ -59,7 +79,12 @@ export default class Sequencer extends Component {
                     updateParameter={updateParameter}
                     step={0.01}
                 />
-                <StepSequencer steps={16} notes={8} cellSize={30} />
+                <StepSequencer
+                    steps={this.state.steps}
+                    notes={8}
+                    cellSize={30}
+                    currentStep={this.state.currentStep}
+                />
             </div>
         );
     }
