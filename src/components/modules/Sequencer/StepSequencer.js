@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import times from 'lodash/times';
 
@@ -28,7 +28,7 @@ const StyledNote = styled.div``;
 
 const StepSequencer = ({ steps, notes, ...rest }) => {
     const notesCellWidth = rest.cellSize + 10;
-    let stepCounter = 0;
+    let stepRenderCounter = 0;
     let row = 0;
     return (
         <div>
@@ -49,23 +49,22 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
                     </StyledNote>
                 ))}
             </SequencerGrid>
+
             <SequencerGrid steps={steps} notesAmount={notes.length} {...rest}>
                 {times(steps * notes.length, i => {
                     const column = i % steps;
-                    if (stepCounter === steps) {
+                    if (stepRenderCounter === steps) {
                         row++;
-                        stepCounter = 0;
+                        stepRenderCounter = 0;
                     }
                     const note = notes[row];
-                    stepCounter++;
+                    stepRenderCounter++;
 
                     return (
                         <Step
                             key={i}
-                            steps={steps}
                             note={note}
-                            row={row}
-                            i={i}
+                            synth={rest.synth}
                             column={column}
                             {...rest}
                         />

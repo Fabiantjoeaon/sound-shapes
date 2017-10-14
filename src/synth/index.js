@@ -7,7 +7,6 @@ import {
     FrequencyEnvelope,
     Master,
     AutoFilter,
-    Oscillator,
     FeedbackDelay,
     Noise,
     Transport
@@ -90,10 +89,5 @@ const initSynth = () => {
         transport
     };
 };
-
-// const setupLoop = transport => {
-
-//     return transport;
-// };
 
 export default initSynth;

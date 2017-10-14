@@ -23,9 +23,22 @@ export default class Step extends Component {
         active: 0
     };
 
-    render() {
-        const { i, steps, currentStep, note, column, row } = this.props;
+    componentWillReceiveProps() {
         const { active } = this.state;
+        const { synth, currentStep, column, note } = this.props;
+        if (active && currentStep === column) {
+            synth.oscillatorA.frequency.value = note;
+            synth.oscillatorB.frequency.value = note;
+            synth.ampEnvelope.triggerAttackRelease('16n');
+            synth.filterEnvelope.triggerAttackRelease('16n');
+            synth.noise.start();
+        }
+    }
+
+    render() {
+        const { currentStep, note, column, addToSequence } = this.props;
+        const { active } = this.state;
+
         return (
             <StyledStep
                 column={column}

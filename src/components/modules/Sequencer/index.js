@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { Sequence } from 'tone';
 
 import StepSequencer from './StepSequencer';
 import { NumberParameter } from '../../Parameters';
@@ -13,17 +13,17 @@ export default class Sequencer extends Component {
 
     componentDidMount() {
         let stepCounter = 0;
-        this.props.transport.schedule(time => {
+
+        this.props.synth.transport.schedule(time => {
             const currentStep =
                 stepCounter++ % (this.state.steps * this.state.bars);
             this.setState({ currentStep });
-        }, '0:0:1');
-
-        this.props.transport.start();
+        }, '16n');
+        this.props.synth.transport.start();
     }
 
     componentWillUnmount() {
-        this.props.transport.stop();
+        this.props.synth.transport.stop();
     }
 
     render() {
@@ -32,8 +32,9 @@ export default class Sequencer extends Component {
         //TODO: pass current notes array as prop to <Note/>, and then find key by modulo?
         //TODO: Then play the note in <Note /> when active
         //TODO: Also try not to render new notes but switch the props when switching octaves
-        const { transport, setParameter, setOctave, octave } = this.props;
+        const { setParameter, setOctave, octave, synth } = this.props;
         const { currentOctave, notes } = octave;
+        const { transport } = synth;
         return (
             <div>
                 <h2>Sequencer</h2>
@@ -63,6 +64,7 @@ export default class Sequencer extends Component {
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
                     cellSize={30}
+                    synth={synth}
                     currentStep={this.state.currentStep}
                 />
             </div>

@@ -92,8 +92,8 @@ export default class Keyboard extends Component {
         this.setState({ down: note });
         this.props.synth.oscillatorA.frequency.value = note;
         this.props.synth.oscillatorB.frequency.value = note;
-        this.props.synth.ampEnvelope.triggerAttack();
-        this.props.synth.filterEnvelope.triggerAttack();
+        this.props.synth.ampEnvelope.triggerAttack('+0.05');
+        this.props.synth.filterEnvelope.triggerAttack('+0.05');
         this.props.synth.noise.start();
     }
 

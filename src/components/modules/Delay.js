@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter, SwitchParameter } from '../Parameters';
+import { KnobParameter } from '../Parameters';
 
 const Delay = ({ delay, setParameter }) => (
     <div>

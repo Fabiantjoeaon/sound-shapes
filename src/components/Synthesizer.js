@@ -51,7 +51,7 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
         <Keyboard synth={synth} octave={octave} setOctave={setOctave} />
         <Sequencer
             octave={octave}
-            transport={synth.transport}
+            synth={synth}
             setParameter={setParameter}
             setOctave={setOctave}
         />
