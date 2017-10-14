@@ -6,7 +6,10 @@ import times from 'lodash/times';
 const SequencerGrid = styled.div`
     display: inline-grid;
     grid-gap: 1px;
-    width: calc(${props => props.steps} * ${props => props.cellSize}px);
+    width: calc(
+        ${props => props.steps} *
+            ${props => (props.cellWidth ? props.cellWidth : props.cellSize)}px
+    );
     height: calc(${props => props.notesAmount} * ${props => props.cellSize}px);
 
     grid-template-columns: repeat(
@@ -39,20 +42,41 @@ const StyledStep = styled.div`
     }
 `;
 
-const StepSequencer = ({ steps, notes, ...rest }) => (
-    <div>
-        <SequencerGrid steps={1} notesAmount={notes.length} {...rest}>
-            {notes.map((note, i) => (
-                <StyledNote key={i} note={note} isNote={true} />
-            ))}
-        </SequencerGrid>
-        <SequencerGrid steps={steps} notesAmount={notes.length} {...rest}>
-            {times(steps * notes.length, i => (
-                <Step key={i} steps={steps} note={notes[i]} i={i} {...rest} />
-            ))}
-        </SequencerGrid>
-    </div>
-);
+const StepSequencer = ({ steps, notes, ...rest }) => {
+    const notesCellWidth = rest.cellSize + 10;
+    return (
+        <div>
+            <SequencerGrid
+                steps={1}
+                notesAmount={notes.length}
+                cellWidth={notesCellWidth}
+                cellSize={rest.cellSize}
+            >
+                {notes.map((note, i) => (
+                    <StyledNote
+                        key={i}
+                        note={note}
+                        cellWidth={notesCellWidth}
+                        isNote={true}
+                    >
+                        {note}
+                    </StyledNote>
+                ))}
+            </SequencerGrid>
+            <SequencerGrid steps={steps} notesAmount={notes.length} {...rest}>
+                {times(steps * notes.length, i => (
+                    <Step
+                        key={i}
+                        steps={steps}
+                        note={notes[i]}
+                        i={i}
+                        {...rest}
+                    />
+                ))}
+            </SequencerGrid>
+        </div>
+    );
+};
 
 class Step extends Component {
     state = {
@@ -75,14 +99,16 @@ class Step extends Component {
 
 export default class Sequencer extends Component {
     state = {
-        steps: 16,
+        bars: 2,
+        steps: 8,
         currentStep: 0
     };
 
     componentDidMount() {
         let stepCounter = 0;
         this.props.transport.schedule(time => {
-            const currentStep = stepCounter++ % this.state.steps;
+            const currentStep =
+                stepCounter++ % (this.state.steps * this.state.bars);
             this.setState({ currentStep });
         }, '0:0:1');
 
@@ -113,8 +139,21 @@ export default class Sequencer extends Component {
                     min={60}
                     max={260}
                 />
+                <div>
+                    <label>bars</label>
+                    <select
+                        onChange={e =>
+                            this.setState({
+                                bars: e.target.value
+                            })}
+                        value={this.state.bars}
+                    >
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                    </select>
+                </div>
                 <StepSequencer
-                    steps={this.state.steps}
+                    steps={this.state.steps * this.state.bars}
                     notes={notes}
                     cellSize={30}
                     currentStep={this.state.currentStep}
