@@ -11,7 +11,7 @@ import LowFrequencyOscillator from './modules/LowFrequencyOscillator';
 import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
 import Keyboard from './modules/Keyboard';
-import Sequencer from './modules/Sequencer';
+import Sequencer from './modules/Sequencer/index';
 import { setParameter, setOctave } from '../actions';
 
 const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
