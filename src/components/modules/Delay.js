@@ -1,12 +1,12 @@
 import React from 'react';
 import { KnobParameter, SwitchParameter } from '../Parameters';
 
-const Delay = ({ delay, updateParameter }) => (
+const Delay = ({ delay, setParameter }) => (
     <div>
         <h2>Delay</h2>
         <KnobParameter
             param="delayTime"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={delay.delayTime.value}
             module="delay"
             step={0.01}
@@ -15,7 +15,7 @@ const Delay = ({ delay, updateParameter }) => (
         />
         <KnobParameter
             param="feedback"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={delay.feedback.value}
             module="delay"
             step={0.01}
@@ -24,7 +24,7 @@ const Delay = ({ delay, updateParameter }) => (
         />
         <KnobParameter
             param="wet"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={delay.wet.value}
             module="delay"
             step={0.01}

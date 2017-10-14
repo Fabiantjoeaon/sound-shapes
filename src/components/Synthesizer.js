@@ -12,54 +12,51 @@ import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
 import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer';
-import { updateParameter } from '../actions';
+import { setParameter } from '../actions';
 
-const Synthesizer = ({ synth, updateParameter }) => (
+const Synthesizer = ({ synth, setParameter }) => (
     <div>
-        <Master master={synth.master} updateParameter={updateParameter} />
+        <Master master={synth.master} setParameter={setParameter} />
         <Oscillator
             oscillator={synth.oscillatorA}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             oscillatorId="A"
         />
         <Oscillator
             oscillator={synth.oscillatorB}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             oscillatorId="B"
         />
         <Mixer
             oscillatorA={synth.oscillatorA}
             oscillatorB={synth.oscillatorB}
             noise={synth.noise}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
         />
         <AmpEnvelope
             ampEnvelope={synth.ampEnvelope}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
         />
         <FilterEnvelope
             filterEnvelope={synth.filterEnvelope}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
         />
-        <Filter filter={synth.filter} updateParameter={updateParameter} />
+        <Filter filter={synth.filter} setParameter={setParameter} />
         <LowFrequencyOscillator
             lowFrequencyOscillator={synth.lowFrequencyOscillator}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
         />
-        <Delay delay={synth.delay} updateParameter={updateParameter} />
-        <Reverb reverb={synth.reverb} updateParameter={updateParameter} />
+        <Delay delay={synth.delay} setParameter={setParameter} />
+        <Reverb reverb={synth.reverb} setParameter={setParameter} />
         <Keyboard synth={synth} />
-        <Sequencer
-            transport={synth.transport}
-            updateParameter={updateParameter}
-        />
+        <Sequencer transport={synth.transport} setParameter={setParameter} />
     </div>
 );
 
 const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
-    updateParameter(module, parameter, value) {
-        dispatch(updateParameter(module, parameter, value));
+    setParameter(module, parameter, value) {
+        dispatch(setParameter(module, parameter, value));
     }
 });
 

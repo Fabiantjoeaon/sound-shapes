@@ -1,35 +1,35 @@
 import React from 'react';
 import { KnobParameter } from '../Parameters';
 
-const AmpEnvelope = ({ ampEnvelope, updateParameter }) => (
+const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
     <div>
         <h2>Amplifier envelope</h2>
         <KnobParameter
             module="ampEnvelope"
             param="attack"
             value={ampEnvelope.attack}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             step={0.01}
         />
         <KnobParameter
             module="ampEnvelope"
             param="release"
             value={ampEnvelope.release}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             step={0.01}
         />
         <KnobParameter
             module="ampEnvelope"
             param="sustain"
             value={ampEnvelope.sustain}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             step={0.01}
         />
         <KnobParameter
             module="ampEnvelope"
             param="decay"
             value={ampEnvelope.decay}
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             step={0.01}
         />
     </div>

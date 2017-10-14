@@ -28,7 +28,7 @@ const withParameter = WrappedInput =>
     class Parameter extends Component {
         render() {
             const {
-                updateParameter,
+                setParameter,
                 param,
                 options,
                 value,
@@ -50,7 +50,7 @@ const withParameter = WrappedInput =>
                         value={value}
                         {...rest}
                         onChange={e =>
-                            updateParameter(module, param, e.target.value)}
+                            setParameter(module, param, e.target.value)}
                     >
                         {options &&
                             options.map(option => (

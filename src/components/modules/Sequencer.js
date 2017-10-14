@@ -94,7 +94,7 @@ export default class Sequencer extends Component {
         //TODO: pass current notes array as prop to <Note/>, and then find key by modulo?
         //TODO: Then play the note in <Note /> when active
         //TODO: Also try not to render new notes but switch the props when switching octaves
-        const { transport, updateParameter } = this.props;
+        const { transport, setParameter } = this.props;
         return (
             <div>
                 <h2>Sequencer</h2>
@@ -102,7 +102,7 @@ export default class Sequencer extends Component {
                     param="bpm"
                     module="transport"
                     value={transport.bpm.value}
-                    updateParameter={updateParameter}
+                    setParameter={setParameter}
                     step={1}
                     min={60}
                     max={260}

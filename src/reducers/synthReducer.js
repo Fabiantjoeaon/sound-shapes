@@ -2,7 +2,7 @@ import initSynth from '../synth';
 
 const synthReducer = (state = initSynth(), action) => {
     switch (action.type) {
-        case 'UPDATE_PARAMETER':
+        case 'SET_PARAMETER':
             const newState = { ...state };
 
             newState[action.module].set({

@@ -1,10 +1,7 @@
 import React from 'react';
 import { KnobParameter, SwitchParameter } from '../Parameters';
 
-const LowFrequencyOscillator = ({
-    lowFrequencyOscillator,
-    updateParameter
-}) => {
+const LowFrequencyOscillator = ({ lowFrequencyOscillator, setParameter }) => {
     return (
         <div>
             <h2>LFO</h2>
@@ -12,12 +9,12 @@ const LowFrequencyOscillator = ({
                 param="type"
                 value={lowFrequencyOscillator.type}
                 module={'lowFrequencyOscillator'}
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 options={['sine', 'triangle', 'sawtooth', 'square']}
             />
             <KnobParameter
                 param="frequency"
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 value={lowFrequencyOscillator.frequency.value}
                 module={'lowFrequencyOscillator'}
                 min={0.1}
@@ -26,7 +23,7 @@ const LowFrequencyOscillator = ({
             />
             <KnobParameter
                 param="depth"
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 value={lowFrequencyOscillator.depth.value}
                 module={'lowFrequencyOscillator'}
                 min={0.01}

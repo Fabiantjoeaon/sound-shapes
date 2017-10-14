@@ -1,7 +1,7 @@
 import React from 'react';
 import { KnobParameter } from '../Parameters';
 
-const FilterEnvelope = ({ filterEnvelope, updateParameter }) => {
+const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
     return (
         <div>
             <h2>Filter envelope</h2>
@@ -9,28 +9,28 @@ const FilterEnvelope = ({ filterEnvelope, updateParameter }) => {
                 module="filterEnvelope"
                 param="attack"
                 value={filterEnvelope.attack}
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 step={0.01}
             />
             <KnobParameter
                 module="filterEnvelope"
                 param="release"
                 value={filterEnvelope.release}
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 step={0.01}
             />
             <KnobParameter
                 module="filterEnvelope"
                 param="sustain"
                 value={filterEnvelope.sustain}
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 step={0.01}
             />
             <KnobParameter
                 module="filterEnvelope"
                 param="decay"
                 value={filterEnvelope.decay}
-                updateParameter={updateParameter}
+                setParameter={setParameter}
                 step={0.01}
             />
         </div>

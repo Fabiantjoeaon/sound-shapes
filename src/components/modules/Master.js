@@ -1,12 +1,12 @@
 import React from 'react';
 import { KnobParameter } from '../Parameters';
 
-const Master = ({ master, updateParameter }) => (
+const Master = ({ master, setParameter }) => (
     <div>
         <h2>Master</h2>
         <KnobParameter
             param="volume"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={master.volume.value}
             module="master"
             step={1}
