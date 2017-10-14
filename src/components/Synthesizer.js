@@ -12,9 +12,9 @@ import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
 import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer';
-import { setParameter } from '../actions';
+import { setParameter, setOctave } from '../actions';
 
-const Synthesizer = ({ synth, setParameter }) => (
+const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
     <div>
         <Master master={synth.master} setParameter={setParameter} />
         <Oscillator
@@ -48,8 +48,13 @@ const Synthesizer = ({ synth, setParameter }) => (
         />
         <Delay delay={synth.delay} setParameter={setParameter} />
         <Reverb reverb={synth.reverb} setParameter={setParameter} />
-        <Keyboard synth={synth} />
-        <Sequencer transport={synth.transport} setParameter={setParameter} />
+        <Keyboard synth={synth} octave={octave} setOctave={setOctave} />
+        <Sequencer
+            octave={octave}
+            transport={synth.transport}
+            setParameter={setParameter}
+            setOctave={setOctave}
+        />
     </div>
 );
 
@@ -57,6 +62,9 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
     setParameter(module, parameter, value) {
         dispatch(setParameter(module, parameter, value));
+    },
+    setOctave(octave) {
+        dispatch(setOctave(octave));
     }
 });
 

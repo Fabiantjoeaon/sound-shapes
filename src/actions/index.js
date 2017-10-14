@@ -4,3 +4,8 @@ export const setParameter = (module, parameter, value) => ({
     parameter,
     value
 });
+
+export const setOctave = octave => ({
+    type: 'SET_OCTAVE',
+    octave
+});

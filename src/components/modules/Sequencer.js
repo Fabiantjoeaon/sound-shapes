@@ -3,12 +3,11 @@ import { NumberParameter } from '../Parameters';
 import styled from 'styled-components';
 import times from 'lodash/times';
 
-const StyledStepSequencer = styled.div`
-    //FIXME: width + gap??
-    width: calc(${props => props.steps} * ${props => props.cellSize}px);
-    height: calc(${props => props.notes} * ${props => props.cellSize}px);
-    display: grid;
+const SequencerGrid = styled.div`
+    display: inline-grid;
     grid-gap: 1px;
+    width: calc(${props => props.steps} * ${props => props.cellSize}px);
+    height: calc(${props => props.notesAmount} * ${props => props.cellSize}px);
 
     grid-template-columns: repeat(
         ${props => props.steps},
@@ -16,10 +15,12 @@ const StyledStepSequencer = styled.div`
     );
 
     grid-template-rows: repeat(
-        ${props => props.notes},
+        ${props => props.notesAmount},
         ${props => props.cellSize}px
     );
 `;
+
+const StyledNote = styled.div``;
 
 const StyledStep = styled.div`
     border: 1px solid #000;
@@ -39,11 +40,18 @@ const StyledStep = styled.div`
 `;
 
 const StepSequencer = ({ steps, notes, ...rest }) => (
-    <StyledStepSequencer steps={steps} notes={notes} {...rest}>
-        {times(steps * notes, i => (
-            <Step key={i} steps={steps} i={i} {...rest} />
-        ))}
-    </StyledStepSequencer>
+    <div>
+        <SequencerGrid steps={1} notesAmount={notes.length} {...rest}>
+            {notes.map((note, i) => (
+                <StyledNote key={i} note={note} isNote={true} />
+            ))}
+        </SequencerGrid>
+        <SequencerGrid steps={steps} notesAmount={notes.length} {...rest}>
+            {times(steps * notes.length, i => (
+                <Step key={i} steps={steps} note={notes[i]} i={i} {...rest} />
+            ))}
+        </SequencerGrid>
+    </div>
 );
 
 class Step extends Component {
@@ -86,15 +94,13 @@ export default class Sequencer extends Component {
     }
 
     render() {
-        // TODO: This must become array with notes, based on octave,
-        // fetched from big multidimensional array (octave 1> note, note, octave 2> etc)
-        // TODO: Maybe octave reducer and master octave switch that controls keyboard as well as sequencer
         // TODO: If switching both at the same time is cumbersome try having 2 octave states for keyboard
         // and sequencer, and fetch notes from one big array
         //TODO: pass current notes array as prop to <Note/>, and then find key by modulo?
         //TODO: Then play the note in <Note /> when active
         //TODO: Also try not to render new notes but switch the props when switching octaves
-        const { transport, setParameter } = this.props;
+        const { transport, setParameter, setOctave, octave } = this.props;
+        const { currentOctave, notes } = octave;
         return (
             <div>
                 <h2>Sequencer</h2>
@@ -109,7 +115,7 @@ export default class Sequencer extends Component {
                 />
                 <StepSequencer
                     steps={this.state.steps}
-                    notes={8}
+                    notes={notes}
                     cellSize={30}
                     currentStep={this.state.currentStep}
                 />
