@@ -49,10 +49,8 @@ const withParameter = WrappedInput =>
                     <WrappedInput
                         value={value}
                         {...rest}
-                        onChange={e => {
-                            console.log(e);
-                            updateParameter(module, param, e.target.value);
-                        }}
+                        onChange={e =>
+                            updateParameter(module, param, e.target.value)}
                     >
                         {options &&
                             options.map(option => (
@@ -73,7 +71,7 @@ const KnobParameter = withParameter(({ ...props }) => (
 const SwitchParameter = withParameter(({ ...props }) => <select {...props} />);
 
 const NumberParameter = withParameter(({ ...props }) => (
-    <input type="text" {...props} />
+    <input type="number" {...props} />
 ));
 
 export { KnobParameter, SwitchParameter, NumberParameter };

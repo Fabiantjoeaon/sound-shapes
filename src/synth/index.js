@@ -74,7 +74,7 @@ const initSynth = () => {
     transport.loop = true;
     transport.timeSignature = 4;
     transport.loopStart = '0:0';
-    transport.loopEnd = '1:0';
+    transport.loopEnd = '0:1';
 
     return {
         oscillatorA,
