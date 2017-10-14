@@ -1,13 +1,13 @@
 import React from 'react';
 import { KnobParameter } from '../Parameters';
 
-const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
+const Mixer = ({ oscillatorA, oscillatorB, noise, setParameter }) => (
     <div>
         <h2>Master</h2>
         <KnobParameter
             param="volume"
             name="oscillator A volume"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={oscillatorA.volume.value}
             module="oscillatorA"
             min={-6}
@@ -17,7 +17,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
         <KnobParameter
             param="volume"
             name="oscillator B volume"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={oscillatorB.volume.value}
             module="oscillatorB"
             min={-6}
@@ -27,7 +27,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, updateParameter }) => (
         <KnobParameter
             param="volume"
             name="noise volume"
-            updateParameter={updateParameter}
+            setParameter={setParameter}
             value={noise.volume.value}
             module="noise"
             min={-40}
