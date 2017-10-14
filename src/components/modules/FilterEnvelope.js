@@ -11,6 +11,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.attack}
                 setParameter={setParameter}
                 step={0.01}
+                min={0}
+                max={3}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -18,6 +20,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.release}
                 setParameter={setParameter}
                 step={0.01}
+                min={0}
+                max={3}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -25,6 +29,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.sustain}
                 setParameter={setParameter}
                 step={0.01}
+                min={0}
+                max={3}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -32,6 +38,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.decay}
                 setParameter={setParameter}
                 step={0.01}
+                min={0}
+                max={3}
             />
         </div>
     );

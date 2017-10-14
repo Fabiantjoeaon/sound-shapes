@@ -10,6 +10,8 @@ const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
             value={ampEnvelope.attack}
             setParameter={setParameter}
             step={0.01}
+            min={0}
+            max={3}
         />
         <KnobParameter
             module="ampEnvelope"
@@ -17,6 +19,8 @@ const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
             value={ampEnvelope.release}
             setParameter={setParameter}
             step={0.01}
+            min={0}
+            max={3}
         />
         <KnobParameter
             module="ampEnvelope"
@@ -24,6 +28,8 @@ const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
             value={ampEnvelope.sustain}
             setParameter={setParameter}
             step={0.01}
+            min={0}
+            max={3}
         />
         <KnobParameter
             module="ampEnvelope"
@@ -31,6 +37,8 @@ const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
             value={ampEnvelope.decay}
             setParameter={setParameter}
             step={0.01}
+            min={0}
+            max={3}
         />
     </div>
 );
