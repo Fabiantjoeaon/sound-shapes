@@ -8,7 +8,8 @@ export default class Sequencer extends Component {
     state = {
         bars: 2,
         steps: 8,
-        currentStep: 0
+        currentStep: 0,
+        isPlaying: true
     };
 
     componentDidMount() {
@@ -32,21 +33,15 @@ export default class Sequencer extends Component {
         //TODO: pass current notes array as prop to <Note/>, and then find key by modulo?
         //TODO: Then play the note in <Note /> when active
         //TODO: Also try not to render new notes but switch the props when switching octaves
-        const { setParameter, setOctave, octave, synth } = this.props;
-        const { currentOctave, notes } = octave;
-        const { transport } = synth;
+        const {
+            octave: { currentOctave, notes },
+            synth: { transport },
+            synth
+        } = this.props;
+
         return (
             <div>
                 <h2>Sequencer</h2>
-                <NumberParameter
-                    param="bpm"
-                    module="transport"
-                    value={transport.bpm.value}
-                    setParameter={setParameter}
-                    step={1}
-                    min={60}
-                    max={260}
-                />
                 <div>
                     <label>bars</label>
                     <select

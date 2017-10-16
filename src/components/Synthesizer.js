@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Master from './modules/Master';
+import PitchTempo from './modules/PitchTempo';
 import Mixer from './modules/Mixer';
 import Oscillator from './modules/Oscillator';
 import AmpEnvelope from './modules/AmpEnvelope';
@@ -17,6 +18,12 @@ import { setParameter, setOctave } from '../actions';
 const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
     <div>
         <Master master={synth.master} setParameter={setParameter} />
+        <PitchTempo
+            transport={synth.transport}
+            octave={octave}
+            setOctave={setOctave}
+            setParameter={setParameter}
+        />
         <Oscillator
             oscillator={synth.oscillatorA}
             setParameter={setParameter}
@@ -48,13 +55,8 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
         />
         <Delay delay={synth.delay} setParameter={setParameter} />
         <Reverb reverb={synth.reverb} setParameter={setParameter} />
-        <Keyboard synth={synth} octave={octave} setOctave={setOctave} />
-        <Sequencer
-            octave={octave}
-            synth={synth}
-            setParameter={setParameter}
-            setOctave={setOctave}
-        />
+        <Keyboard octave={octave} synth={synth} />
+        <Sequencer octave={octave} synth={synth} />
     </div>
 );
 

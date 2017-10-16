@@ -66,6 +66,7 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
                             note={note}
                             synth={rest.synth}
                             column={column}
+                            steps={steps}
                             {...rest}
                         />
                     );

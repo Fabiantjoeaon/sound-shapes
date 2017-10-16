@@ -43,23 +43,25 @@ export default class Keyboard extends Component {
     constructor(props) {
         super(props);
 
+        const { octave: { notes } } = this.props;
+        //TODO: Maak dit dynamisch
         this.keyMap = {
-            65: 'C3',
-            87: 'C#3',
-            83: 'D3',
-            69: 'D#3',
-            68: 'E3',
-            70: 'F3',
-            84: 'F#3',
-            71: 'G3',
-            89: 'G#3',
-            90: 'G#3',
-            72: 'A3',
-            85: 'A#3',
-            74: 'B3'
+            65: `${notes[0]}`,
+            87: `${notes[1]}`,
+            83: `${notes[2]}`,
+            69: `${notes[3]}`,
+            68: `${notes[4]}`,
+            70: `${notes[5]}`,
+            84: `${notes[6]}`,
+            71: `${notes[7]}`,
+            89: `${notes[8]}`,
+            90: `${notes[9]}`,
+            72: `${notes[10]}`,
+            85: `${notes[11]}`,
+            74: `${notes[12]}`
         };
 
-        this.state = { notes: Object.values(this.keyMap), down: null };
+        this.state = { down: null };
     }
 
     onKeyDownHandler = e => {
@@ -79,7 +81,7 @@ export default class Keyboard extends Component {
     onMouseDownHandler = key => {
         if (this.state.down) return;
 
-        const note = this.state.notes[key];
+        const note = this.props.octave.notes[key];
         this.playNote(note);
     };
 
@@ -115,20 +117,24 @@ export default class Keyboard extends Component {
     }
 
     render() {
+        const { octave: { notes } } = this.props;
         return (
-            <StyledKeyboard>
-                {this.state.notes.map((note, i) => (
-                    <Note
-                        i={i}
-                        key={i}
-                        note={note}
-                        onMouseDownHandler={this.onMouseDownHandler}
-                        onMouseUpHandler={this.onMouseUpHandler}
-                        noteAmount={this.state.notes.length}
-                        isPressed={note === this.state.down}
-                    />
-                ))}
-            </StyledKeyboard>
+            <div>
+                <h2>Keyboard</h2>
+                <StyledKeyboard>
+                    {notes.map((note, i) => (
+                        <Note
+                            i={i}
+                            key={i}
+                            note={note}
+                            onMouseDownHandler={this.onMouseDownHandler}
+                            onMouseUpHandler={this.onMouseUpHandler}
+                            noteAmount={notes.length}
+                            isPressed={note === this.state.down}
+                        />
+                    ))}
+                </StyledKeyboard>
+            </div>
         );
     }
 }
