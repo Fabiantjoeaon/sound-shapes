@@ -28,11 +28,6 @@ export default class Sequencer extends Component {
     }
 
     render() {
-        // TODO: If switching both at the same time is cumbersome try having 2 octave states for keyboard
-        // and sequencer, and fetch notes from one big array
-        //TODO: pass current notes array as prop to <Note/>, and then find key by modulo?
-        //TODO: Then play the note in <Note /> when active
-        //TODO: Also try not to render new notes but switch the props when switching octaves
         const {
             octave: { currentOctave, notes },
             synth: { transport },

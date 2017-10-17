@@ -43,8 +43,8 @@ export default class Step extends PureComponent {
     render() {
         const { currentStep, note, column, addToSequence, steps } = this.props;
         const { active } = this.state;
-        //FIXME: step ahead should be last index of array
-        const stepAhead = currentStep - 1;
+
+        const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;
 
         return (
             <StyledStep
