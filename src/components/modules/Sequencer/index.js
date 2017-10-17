@@ -27,6 +27,11 @@ export default class Sequencer extends Component {
         this.props.synth.transport.stop();
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        const { transport } = this.props.synth;
+        nextState.isPlaying ? transport.start() : transport.stop();
+    }
+
     render() {
         const {
             octave: { currentOctave, notes },
@@ -49,6 +54,15 @@ export default class Sequencer extends Component {
                         <option value={1}>1</option>
                         <option value={2}>2</option>
                     </select>
+                </div>
+                <div>
+                    <label>Play / pause</label>
+                    <button
+                        onClick={() =>
+                            this.setState({ isPlaying: !this.state.isPlaying })}
+                    >
+                        {this.state.isPlaying ? '❚❚' : '►'}
+                    </button>
                 </div>
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
