@@ -43,19 +43,21 @@ export default class Keyboard extends Component {
     constructor(props) {
         super(props);
 
-        const { notes } = this.props;
-        this.keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
-        this.notes = notes.reverse();
-        this.createKeyMap(this.notes);
-        this.state = { down: null };
+        this.keyMap = this.createKeyMap(this.props.notes);
     }
 
+    state = {
+        down: null
+    };
+
     createKeyMap(notes) {
+        const keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
         const keyMap = {};
         notes.map((note, i) => {
-            keyMap[this.keys[i]] = note;
+            keyMap[keys[i]] = note;
         });
-        this.keyMap = keyMap;
+
+        return keyMap;
     }
 
     onKeyDownHandler = e => {
@@ -112,25 +114,24 @@ export default class Keyboard extends Component {
 
     componentWillUpdate(nextProps, nextState) {
         if (!(this.props.currentOctave === nextProps.currentOctave)) {
-            this.notes = nextProps.notes.reverse();
-            this.createKeyMap(this.notes);
+            this.keyMap = this.createKeyMap(nextProps.notes);
         }
     }
 
     render() {
-        // const { notes } = this.props;
+        const { notes } = this.props;
         return (
             <div>
                 <h2>Keyboard</h2>
                 <StyledKeyboard>
-                    {this.notes.map((note, i) => (
+                    {notes.map((note, i) => (
                         <Note
                             i={i}
                             key={i}
                             note={note}
                             onMouseDownHandler={this.onMouseDownHandler}
                             onMouseUpHandler={this.onMouseUpHandler}
-                            noteAmount={this.notes.length}
+                            noteAmount={notes.length}
                             isPressed={note === this.state.down}
                         />
                     ))}

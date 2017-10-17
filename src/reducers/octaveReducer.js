@@ -1,5 +1,4 @@
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-notes.reverse();
 const mapNotesToOctave = octave => notes.map(note => `${note}${octave}`);
 
 const initialState = {

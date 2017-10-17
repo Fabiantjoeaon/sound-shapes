@@ -9,7 +9,8 @@ import {
     AutoFilter,
     FeedbackDelay,
     Noise,
-    Transport
+    Transport,
+    PolySYnth
 } from 'tone';
 
 const initSynth = () => {

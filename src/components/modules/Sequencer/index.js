@@ -27,13 +27,13 @@ export default class Sequencer extends Component {
         this.props.synth.transport.stop();
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return (
-            !(this.props.currentOctave === nextProps.currentOctave) ||
-            !(this.state.isPlaying === nextState.isPlaying) ||
-            !(this.state.currentStep === nextState.currentStep)
-        );
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return (
+    //         !(this.props.currentOctave === nextProps.currentOctave) ||
+    //         !(this.state.isPlaying === nextState.isPlaying) ||
+    //         !(this.state.currentStep === nextState.currentStep)
+    //     );
+    // }
 
     componentWillUpdate(nextProps, nextState) {
         const { transport } = this.props.synth;
