@@ -43,23 +43,14 @@ export default class Keyboard extends Component {
     constructor(props) {
         super(props);
 
-        const { octave: { notes } } = this.props;
-        //TODO: Maak dit dynamisch
-        this.keyMap = {
-            65: `${notes[0]}`,
-            87: `${notes[1]}`,
-            83: `${notes[2]}`,
-            69: `${notes[3]}`,
-            68: `${notes[4]}`,
-            70: `${notes[5]}`,
-            84: `${notes[6]}`,
-            71: `${notes[7]}`,
-            89: `${notes[8]}`,
-            90: `${notes[9]}`,
-            72: `${notes[10]}`,
-            85: `${notes[11]}`,
-            74: `${notes[12]}`
-        };
+        const { notes } = this.props;
+        const keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
+
+        const keyMap = {};
+        notes.map((note, i) => {
+            keyMap[keys[i]] = note;
+        });
+        this.keyMap = keyMap;
 
         this.state = { down: null };
     }
@@ -81,7 +72,7 @@ export default class Keyboard extends Component {
     onMouseDownHandler = key => {
         if (this.state.down) return;
 
-        const note = this.props.octave.notes[key];
+        const note = this.props.notes[key];
         this.playNote(note);
     };
 
@@ -117,7 +108,7 @@ export default class Keyboard extends Component {
     }
 
     render() {
-        const { octave: { notes } } = this.props;
+        const { notes } = this.props;
         return (
             <div>
                 <h2>Keyboard</h2>
