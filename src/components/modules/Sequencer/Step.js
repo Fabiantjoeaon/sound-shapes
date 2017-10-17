@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import styled from 'styled-components';
 
 const StyledStep = styled.div`
@@ -18,15 +18,24 @@ const StyledStep = styled.div`
     }
 `;
 
-/**
- * HINT: PureComponent is a component that implements
- * componentShouldUpdate() with a shallow
- * prop and state comparison
- */
-export default class Step extends PureComponent {
+export default class Step extends Component {
     state = {
         active: 0
     };
+
+    //FIXME: for performance win, only the next column should be updated, and the one before
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return (
+    //         !(nextProps.currentStep === this.props.column) ||
+    //         !(nextProps.currentStep + 1 === this.props.column) ||
+    //         nextProps.currentStep - 1 === this.props.column ||
+    //         !(nextState.active === this.state.active)
+    //     );
+    // }
+
+    // componentDidUpdate() {
+    //     console.log('did update', this.props.column);
+    // }
 
     componentWillUpdate() {
         const { active } = this.state;
