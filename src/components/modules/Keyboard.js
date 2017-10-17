@@ -118,19 +118,19 @@ export default class Keyboard extends Component {
     }
 
     render() {
-        const { notes } = this.props;
+        // const { notes } = this.props;
         return (
             <div>
                 <h2>Keyboard</h2>
                 <StyledKeyboard>
-                    {notes.map((note, i) => (
+                    {this.notes.map((note, i) => (
                         <Note
                             i={i}
                             key={i}
                             note={note}
                             onMouseDownHandler={this.onMouseDownHandler}
                             onMouseUpHandler={this.onMouseUpHandler}
-                            noteAmount={notes.length}
+                            noteAmount={this.notes.length}
                             isPressed={note === this.state.down}
                         />
                     ))}
