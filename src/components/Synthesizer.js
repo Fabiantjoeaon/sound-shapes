@@ -55,8 +55,16 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
         />
         <Delay delay={synth.delay} setParameter={setParameter} />
         <Reverb reverb={synth.reverb} setParameter={setParameter} />
-        <Keyboard notes={octave.notes.reverse()} synth={synth} />
-        <Sequencer octave={octave} synth={synth} />
+        <Keyboard
+            notes={octave.notes}
+            currentOctave={octave.currentOctave}
+            synth={synth}
+        />
+        <Sequencer
+            octave={octave}
+            currentOctave={octave.currentOctave}
+            synth={synth}
+        />
     </div>
 );
 

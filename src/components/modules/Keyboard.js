@@ -44,15 +44,18 @@ export default class Keyboard extends Component {
         super(props);
 
         const { notes } = this.props;
-        const keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
+        this.keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
+        this.notes = notes.reverse();
+        this.createKeyMap(this.notes);
+        this.state = { down: null };
+    }
 
+    createKeyMap(notes) {
         const keyMap = {};
         notes.map((note, i) => {
-            keyMap[keys[i]] = note;
+            keyMap[this.keys[i]] = note;
         });
         this.keyMap = keyMap;
-
-        this.state = { down: null };
     }
 
     onKeyDownHandler = e => {
@@ -105,6 +108,13 @@ export default class Keyboard extends Component {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.onKeyDownHandler);
         document.removeEventListener('keyup', this.onKeyUpHandler);
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (!(this.props.currentOctave === nextProps.currentOctave)) {
+            this.notes = nextProps.notes.reverse();
+            this.createKeyMap(this.notes);
+        }
     }
 
     render() {
