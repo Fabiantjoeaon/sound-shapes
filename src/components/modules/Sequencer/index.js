@@ -18,7 +18,9 @@ export default class Sequencer extends Component {
         this.props.synth.transport.schedule(time => {
             const currentStep =
                 stepCounter++ % (this.state.steps * this.state.bars);
-            this.setState({ currentStep });
+            this.setState({
+                currentStep
+            });
         }, '16n');
         this.props.synth.transport.start();
     }
@@ -26,14 +28,6 @@ export default class Sequencer extends Component {
     componentWillUnmount() {
         this.props.synth.transport.stop();
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return (
-    //         !(this.props.currentOctave === nextProps.currentOctave) ||
-    //         !(this.state.isPlaying === nextState.isPlaying) ||
-    //         !(this.state.currentStep === nextState.currentStep)
-    //     );
-    // }
 
     componentWillUpdate(nextProps, nextState) {
         const { transport } = this.props.synth;
@@ -49,9 +43,9 @@ export default class Sequencer extends Component {
 
         return (
             <div>
-                <h2>Sequencer</h2>
+                <h2> Sequencer </h2>{' '}
                 <div>
-                    <label>bars</label>
+                    <label> bars </label>{' '}
                     <select
                         onChange={e =>
                             this.setState({
@@ -59,26 +53,28 @@ export default class Sequencer extends Component {
                             })}
                         value={this.state.bars}
                     >
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                    </select>
-                </div>
+                        <option value={1}> 1 </option>{' '}
+                        <option value={2}> 2 </option>{' '}
+                    </select>{' '}
+                </div>{' '}
                 <div>
-                    <label>Play / pause</label>
+                    <label> Play / pause </label>{' '}
                     <button
                         onClick={() =>
-                            this.setState({ isPlaying: !this.state.isPlaying })}
+                            this.setState({
+                                isPlaying: !this.state.isPlaying
+                            })}
                     >
-                        {this.state.isPlaying ? '❚❚' : '►'}
-                    </button>
-                </div>
+                        {this.state.isPlaying ? '❚❚' : '►'}{' '}
+                    </button>{' '}
+                </div>{' '}
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
                     cellSize={30}
                     synth={synth}
                     currentStep={this.state.currentStep}
-                />
+                />{' '}
             </div>
         );
     }
