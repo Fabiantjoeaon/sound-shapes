@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
 
+import { saturateZeroOne, saturatePercentage } from '../helpers/saturateValue';
 import withParameter from './HOC/withParameter';
 
 const StyledKnobParameter = styled.input`
@@ -43,15 +44,15 @@ class TestParameter extends Component {
 
     componentDidMount() {
         //TODO: Use scales ? https://www.dashingd3js.com/d3js-scales
-        //HINT: // http://tauday.com/tau-manifesto
-        const saturatedValue =
-            (this.props.value - this.props.min) *
-            100 /
-            (this.props.max - this.props.min) /
-            100;
+        const saturatedValue = saturateZeroOne(
+            this.props.min,
+            this.props.max,
+            this.props.value
+        );
 
+        //HINT: // http://tauday.com/tau-manifesto
         const tau = 2 * Math.PI;
-        const arc = d3
+        this.arc = d3
             .arc()
             .innerRadius(24)
             .outerRadius(34)
@@ -71,18 +72,19 @@ class TestParameter extends Component {
             .on('mouseout', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
                 parameter.transition().style('fill', '#7f7f7f');
-            })
+            });
+
+        //TODO: KILL EVENT ON MOUSE OUT CONTAINER
+        let prevMouse = 0;
+        container
             .on('mousedown', () => {
                 d3.event.preventDefault();
                 this.setState({
                     isDragging: true
                 });
-            });
-
-        let prevMouse = 0;
-        container
+            })
             .on('mouseover', () => {
-                value.transition().style('fill', '#fff');
+                this.value.transition().style('fill', '#fff');
                 parameter.transition().style('fill', '#fff');
             })
             .on('mousemove', () => {
@@ -90,8 +92,27 @@ class TestParameter extends Component {
                 if (!this.state.isDragging) return;
                 const mouse = d3.mouse(container.node());
                 //TODO: Add (or dispatch param action)
-                // with 1 / 100th of circle value times movementX ?
-                console.log(d3.event.movementX);
+                // with 1 / 100th of circle value (min and max) times movementY times step prop?
+                const percentage = saturatePercentage(
+                    this.props.min,
+                    this.props.max,
+                    this.props.value
+                );
+                const oneth = this.props.max / 100;
+
+                if (
+                    (d3.event.movementY < 0 || d3.event.movementY > 0) &&
+                    this.props.value < this.props.max &&
+                    this.props.value > this.props.min
+                ) {
+                    const addToValue = oneth * d3.event.movementY * 1;
+                    console.log('ADD', addToValue);
+                    this.props.setParameter(
+                        this.props.module,
+                        this.props.param,
+                        this.props.value + addToValue
+                    );
+                }
 
                 // console.log(mouse[0] - prevMouse);
             })
@@ -102,7 +123,7 @@ class TestParameter extends Component {
             })
             .on('mouseout', () => {
                 parameter.transition().style('fill', '#7f7f7f');
-                value.transition().style('fill', '#7f7f7f');
+                this.value.transition().style('fill', '#7f7f7f');
             });
 
         const background = donut
@@ -111,15 +132,15 @@ class TestParameter extends Component {
                 endAngle: tau
             })
             .style('fill', '#142c37')
-            .attr('d', arc);
+            .attr('d', this.arc);
 
-        const foreground = donut
+        this.foreground = donut
             .append('path')
             .datum({
                 endAngle: saturatedValue * tau
             })
             .style('fill', '#3b819f')
-            .attr('d', arc);
+            .attr('d', this.arc);
 
         const parameter = container
             .append('text')
@@ -133,7 +154,7 @@ class TestParameter extends Component {
             .text(() => this.props.param);
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
-        const value = container
+        this.value = container
             .append('text')
             .attr('fill', '#7f7f7f')
             .style('text-anchor', 'middle')
@@ -141,16 +162,36 @@ class TestParameter extends Component {
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
 
-        value.attr(
+        this.value.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                value.node().getBBox().height / 1.3
+                this.value.node().getBBox().height / 1.3
         );
-        value.attr('x', width / 2 - value.attr('width') / 2);
+        this.value.attr('x', width / 2 - this.value.attr('width') / 2);
     }
 
-    componentDidUpdate() {
-        //TODO: Reset arc
+    componentWillUpdate(nextProps, nextState) {
+        const tau = 2 * Math.PI;
+        const saturatedValue = saturateZeroOne(
+            this.props.min,
+            this.props.max,
+            nextProps.value
+        );
+        this.foreground
+            .transition()
+            .duration(350)
+            .attrTween('d', d => {
+                const interpolate = d3.interpolate(
+                    d.endAngle,
+                    saturatedValue * tau
+                );
+
+                return t => {
+                    d.endAngle = interpolate(t);
+                    return this.arc(d);
+                };
+            });
+        this.value.text(() => parseFloat(nextProps.value).toFixed(2));
     }
 
     render() {

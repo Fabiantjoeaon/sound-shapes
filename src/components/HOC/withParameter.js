@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 // HINT: You can pass multiple arguments to a HOC as its just a function
+// TODO: Return svg and call d3 render function from prop in componentDidMount
 const withParameter = WrappedInput =>
     class Parameter extends Component {
         render() {

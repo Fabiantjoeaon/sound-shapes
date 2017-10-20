@@ -17,6 +17,7 @@ const Master = ({ master, setParameter }) => (
             param="volume"
             value={master.volume.value}
             setParameter={setParameter}
+            module="master"
             min={-60}
             max={18}
         />
