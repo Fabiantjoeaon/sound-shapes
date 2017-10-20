@@ -26,11 +26,13 @@ export default class KnobParameter extends Component {
             .outerRadius(34)
             .startAngle(0);
 
+        // CONTAINER
         const container = d3.select(this.node);
         container.style('background-color', '#585858');
         const width = container.attr('width');
         const height = container.attr('height');
 
+        // DONUT
         const donut = container
             .append('g')
             .attr('transform', `translate(${width / 2}, 40)`)
@@ -71,11 +73,15 @@ export default class KnobParameter extends Component {
                  * FIXME: Param freezes when on min or max value
                  */
                 const isInsideParameterBoundaries =
-                    this.props.value < this.props.max &&
-                    this.props.value > this.props.min;
-                const hasMovedVertical =
-                    d3.event.movementY < 0 || d3.event.movementY > 0;
-                if (isInsideParameterBoundaries && hasMovedVertical) {
+                    this.props.value <= this.props.max &&
+                    this.props.value >= this.props.min;
+                const hasMoved =
+                    d3.event.movementY < 0 ||
+                    d3.event.movementY > 0 ||
+                    d3.event.movementX < 0 ||
+                    d3.event.movementX > 0;
+
+                if (isInsideParameterBoundaries && hasMoved) {
                     // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
                     const addToValue = oneth * d3.event.movementY * 1;
                     this.props.setParameter(
@@ -92,18 +98,24 @@ export default class KnobParameter extends Component {
                     isDragging: false
                 });
             })
-            .on('mouseout', () => {
+            .on('mouseleave', () => {
+                console.log('left');
                 d3.event.stopPropagation();
                 parameter.transition().style('fill', '#7f7f7f');
                 this.valueEl.transition().style('fill', '#7f7f7f');
+                this.setState({ isDragging: false });
             });
 
+        // BACKGROUND
         const background = donut
             .append('path')
-            .datum({ endAngle: tau })
+            .datum({
+                endAngle: tau
+            })
             .style('fill', '#142c37')
             .attr('d', this.arc);
 
+        // FOREGROUND
         this.foreground = donut
             .append('path')
             .datum({
@@ -112,6 +124,7 @@ export default class KnobParameter extends Component {
             .style('fill', '#3b819f')
             .attr('d', this.arc);
 
+        // PARAMETER TEXT
         const parameter = container
             .append('text')
             .attr('fill', '#7f7f7f')
@@ -124,6 +137,7 @@ export default class KnobParameter extends Component {
             .text(() => this.props.param);
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
+        // VALUE TEXT
         this.valueEl = container
             .append('text')
             .attr('fill', '#7f7f7f')

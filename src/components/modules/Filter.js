@@ -44,6 +44,8 @@ const Filter = ({ filter, setParameter }) => (
             value={filter.gain.value}
             module="filter"
             step={1}
+            min={0}
+            max={100}
         />
     </div>
 );
