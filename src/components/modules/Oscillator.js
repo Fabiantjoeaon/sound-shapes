@@ -1,5 +1,6 @@
 import React from 'react';
-import { KnobParameter, SwitchParameter } from '../Parameters';
+import { SwitchParameter } from '../Parameters/index';
+import KnobParameter from '../Parameters/KnobParameter';
 
 const Oscillator = ({ oscillator, oscillatorId, setParameter }) => (
     <div>

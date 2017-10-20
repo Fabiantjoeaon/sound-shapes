@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter, TestParameter } from '../Parameters';
+import KnobParameter from '../Parameters/KnobParameter';
 
 const Master = ({ master, setParameter }) => (
     <div>
@@ -10,14 +10,6 @@ const Master = ({ master, setParameter }) => (
             value={master.volume.value}
             module="master"
             step={1}
-            min={-60}
-            max={18}
-        />
-        <TestParameter
-            param="volume"
-            value={master.volume.value}
-            setParameter={setParameter}
-            module="master"
             min={-60}
             max={18}
         />

@@ -1,55 +1,23 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import * as d3 from 'd3';
+import {
+    saturateZeroOne,
+    saturatePercentage
+} from '../../helpers/saturateValue';
 
-import { saturateZeroOne, saturatePercentage } from '../helpers/saturateValue';
-import withParameter from './HOC/withParameter';
-
-const StyledKnobParameter = styled.input`
-    -webkit-appearance: none;
-    width: 200px;
-    background-color: red;
-
-    &::-webkit-slider-thumb {
-    }
-
-    &:focus {
-        outline: none;
-    }
-
-    &::-ms-track {
-        cursor: pointer;
-
-        /* Hides the slider so custom styles can be added */
-        background: transparent;
-        border-color: transparent;
-        color: transparent;
-    }
-`;
-
-const KnobParameter = withParameter(({ ...props }) => (
-    <input type="range" {...props} />
-));
-
-const SwitchParameter = withParameter(({ ...props }) => <select {...props} />);
-
-const NumberParameter = withParameter(({ ...props }) => (
-    <input type="number" {...props} />
-));
-
-class TestParameter extends Component {
+export default class KnobParameter extends Component {
     state = {
         isDragging: false
     };
 
-    componentDidMount() {
-        //TODO: Use scales ? https://www.dashingd3js.com/d3js-scales
-        const saturatedValue = saturateZeroOne(
-            this.props.min,
-            this.props.max,
-            this.props.value
-        );
-
+    /**
+     * HINT: The following method (renderKnob) lets D3
+     * do all the rendering, so that transforms and such are
+     * still available. The preffered way however is to let React take over the
+     * rendering, inside of the render method, with some of the svg already 
+     * handwritten.
+     */
+    renderKnob(saturatedValue) {
         //HINT: // http://tauday.com/tau-manifesto
         const tau = 2 * Math.PI;
         this.arc = d3
@@ -84,15 +52,12 @@ class TestParameter extends Component {
                 });
             })
             .on('mouseover', () => {
-                this.value.transition().style('fill', '#fff');
+                this.valueEl.transition().style('fill', '#fff');
                 parameter.transition().style('fill', '#fff');
             })
             .on('mousemove', () => {
-                d3.event.preventDefault();
                 if (!this.state.isDragging) return;
-                const mouse = d3.mouse(container.node());
-                //TODO: Add (or dispatch param action)
-                // with 1 / 100th of circle value (min and max) times movementY times step prop?
+                d3.event.preventDefault();
                 const percentage = saturatePercentage(
                     this.props.min,
                     this.props.max,
@@ -100,13 +65,19 @@ class TestParameter extends Component {
                 );
                 const oneth = this.props.max / 100;
 
-                if (
-                    (d3.event.movementY < 0 || d3.event.movementY > 0) &&
+                /**
+                 * HINT: If there is pos or neg movement and if the current value
+                 * is within the parameter boundaries (min/max)
+                 * FIXME: Param freezes when on min or max value
+                 */
+                const isInsideParameterBoundaries =
                     this.props.value < this.props.max &&
-                    this.props.value > this.props.min
-                ) {
+                    this.props.value > this.props.min;
+                const hasMovedVertical =
+                    d3.event.movementY < 0 || d3.event.movementY > 0;
+                if (isInsideParameterBoundaries && hasMovedVertical) {
+                    // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
                     const addToValue = oneth * d3.event.movementY * 1;
-                    console.log('ADD', addToValue);
                     this.props.setParameter(
                         this.props.module,
                         this.props.param,
@@ -122,15 +93,14 @@ class TestParameter extends Component {
                 });
             })
             .on('mouseout', () => {
+                d3.event.stopPropagation();
                 parameter.transition().style('fill', '#7f7f7f');
-                this.value.transition().style('fill', '#7f7f7f');
+                this.valueEl.transition().style('fill', '#7f7f7f');
             });
 
         const background = donut
             .append('path')
-            .datum({
-                endAngle: tau
-            })
+            .datum({ endAngle: tau })
             .style('fill', '#142c37')
             .attr('d', this.arc);
 
@@ -154,7 +124,7 @@ class TestParameter extends Component {
             .text(() => this.props.param);
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
-        this.value = container
+        this.valueEl = container
             .append('text')
             .attr('fill', '#7f7f7f')
             .style('text-anchor', 'middle')
@@ -162,24 +132,20 @@ class TestParameter extends Component {
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
 
-        this.value.attr(
+        this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                this.value.node().getBBox().height / 1.3
+                this.valueEl.node().getBBox().height / 1.3
         );
-        this.value.attr('x', width / 2 - this.value.attr('width') / 2);
+        this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    updateKnob(saturatedValue, { value }) {
         const tau = 2 * Math.PI;
-        const saturatedValue = saturateZeroOne(
-            this.props.min,
-            this.props.max,
-            nextProps.value
-        );
         this.foreground
             .transition()
             .duration(350)
+            .ease(d3.easeSinOut)
             .attrTween('d', d => {
                 const interpolate = d3.interpolate(
                     d.endAngle,
@@ -191,7 +157,26 @@ class TestParameter extends Component {
                     return this.arc(d);
                 };
             });
-        this.value.text(() => parseFloat(nextProps.value).toFixed(2));
+        this.valueEl.text(() => parseFloat(value).toFixed(2));
+    }
+
+    componentDidMount() {
+        const saturatedValue = saturateZeroOne(
+            this.props.min,
+            this.props.max,
+            this.props.value
+        );
+
+        this.renderKnob(saturatedValue);
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        const saturatedValue = saturateZeroOne(
+            this.props.min,
+            this.props.max,
+            nextProps.value
+        );
+        this.updateKnob(saturatedValue, nextProps);
     }
 
     render() {
@@ -200,5 +185,3 @@ class TestParameter extends Component {
         );
     }
 }
-
-export { KnobParameter, SwitchParameter, NumberParameter, TestParameter };

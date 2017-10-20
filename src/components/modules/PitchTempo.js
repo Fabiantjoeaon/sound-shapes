@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NumberParameter } from '../Parameters';
+import { NumberParameter } from '../Parameters/index';
 
 const PitchTempo = ({
     transport,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { KnobParameter } from '../Parameters';
+import KnobParameter from '../Parameters/KnobParameter';
 
 const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
     return (

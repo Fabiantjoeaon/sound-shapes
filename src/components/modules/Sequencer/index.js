@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Sequence } from 'tone';
 
 import StepSequencer from './StepSequencer';
-import { NumberParameter } from '../../Parameters';
+import { NumberParameter } from '../../Parameters/index';
 
 export default class Sequencer extends Component {
     state = {
