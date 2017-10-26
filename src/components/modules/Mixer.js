@@ -6,7 +6,7 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, setParameter }) => (
         <h2>Master</h2>
         <KnobParameter
             param="volume"
-            name="oscillator A volume"
+            name="osc a"
             setParameter={setParameter}
             value={oscillatorA.volume.value}
             module="oscillatorA"
@@ -16,22 +16,22 @@ const Mixer = ({ oscillatorA, oscillatorB, noise, setParameter }) => (
         />
         <KnobParameter
             param="volume"
-            name="oscillator B volume"
+            name="osc b"
             setParameter={setParameter}
             value={oscillatorB.volume.value}
             module="oscillatorB"
             min={-6}
-            max={24}
+            max={26}
             step={1}
         />
         <KnobParameter
             param="volume"
-            name="noise volume"
+            name="noise"
             setParameter={setParameter}
             value={noise.volume.value}
             module="noise"
             min={-40}
-            max={24}
+            max={26}
             step={1}
         />
     </div>

@@ -10,7 +10,7 @@ const Delay = ({ delay, setParameter }) => (
             value={delay.delayTime.value}
             module="delay"
             step={0.01}
-            min={0.01}
+            min={0}
             max={1}
         />
         <KnobParameter
@@ -28,7 +28,7 @@ const Delay = ({ delay, setParameter }) => (
             value={delay.wet.value}
             module="delay"
             step={0.01}
-            min={0.01}
+            min={0}
             max={1}
         />
     </div>

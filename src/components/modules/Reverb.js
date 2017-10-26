@@ -10,7 +10,7 @@ const Reverb = ({ reverb, setParameter }) => (
             value={reverb.roomSize.value}
             module="reverb"
             step={0.01}
-            min={0.01}
+            min={0}
             max={1}
         />
         <KnobParameter
@@ -28,7 +28,7 @@ const Reverb = ({ reverb, setParameter }) => (
             value={reverb.wet.value}
             module="reverb"
             step={0.01}
-            min={0.01}
+            min={0}
             max={1}
         />
     </div>

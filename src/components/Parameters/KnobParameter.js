@@ -146,7 +146,7 @@ export default class KnobParameter extends Component {
             .style('text-transform', 'uppercase')
             .style('letter-spacing', '1px')
             .style('font-size', '0.7em')
-            .text(() => this.props.param);
+            .text(() => (this.props.name ? this.props.name : this.props.param));
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
         // VALUE TEXT
@@ -154,7 +154,12 @@ export default class KnobParameter extends Component {
             .append('text')
             .attr('fill', '#7f7f7f')
             .style('text-anchor', 'middle')
-            .text(() => parseFloat(this.props.value).toFixed(2))
+            .text(
+                () =>
+                    this.props.value % 1 == 0
+                        ? this.props.value
+                        : parseFloat(this.props.value).toFixed(2)
+            )
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
 
@@ -183,7 +188,9 @@ export default class KnobParameter extends Component {
                     return this.arc(d);
                 };
             });
-        this.valueEl.text(() => parseFloat(value).toFixed(2));
+        this.valueEl.text(
+            () => (value % 1 == 0 ? value : parseFloat(value).toFixed(2))
+        );
     }
 
     componentDidMount() {
