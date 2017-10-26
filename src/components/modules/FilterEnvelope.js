@@ -10,7 +10,7 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 param="attack"
                 value={filterEnvelope.attack}
                 setParameter={setParameter}
-                step={0.01}
+                sensitivity={1}
                 min={0}
                 max={3}
             />
@@ -19,7 +19,7 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 param="release"
                 value={filterEnvelope.release}
                 setParameter={setParameter}
-                step={0.01}
+                sensitivity={1}
                 min={0}
                 max={3}
             />
@@ -28,7 +28,7 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 param="sustain"
                 value={filterEnvelope.sustain}
                 setParameter={setParameter}
-                step={0.01}
+                sensitivity={1}
                 min={0}
                 max={3}
             />
@@ -37,7 +37,7 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 param="decay"
                 value={filterEnvelope.decay}
                 setParameter={setParameter}
-                step={0.01}
+                sensitivity={1}
                 min={0}
                 max={3}
             />

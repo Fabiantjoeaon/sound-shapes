@@ -20,7 +20,7 @@ export default class KnobParameter extends Component {
      * do all the rendering, so that transforms and such are
      * still available. The preffered way however is to let React take over the
      * rendering, inside of the render method, with some of the svg already 
-     * handwritten.
+     * typed out.
      */
     renderKnob(saturatedValue) {
         //HINT: // http://tauday.com/tau-manifesto
@@ -33,14 +33,14 @@ export default class KnobParameter extends Component {
 
         // CONTAINER
         const container = d3.select(this.node);
-        container.style('background-color', '#585858');
+        // container.style('background-color', '#585858');
         const width = container.attr('width');
         const height = container.attr('height');
 
         // DONUT
         const donut = container
             .append('g')
-            .attr('transform', `translate(${width / 2}, 40)`)
+            .attr('transform', `translate(${width / 2}, 46)`)
             .on('mouseover', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
             })
@@ -57,34 +57,35 @@ export default class KnobParameter extends Component {
                 });
             })
             .on('mouseover', () => {
-                this.valueEl.transition().style('fill', '#fff');
-                parameter.transition().style('fill', '#fff');
+                this.valueEl.transition().style('fill', '#f79139');
+                parameter.transition().style('fill', '#f79139');
             })
             .on('mousemove', () => {
                 if (!this.state.isDragging) return;
+                const {
+                    sensitivity,
+                    max,
+                    min,
+                    value,
+                    setParameter,
+                    module,
+                    param
+                } = this.props;
                 d3.event.preventDefault();
-                const percentage = saturatePercentage(
-                    this.props.min,
-                    this.props.max,
-                    this.props.value
-                );
-                const oneth = this.props.max / 100;
+                const percentage = saturatePercentage(min, max, value);
+                const oneth = max / 100;
 
                 /**
                  * HINT: If there is pos or neg movement and if the current value
                  * is within the parameter boundaries (min/max)
                  * FIXME: Param freezes when on min or max value
                  */
-                const isBelowMax = this.props.value <= this.props.max;
-                const isAboveMin = this.props.value >= this.props.min;
+                const isBelowMax = value <= max;
+                const isAboveMin = value >= min;
                 const isInsideParameterBoundaries = isBelowMax && isAboveMin;
 
                 if (!isInsideParameterBoundaries)
-                    this.props.setParameter(
-                        this.props.module,
-                        this.props.param,
-                        !isBelowMax ? this.props.max : this.props.min
-                    );
+                    setParameter(module, param, !isBelowMax ? max : min);
 
                 const hasMovedVertically =
                     d3.event.movementY < 0 || d3.event.movementY > 0;
@@ -100,12 +101,9 @@ export default class KnobParameter extends Component {
                         : hasMovedVertically ? d3.event.movementY : 0;
 
                     // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
-                    const addToValue = oneth * movement * this.sensitivity;
-                    this.props.setParameter(
-                        this.props.module,
-                        this.props.param,
-                        this.props.value + addToValue
-                    );
+                    const addToValue = oneth * movement;
+                    console.log(oneth, addToValue, sensitivity);
+                    setParameter(module, param, value + addToValue);
                 }
             })
             .on('mouseup', () => {
@@ -126,7 +124,7 @@ export default class KnobParameter extends Component {
             .datum({
                 endAngle: tau
             })
-            .style('fill', '#142c37')
+            .style('fill', 'rgba(0,0,0,0.2)')
             .attr('d', this.arc);
 
         // FOREGROUND
@@ -135,7 +133,7 @@ export default class KnobParameter extends Component {
             .datum({
                 endAngle: saturatedValue * tau
             })
-            .style('fill', '#3b819f')
+            .style('fill', '#f7b688')
             .attr('d', this.arc);
 
         // PARAMETER TEXT
@@ -143,7 +141,7 @@ export default class KnobParameter extends Component {
             .append('text')
             .attr('fill', '#7f7f7f')
             .style('text-anchor', 'middle')
-            .attr('y', 90)
+            .attr('y', 98)
             .attr('font-family', 'Rubik Medium')
             .style('text-transform', 'uppercase')
             .style('letter-spacing', '1px')
@@ -163,7 +161,7 @@ export default class KnobParameter extends Component {
         this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                this.valueEl.node().getBBox().height / 1.3
+                this.valueEl.node().getBBox().height / 0.8
         );
         this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }

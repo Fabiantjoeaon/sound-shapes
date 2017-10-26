@@ -73,8 +73,8 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
 
 const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
-    setParameter(module, parameter, value) {
-        dispatch(setParameter(module, parameter, value));
+    setParameter(...args) {
+        dispatch(setParameter(...args));
     },
     setOctave(octave) {
         dispatch(setOctave(octave));
