@@ -29,6 +29,10 @@ injectGlobal`
         font-family: 'Rubik Regular';
         src: url('../fonts/Rubik/Rubik-Regular.ttf');
     }
+
+    html, body {
+        background-color: #fff;
+    }
 `;
 
 ReactDOM.render(

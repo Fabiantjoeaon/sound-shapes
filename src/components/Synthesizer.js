@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import Master from './modules/Master';
 import PitchTempo from './modules/PitchTempo';
@@ -15,8 +16,10 @@ import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer/index';
 import { setParameter, setOctave } from '../actions';
 
+const StyledSynthesizer = styled.div`display: grid;`;
+
 const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
-    <div>
+    <StyledSynthesizer>
         <Master master={synth.master} setParameter={setParameter} />
         <PitchTempo
             transport={synth.transport}
@@ -65,7 +68,7 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
             currentOctave={octave.currentOctave}
             synth={synth}
         />
-    </div>
+    </StyledSynthesizer>
 );
 
 const mapStateToProps = state => ({ ...state });

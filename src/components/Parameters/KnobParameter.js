@@ -6,6 +6,11 @@ import {
 } from '../../helpers/saturateValue';
 
 export default class KnobParameter extends Component {
+    constructor() {
+        super();
+        this.sensitivity = 1;
+    }
+
     state = {
         isDragging: false
     };
@@ -44,8 +49,6 @@ export default class KnobParameter extends Component {
                 parameter.transition().style('fill', '#7f7f7f');
             });
 
-        //TODO: KILL EVENT ON MOUSE OUT CONTAINER
-        let prevMouse = 0;
         container
             .on('mousedown', () => {
                 d3.event.preventDefault();
@@ -72,26 +75,38 @@ export default class KnobParameter extends Component {
                  * is within the parameter boundaries (min/max)
                  * FIXME: Param freezes when on min or max value
                  */
-                const isInsideParameterBoundaries =
-                    this.props.value <= this.props.max &&
-                    this.props.value >= this.props.min;
-                const hasMoved =
-                    d3.event.movementY < 0 ||
-                    d3.event.movementY > 0 ||
-                    d3.event.movementX < 0 ||
-                    d3.event.movementX > 0;
+                const isBelowMax = this.props.value <= this.props.max;
+                const isAboveMin = this.props.value >= this.props.min;
+                const isInsideParameterBoundaries = isBelowMax && isAboveMin;
 
-                if (isInsideParameterBoundaries && hasMoved) {
+                if (!isInsideParameterBoundaries)
+                    this.props.setParameter(
+                        this.props.module,
+                        this.props.param,
+                        !isBelowMax ? this.props.max : this.props.min
+                    );
+
+                const hasMovedVertically =
+                    d3.event.movementY < 0 || d3.event.movementY > 0;
+                const hasMovedHorizontally =
+                    d3.event.movementX < 0 || d3.event.movementX > 0;
+
+                if (
+                    isInsideParameterBoundaries &&
+                    (hasMovedHorizontally || hasMovedVertically)
+                ) {
+                    const movement = hasMovedHorizontally
+                        ? d3.event.movementX * -1
+                        : hasMovedVertically ? d3.event.movementY : 0;
+
                     // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
-                    const addToValue = oneth * d3.event.movementY * 1;
+                    const addToValue = oneth * movement * this.sensitivity;
                     this.props.setParameter(
                         this.props.module,
                         this.props.param,
                         this.props.value + addToValue
                     );
                 }
-
-                // console.log(mouse[0] - prevMouse);
             })
             .on('mouseup', () => {
                 this.setState({
@@ -99,7 +114,6 @@ export default class KnobParameter extends Component {
                 });
             })
             .on('mouseleave', () => {
-                console.log('left');
                 d3.event.stopPropagation();
                 parameter.transition().style('fill', '#7f7f7f');
                 this.valueEl.transition().style('fill', '#7f7f7f');
