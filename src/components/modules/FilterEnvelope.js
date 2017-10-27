@@ -1,7 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
+const FilterEnvelope = ({ filterEnvelope, setParameter, settings }) => {
     return (
         <div>
             <h2>Filter envelope</h2>
@@ -11,8 +11,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.attack}
                 setParameter={setParameter}
                 sensitivity={1}
-                min={0}
-                max={3}
+                min={settings.ADSR.min}
+                max={settings.ADSR.max}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -20,8 +20,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.release}
                 setParameter={setParameter}
                 sensitivity={1}
-                min={0}
-                max={3}
+                min={settings.ADSR.min}
+                max={settings.ADSR.max}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -29,8 +29,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.sustain}
                 setParameter={setParameter}
                 sensitivity={1}
-                min={0}
-                max={3}
+                min={settings.ADSR.min}
+                max={settings.ADSR.max}
             />
             <KnobParameter
                 module="filterEnvelope"
@@ -38,8 +38,8 @@ const FilterEnvelope = ({ filterEnvelope, setParameter }) => {
                 value={filterEnvelope.decay}
                 setParameter={setParameter}
                 sensitivity={1}
-                min={0}
-                max={3}
+                min={settings.ADSR.min}
+                max={settings.ADSR.max}
             />
         </div>
     );

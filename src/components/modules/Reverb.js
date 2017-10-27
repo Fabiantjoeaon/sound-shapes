@@ -1,7 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Reverb = ({ reverb, setParameter }) => (
+const Reverb = ({ reverb, setParameter, settings }) => (
     <div>
         <h2>Reverb</h2>
         <KnobParameter
@@ -9,27 +9,24 @@ const Reverb = ({ reverb, setParameter }) => (
             setParameter={setParameter}
             value={reverb.roomSize.value}
             module="reverb"
-            step={0.01}
-            min={0}
-            max={1}
+            min={settings.roomSize.min}
+            min={settings.roomSize.max}
         />
         <KnobParameter
             param="dampening"
             setParameter={setParameter}
             value={reverb.dampening.value}
             module="reverb"
-            step={50}
-            min={0}
-            max={5000}
+            min={settings.dampening.min}
+            max={settings.dampening.max}
         />
         <KnobParameter
             param="wet"
             setParameter={setParameter}
             value={reverb.wet.value}
             module="reverb"
-            step={0.01}
-            min={0}
-            max={1}
+            max={settings.wet.max}
+            min={settings.wet.min}
         />
     </div>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
+const AmpEnvelope = ({ ampEnvelope, setParameter, settings }) => (
     <div>
         <h2>Amplifier envelope</h2>
         <KnobParameter
@@ -9,36 +9,34 @@ const AmpEnvelope = ({ ampEnvelope, setParameter }) => (
             param="attack"
             value={ampEnvelope.attack}
             setParameter={setParameter}
-            step={0.01}
-            min={0}
-            max={3}
+            step={settings.ADSR.step}
+            min={settings.ADSR.min}
+            max={settings.ADSR.max}
         />
         <KnobParameter
             module="ampEnvelope"
             param="release"
             value={ampEnvelope.release}
             setParameter={setParameter}
-            step={0.01}
-            min={0}
-            max={3}
+            step={settings.ADSR.step}
+            min={settings.ADSR.min}
+            max={settings.ADSR.max}
         />
         <KnobParameter
             module="ampEnvelope"
             param="sustain"
             value={ampEnvelope.sustain}
             setParameter={setParameter}
-            step={0.01}
-            min={0}
-            max={3}
+            min={settings.ADSR.min}
+            max={settings.ADSR.max}
         />
         <KnobParameter
             module="ampEnvelope"
             param="decay"
             value={ampEnvelope.decay}
             setParameter={setParameter}
-            step={0.01}
-            min={0}
-            max={3}
+            min={settings.ADSR.min}
+            max={settings.ADSR.max}
         />
     </div>
 );

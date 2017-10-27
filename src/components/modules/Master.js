@@ -1,7 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Master = ({ master, setParameter }) => (
+const Master = ({ master, setParameter, settings }) => (
     <div>
         <h2>Master</h2>
         <KnobParameter
@@ -9,9 +9,8 @@ const Master = ({ master, setParameter }) => (
             setParameter={setParameter}
             value={master.volume.value}
             module="master"
-            step={1}
-            min={-60}
-            max={18}
+            min={settings.volume.min}
+            max={settings.volume.max}
         />
     </div>
 );

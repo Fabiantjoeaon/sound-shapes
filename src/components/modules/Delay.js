@@ -1,7 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Delay = ({ delay, setParameter }) => (
+const Delay = ({ delay, setParameter, settings }) => (
     <div>
         <h2>Delay</h2>
         <KnobParameter
@@ -9,9 +9,8 @@ const Delay = ({ delay, setParameter }) => (
             setParameter={setParameter}
             value={delay.delayTime.value}
             module="delay"
-            step={0.01}
-            min={0}
-            max={1}
+            min={settings.delayTime.min}
+            max={settings.delayTime.max}
         />
         <KnobParameter
             param="feedback"
@@ -19,17 +18,16 @@ const Delay = ({ delay, setParameter }) => (
             value={delay.feedback.value}
             module="delay"
             step={0.01}
-            min={0}
-            max={1}
+            max={settings.feedback.max}
+            min={settings.feedback.min}
         />
         <KnobParameter
             param="wet"
             setParameter={setParameter}
             value={delay.wet.value}
             module="delay"
-            step={0.01}
-            min={0}
-            max={1}
+            max={settings.wet.max}
+            min={settings.wet.min}
         />
     </div>
 );

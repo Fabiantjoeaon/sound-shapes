@@ -2,7 +2,7 @@ import React from 'react';
 import { SwitchParameter } from '../Parameters/index';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Filter = ({ filter, setParameter }) => (
+const Filter = ({ filter, setParameter, settings }) => (
     <div>
         <h2>Filter</h2>
         <SwitchParameter
@@ -10,23 +10,22 @@ const Filter = ({ filter, setParameter }) => (
             value={filter.type}
             module="filter"
             setParameter={setParameter}
-            options={['highpass', 'lowpass', 'bandpass']}
+            options={settings.type.options}
         />
         <SwitchParameter
             param="rolloff"
             value={filter.rolloff.value}
             module="filter"
             setParameter={setParameter}
-            options={['-24', '-48']}
+            options={settings.rolloff.options}
         />
         <KnobParameter
             param="frequency"
             setParameter={setParameter}
             value={filter.frequency.value}
             module="filter"
-            step={100}
-            min={-5000}
-            max={5000}
+            min={settings.frequency.min}
+            max={settings.frequency.max}
         />
         <KnobParameter
             param="Q"
@@ -34,18 +33,16 @@ const Filter = ({ filter, setParameter }) => (
             setParameter={setParameter}
             value={filter.Q.value}
             module="filter"
-            step={1}
-            min={0}
-            max={70}
+            min={settings.Q.min}
+            max={settings.Q.max}
         />
         <KnobParameter
             param="gain"
             setParameter={setParameter}
             value={filter.gain.value}
             module="filter"
-            step={1}
-            min={0}
-            max={100}
+            min={settings.gain.min}
+            max={settings.gain.max}
         />
     </div>
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import { SwitchParameter } from '../Parameters/index';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Oscillator = ({ oscillator, oscillatorId, setParameter }) => (
+const Oscillator = ({ oscillator, oscillatorId, setParameter, settings }) => (
     <div>
         <h2>Oscillator {oscillatorId}</h2>
         <SwitchParameter
@@ -10,23 +10,22 @@ const Oscillator = ({ oscillator, oscillatorId, setParameter }) => (
             value={oscillator.type}
             module={`oscillator${oscillatorId}`}
             setParameter={setParameter}
-            options={['sine', 'triangle', 'sawtooth', 'square', 'pulse', 'pwm']}
+            options={settings.type.options}
         />
         <KnobParameter
             param="detune"
             setParameter={setParameter}
             value={oscillator.detune.value}
             module={`oscillator${oscillatorId}`}
-            min={-100}
-            max={100}
-            step={1}
+            min={settings.detune.min}
+            max={settings.detune.max}
         />
         <SwitchParameter
             param="phase"
             setParameter={setParameter}
             value={oscillator.phase.value}
             module={`oscillator${oscillatorId}`}
-            options={['180', '90', '45', '0']}
+            options={settings.phase.options}
         />
     </div>
 );

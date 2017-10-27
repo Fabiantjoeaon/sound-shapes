@@ -5,7 +5,8 @@ const PitchTempo = ({
     transport,
     octave: { currentOctave },
     setParameter,
-    setOctave
+    setOctave,
+    settings
 }) => (
     <div>
         <h2>Pitch / tempo</h2>
@@ -13,9 +14,9 @@ const PitchTempo = ({
             <label>Pitch</label>
             <input
                 type="number"
-                min="1"
-                max="5"
-                step="1"
+                min={settings.pitch.min}
+                max={settings.pitch.max}
+                step={1}
                 value={currentOctave}
                 onChange={e => setOctave(e.target.value)}
             />
@@ -26,9 +27,9 @@ const PitchTempo = ({
             module="transport"
             value={transport.bpm.value}
             setParameter={setParameter}
+            min={settings.transport.min}
+            max={settings.transport.max}
             step={1}
-            min={60}
-            max={260}
         />
     </div>
 );
