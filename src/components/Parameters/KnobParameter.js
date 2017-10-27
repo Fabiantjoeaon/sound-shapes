@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 import * as d3 from 'd3';
 import {
     saturateZeroOne,
@@ -41,10 +43,10 @@ export default class KnobParameter extends Component {
         const donut = container
             .append('g')
             .attr('transform', `translate(${width / 2}, 46)`)
-            .on('mouseover', function(data, i) {
+            .on('mouseover', function (data, i) {
                 d3.select(this).style('cursor', 'pointer');
             })
-            .on('mouseout', function(data, i) {
+            .on('mouseout', function (data, i) {
                 d3.select(this).style('cursor', 'pointer');
                 parameter.transition().style('fill', '#7f7f7f');
             });
@@ -96,13 +98,13 @@ export default class KnobParameter extends Component {
                     isInsideParameterBoundaries &&
                     (hasMovedHorizontally || hasMovedVertically)
                 ) {
-                    const movement = hasMovedHorizontally
-                        ? d3.event.movementX * -1
-                        : hasMovedVertically ? d3.event.movementY : 0;
+                    const movement = hasMovedHorizontally ?
+                        d3.event.movementX * -1 :
+                        hasMovedVertically ? d3.event.movementY : 0;
 
                     // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
                     const addToValue = oneth * movement;
-                    console.log(oneth, addToValue, sensitivity);
+
                     setParameter(module, param, value + addToValue);
                 }
             })
@@ -115,7 +117,9 @@ export default class KnobParameter extends Component {
                 d3.event.stopPropagation();
                 parameter.transition().style('fill', '#7f7f7f');
                 this.valueEl.transition().style('fill', '#7f7f7f');
-                this.setState({ isDragging: false });
+                this.setState({
+                    isDragging: false
+                });
             });
 
         // BACKGROUND
@@ -156,9 +160,9 @@ export default class KnobParameter extends Component {
             .style('text-anchor', 'middle')
             .text(
                 () =>
-                    this.props.value % 1 == 0
-                        ? this.props.value
-                        : parseFloat(this.props.value).toFixed(2)
+                this.props.value % 1 == 0 ?
+                this.props.value :
+                parseFloat(this.props.value).toFixed(2)
             )
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
@@ -166,12 +170,14 @@ export default class KnobParameter extends Component {
         this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                this.valueEl.node().getBBox().height / 0.8
+            this.valueEl.node().getBBox().height / 0.8
         );
         this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }
 
-    updateKnob(saturatedValue, { value }) {
+    updateKnob(saturatedValue, {
+        value
+    }) {
         const tau = 2 * Math.PI;
         this.foreground
             .transition()
@@ -213,8 +219,17 @@ export default class KnobParameter extends Component {
     }
 
     render() {
-        return (
-            <svg width={100} height={110} ref={node => (this.node = node)} />
+        return ( <
+            svg width = {
+                100
+            }
+            height = {
+                110
+            }
+            ref = {
+                node => (this.node = node)
+            }
+            />
         );
     }
 }
