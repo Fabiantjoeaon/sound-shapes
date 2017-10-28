@@ -1,20 +1,97 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component } from 'react';
 import * as d3 from 'd3';
 import {
     saturateZeroOne,
     saturatePercentage
 } from '../../helpers/saturateValue';
 
+import calculateAngle from '../../helpers/calculateAngle';
+
 export default class KnobParameter extends Component {
     constructor() {
         super();
         this.sensitivity = 1;
+        this.tau = 2 * Math.PI;
+        this.center = {};
+        this.foreGroundColor = '247, 182, 136';
     }
 
     state = {
         isDragging: false
+    };
+
+    calculateMouseAngle(mouse) {
+        return calculateAngle(
+            mouse[0] - this.center.x,
+            this.center.y - mouse[1]
+        );
+    }
+
+    handleDonutMouseClick = mouse => {
+        //TODO: RESPECT NEGATIVE VALUES!
+        const angle = this.calculateMouseAngle(mouse);
+        const percentageFromAngle = saturatePercentage(0, 360, angle);
+        let valueToAdd;
+
+        if (this.props.min < 0) {
+            console.log(percentageFromAngle / 100 * this.props.max);
+            valueToAdd =
+                this.props.min + percentageFromAngle / 100 * this.props.max;
+        } else {
+            valueToAdd = percentageFromAngle / 100 * this.props.max;
+        }
+
+        this.props.setParameter(
+            this.props.module,
+            this.props.param,
+            valueToAdd
+        );
+    };
+
+    handleContainerMouseMoveDrag = () => {
+        const {
+            sensitivity,
+            max,
+            min,
+            value,
+            setParameter,
+            module,
+            param
+        } = this.props;
+        d3.event.preventDefault();
+        const percentage = saturatePercentage(min, max, value);
+        const oneth = max / 100;
+
+        /**
+         * HINT: If there is pos or neg movement and if the current value
+         * is within the parameter boundaries (min/max)
+         * FIXME: Param freezes when on min or max value
+         */
+        const isBelowMax = value <= max;
+        const isAboveMin = value >= min;
+        const isInsideParameterBoundaries = isBelowMax && isAboveMin;
+
+        if (!isInsideParameterBoundaries)
+            setParameter(module, param, !isBelowMax ? max : min);
+
+        const hasMovedVertically =
+            d3.event.movementY < 0 || d3.event.movementY > 0;
+        const hasMovedHorizontally =
+            d3.event.movementX < 0 || d3.event.movementX > 0;
+
+        if (
+            isInsideParameterBoundaries &&
+            (hasMovedHorizontally || hasMovedVertically)
+        ) {
+            const movement = hasMovedHorizontally
+                ? d3.event.movementX * -1
+                : hasMovedVertically ? d3.event.movementY : 0;
+
+            // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
+            const addToValue = oneth * movement;
+
+            setParameter(module, param, value + addToValue);
+        }
     };
 
     /**
@@ -25,12 +102,12 @@ export default class KnobParameter extends Component {
      * typed out.
      */
     renderKnob(saturatedValue) {
-        //HINT: // http://tauday.com/tau-manifesto
-        const tau = 2 * Math.PI;
+        const innerRadius = 24;
+        const outerRadius = 34;
         this.arc = d3
             .arc()
-            .innerRadius(24)
-            .outerRadius(34)
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius)
             .startAngle(0);
 
         // CONTAINER
@@ -40,16 +117,26 @@ export default class KnobParameter extends Component {
         const height = container.attr('height');
 
         // DONUT
+        // const handleDonutMouseMove = this.handleDonutMouseMove;
+        const handleDonutMouseClick = this.handleDonutMouseClick;
         const donut = container
             .append('g')
             .attr('transform', `translate(${width / 2}, 46)`)
-            .on('mouseover', function (data, i) {
+            .on('mouseover', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
             })
-            .on('mouseout', function (data, i) {
+            .on('mouseout', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
                 parameter.transition().style('fill', '#7f7f7f');
+            })
+            .on('click', function() {
+                handleDonutMouseClick(d3.mouse(this));
             });
+
+        this.center = {
+            x: donut.attr('width') / 2,
+            y: donut.attr('height') / 2
+        };
 
         container
             .on('mousedown', () => {
@@ -64,49 +151,8 @@ export default class KnobParameter extends Component {
             })
             .on('mousemove', () => {
                 if (!this.state.isDragging) return;
-                const {
-                    sensitivity,
-                    max,
-                    min,
-                    value,
-                    setParameter,
-                    module,
-                    param
-                } = this.props;
-                d3.event.preventDefault();
-                const percentage = saturatePercentage(min, max, value);
-                const oneth = max / 100;
 
-                /**
-                 * HINT: If there is pos or neg movement and if the current value
-                 * is within the parameter boundaries (min/max)
-                 * FIXME: Param freezes when on min or max value
-                 */
-                const isBelowMax = value <= max;
-                const isAboveMin = value >= min;
-                const isInsideParameterBoundaries = isBelowMax && isAboveMin;
-
-                if (!isInsideParameterBoundaries)
-                    setParameter(module, param, !isBelowMax ? max : min);
-
-                const hasMovedVertically =
-                    d3.event.movementY < 0 || d3.event.movementY > 0;
-                const hasMovedHorizontally =
-                    d3.event.movementX < 0 || d3.event.movementX > 0;
-
-                if (
-                    isInsideParameterBoundaries &&
-                    (hasMovedHorizontally || hasMovedVertically)
-                ) {
-                    const movement = hasMovedHorizontally ?
-                        d3.event.movementX * -1 :
-                        hasMovedVertically ? d3.event.movementY : 0;
-
-                    // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
-                    const addToValue = oneth * movement;
-
-                    setParameter(module, param, value + addToValue);
-                }
+                this.handleContainerMouseMoveDrag();
             })
             .on('mouseup', () => {
                 this.setState({
@@ -126,7 +172,7 @@ export default class KnobParameter extends Component {
         const background = donut
             .append('path')
             .datum({
-                endAngle: tau
+                endAngle: this.tau
             })
             .style('fill', 'rgba(0,0,0,0.2)')
             .attr('d', this.arc);
@@ -135,10 +181,17 @@ export default class KnobParameter extends Component {
         this.foreground = donut
             .append('path')
             .datum({
-                endAngle: saturatedValue * tau
+                endAngle: saturatedValue * this.tau
             })
-            .style('fill', '#f7b688')
+            .style('fill', `rgba(${this.foreGroundColor}, 1)`)
             .attr('d', this.arc);
+
+        // DONUT LINE
+        this.lineArc = d3
+            .arc()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius)
+            .startAngle((saturatedValue - 0.003) * this.tau);
 
         // PARAMETER TEXT
         const parameter = container
@@ -160,9 +213,9 @@ export default class KnobParameter extends Component {
             .style('text-anchor', 'middle')
             .text(
                 () =>
-                this.props.value % 1 == 0 ?
-                this.props.value :
-                parseFloat(this.props.value).toFixed(2)
+                    this.props.value % 1 == 0
+                        ? this.props.value
+                        : parseFloat(this.props.value).toFixed(2)
             )
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
@@ -170,15 +223,12 @@ export default class KnobParameter extends Component {
         this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-            this.valueEl.node().getBBox().height / 0.8
+                this.valueEl.node().getBBox().height / 0.8
         );
         this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }
 
-    updateKnob(saturatedValue, {
-        value
-    }) {
-        const tau = 2 * Math.PI;
+    updateKnob(saturatedValue, { value }) {
         this.foreground
             .transition()
             .duration(350)
@@ -186,7 +236,7 @@ export default class KnobParameter extends Component {
             .attrTween('d', d => {
                 const interpolate = d3.interpolate(
                     d.endAngle,
-                    saturatedValue * tau
+                    saturatedValue * this.tau
                 );
 
                 return t => {
@@ -218,18 +268,13 @@ export default class KnobParameter extends Component {
         this.updateKnob(saturatedValue, nextProps);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.value !== this.props.value;
+    }
+
     render() {
-        return ( <
-            svg width = {
-                100
-            }
-            height = {
-                110
-            }
-            ref = {
-                node => (this.node = node)
-            }
-            />
+        return (
+            <svg width={100} height={110} ref={node => (this.node = node)} />
         );
     }
 }

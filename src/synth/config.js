@@ -103,9 +103,7 @@ const config = {
             min: 0,
             max: 1
         }
-    },
-    keyboard: {},
-    sequencer: {}
+    }
 };
 
 export default config;
