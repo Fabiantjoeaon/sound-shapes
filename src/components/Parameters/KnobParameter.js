@@ -31,15 +31,21 @@ export default class KnobParameter extends Component {
         //TODO: RESPECT NEGATIVE VALUES!
         const angle = this.calculateMouseAngle(mouse);
         const percentageFromAngle = saturatePercentage(0, 360, angle);
-        let valueToAdd;
 
-        if (this.props.min < 0) {
-            console.log(percentageFromAngle / 100 * this.props.max);
-            valueToAdd =
-                this.props.min + percentageFromAngle / 100 * this.props.max;
-        } else {
-            valueToAdd = percentageFromAngle / 100 * this.props.max;
-        }
+        const value = percentageFromAngle / 100 * this.props.max;
+        const percentage = saturatePercentage(
+            this.props.min,
+            this.props.max,
+            value
+        );
+        const valueToAdd = percentage / 100 * this.props.max;
+        // if (this.props.min < 0) {
+        //     console.log(percentageFromAngle / 100 * this.props.max);
+        //     valueToAdd =
+        //         this.props.min + percentageFromAngle / 100 * this.props.max;
+        // } else {
+        //     valueToAdd = percentageFromAngle / 100 * this.props.max;
+        // }
 
         this.props.setParameter(
             this.props.module,

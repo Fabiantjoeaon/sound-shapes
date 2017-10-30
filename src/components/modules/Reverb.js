@@ -10,7 +10,7 @@ const Reverb = ({ reverb, setParameter, settings }) => (
             value={reverb.roomSize.value}
             module="reverb"
             min={settings.roomSize.min}
-            min={settings.roomSize.max}
+            max={settings.roomSize.max}
         />
         <KnobParameter
             param="dampening"
