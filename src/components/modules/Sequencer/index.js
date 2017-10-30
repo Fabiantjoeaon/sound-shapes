@@ -36,7 +36,8 @@ export default class Sequencer extends Component {
 
     render() {
         const {
-            octave: { currentOctave, notes },
+            notes,
+            octave: { currentOctave },
             synth: { transport },
             synth
         } = this.props;

@@ -16,10 +16,19 @@ import Delay from './modules/Delay';
 import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer/index';
 import { setParameter, setOctave } from '../actions';
+import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
 const StyledSynthesizer = styled.div`display: grid;`;
 
-const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
+const Synthesizer = ({
+    synth,
+    octave,
+    setParameter,
+    setOctave,
+    keyboardNotes,
+    sequencerNotes,
+    currentOctave
+}) => (
     <StyledSynthesizer>
         <Master
             master={synth.master}
@@ -28,7 +37,7 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
         />
         <PitchTempo
             transport={synth.transport}
-            octave={octave}
+            currentOctave={currentOctave}
             setOctave={setOctave}
             setParameter={setParameter}
             settings={config.pitchTempo}
@@ -83,21 +92,28 @@ const Synthesizer = ({ synth, octave, setParameter, setOctave }) => (
             settings={config.reverb}
         />
         <Keyboard
-            notes={octave.notes}
-            currentOctave={octave.currentOctave}
+            notes={keyboardNotes}
+            currentOctave={currentOctave}
             synth={synth}
             settings={config.keyboard}
         />
         <Sequencer
+            notes={sequencerNotes}
             octave={octave}
-            currentOctave={octave.currentOctave}
+            currentOctave={currentOctave}
             synth={synth}
             settings={config.sequencer}
         />
     </StyledSynthesizer>
 );
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({
+    sequencerNotes: getNotesAsOctaves(state.octave, 1),
+    keyboardNotes: getNotesAsOctaves(state.octave, 2),
+    currentOctave: getCurrentOctave(state.octave),
+    ...state
+});
+
 const mapDispatchToProps = dispatch => ({
     setParameter(...args) {
         dispatch(setParameter(...args));
