@@ -6,6 +6,7 @@ const PitchTempo = ({
     currentOctave,
     setParameter,
     setOctave,
+    slideOctave,
     settings
 }) => {
     return (
@@ -21,6 +22,11 @@ const PitchTempo = ({
                     value={currentOctave}
                     onChange={e => setOctave(e.target.value)}
                 />
+            </div>
+
+            <div>
+                <button onClick={() => slideOctave(-1)}> &larr; </button>
+                <button onClick={() => slideOctave(1)}> &rarr; </button>
             </div>
 
             <NumberParameter

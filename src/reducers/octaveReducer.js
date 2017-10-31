@@ -27,9 +27,10 @@ const octaveReducer = (state = initialState, action) => {
             };
 
         case 'SLIDE_OCTAVE':
-            const { slide } = action;
+            const { movement } = action;
             // const nextPosition = slide < 0 ? state.currentPos - slide : state.currentPos + slide;
-            const nextPos = state.currentPos + slide;
+            const nextPos = state.currentPos + movement;
+            console.log(nextPos);
             return { ...state, currentPos: nextPos };
 
         default:

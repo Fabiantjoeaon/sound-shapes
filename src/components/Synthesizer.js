@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import config from '../synth/config';
 import Master from './modules/Master';
-import PitchTempo from './modules/PitchTempo';
 import Mixer from './modules/Mixer';
 import Oscillator from './modules/Oscillator';
 import AmpEnvelope from './modules/AmpEnvelope';
@@ -13,9 +12,10 @@ import Filter from './modules/Filter';
 import LowFrequencyOscillator from './modules/LowFrequencyOscillator';
 import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
+import PitchTempo from './modules/PitchTempo';
 import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer/index';
-import { setParameter, setOctave } from '../actions';
+import { setParameter, setOctave, slideOctave } from '../actions';
 import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
 const StyledSynthesizer = styled.div`display: grid;`;
@@ -25,6 +25,7 @@ const Synthesizer = ({
     octave,
     setParameter,
     setOctave,
+    slideOctave,
     keyboardNotes,
     sequencerNotes,
     currentOctave
@@ -34,13 +35,6 @@ const Synthesizer = ({
             master={synth.master}
             setParameter={setParameter}
             settings={config.master}
-        />
-        <PitchTempo
-            transport={synth.transport}
-            currentOctave={currentOctave}
-            setOctave={setOctave}
-            setParameter={setParameter}
-            settings={config.pitchTempo}
         />
         <Oscillator
             oscillator={synth.oscillatorA}
@@ -91,6 +85,14 @@ const Synthesizer = ({
             setParameter={setParameter}
             settings={config.reverb}
         />
+        <PitchTempo
+            transport={synth.transport}
+            currentOctave={currentOctave}
+            setOctave={setOctave}
+            slideOctave={slideOctave}
+            setParameter={setParameter}
+            settings={config.pitchTempo}
+        />
         <Keyboard
             notes={keyboardNotes}
             currentOctave={currentOctave}
@@ -120,6 +122,9 @@ const mapDispatchToProps = dispatch => ({
     },
     setOctave(octave) {
         dispatch(setOctave(octave));
+    },
+    slideOctave(movement) {
+        dispatch(slideOctave(movement));
     }
 });
 

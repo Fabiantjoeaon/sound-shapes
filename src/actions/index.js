@@ -9,3 +9,5 @@ export const setOctave = octave => ({
     type: 'SET_OCTAVE',
     octave
 });
+
+export const slideOctave = movement => ({ type: 'SLIDE_OCTAVE', movement });
