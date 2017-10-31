@@ -11,7 +11,6 @@ const allNotes = flattenDeep(
     octavesRange.map(octave => mapNotesToOctave(octave))
 );
 
-const initialOctave = 3;
 const initialState = {
     allNotes,
     currentPos: 0
@@ -21,7 +20,7 @@ const octaveReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_OCTAVE':
             const { octave } = action;
-            // TODO: Only set when in range??
+
             return {
                 ...state,
                 currentPos: octave * notes.length
@@ -38,10 +37,7 @@ const octaveReducer = (state = initialState, action) => {
     }
 };
 
-/**
- * Get a single octave of notes from all available notes
- */
-const getNotesAsOctave = (allNotes, pos, octave) => {
+const getNotesAsSingleOctave = (allNotes, pos, octave) => {
     // Slice full notes from position
     const fromPosition = allNotes.slice(pos, allNotes.length);
     // Then slice octave from position
@@ -52,20 +48,19 @@ const getNotesAsOctave = (allNotes, pos, octave) => {
  * Get an amount of octaves from all available notes
  */
 export const getNotesAsOctaves = (state, octave) =>
-    getNotesAsOctave(state.allNotes, state.currentPos, octave);
+    getNotesAsSingleOctave(state.allNotes, state.currentPos, octave);
 
 /**
  * Detect current octave by checking 
  * which number appears most in current octave slice
  */
 export const getCurrentOctave = (state, previousOctave) => {
-    const currentNoteSlice = getNotesAsOctave(
+    const currentNoteSlice = getNotesAsSingleOctave(
         state.allNotes,
         state.currentPos,
         1
     );
 
-    // currentNoteSlice = empty??? als 1 wordt meegegevn
     const currentOctaves = currentNoteSlice.map(note => note.match(/\d+/g)[0]);
 
     return mode(currentOctaves);
