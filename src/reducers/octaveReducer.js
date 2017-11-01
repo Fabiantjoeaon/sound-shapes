@@ -41,10 +41,6 @@ const octaveReducer = (state = initialState, action) => {
 
             // Position can't go out of bounds
             if (nextPos == allNotes.length) nextPos = 0;
-            // if (currentPos == allNotes.length - notes.length) console.log('hmm')
-            // if (currentPos < 0) nextPos = allNotes.length;
-            // else if (currentPos > allNotes.length) nextPos = allNotes.length;
-            // else nextPos = currentPos + movement;
 
             return { ...state,
                 currentPos: nextPos
@@ -56,10 +52,22 @@ const octaveReducer = (state = initialState, action) => {
 };
 
 const getNotesAsSingleOctave = (allNotes, pos, octave) => {
+    const requestedLength = octave * notes.length;
     // Slice full notes from position
     const fromPosition = allNotes.slice(pos, allNotes.length);
     // Then slice octave from position
-    return fromPosition.slice(0, octave * notes.length);
+    const slice = fromPosition.slice(0, requestedLength);
+
+    // Push notes to slice when missing  
+    const missingNotes = requestedLength - slice.length;
+    if (missingNotes) {
+        [...missingNotes].forEach(note =>
+            // Index of the missing note range is the same as the index in allNotes :)
+            slice.push(allNotes[note])
+        )
+    }
+
+    return slice;
 };
 
 /**
@@ -79,9 +87,9 @@ export const getCurrentOctave = (state, previousOctave) => {
         1
     );
 
-    const currentOctaves = currentNoteSlice.map(note => note.match(/\d+/g)[0]);
+    const allOccurringOctaves = currentNoteSlice.map(note => note.match(/\d+/g)[0]);
 
-    return mode(currentOctaves);
+    return mode(allOccurringOctaves);
 };
 
 export default octaveReducer;
