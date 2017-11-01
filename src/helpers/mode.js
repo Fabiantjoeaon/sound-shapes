@@ -1,5 +1,7 @@
 /**
  * Detect which element appears most in an array
+ * @param {Array} arr 
+ * @returns {Number}
  */
 const mode = arr =>
     arr

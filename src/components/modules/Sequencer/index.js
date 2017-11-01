@@ -9,7 +9,23 @@ export default class Sequencer extends Component {
         bars: 2,
         steps: 8,
         currentStep: 0,
-        isPlaying: true
+        isPlaying: true,
+        activeNotes: []
+    };
+
+    activateNote = note =>
+        this.setState({
+            activeNotes: [...this.state.activeNotes, note]
+        });
+
+    deactivateNote = ({ note, column }) => {
+        const index = this.state.activeNotes.findIndex(
+            n => n.note == note && n.column == column
+        );
+
+        const activeNotes = this.state.activeNotes;
+        activeNotes.splice(index, 1);
+        this.setState({ activeNotes });
     };
 
     componentDidMount() {
@@ -75,6 +91,9 @@ export default class Sequencer extends Component {
                     cellSize={30}
                     synth={synth}
                     currentStep={this.state.currentStep}
+                    activateNote={this.activateNote}
+                    deactivateNote={this.deactivateNote}
+                    activeNotes={this.state.activeNotes}
                 />{' '}
             </div>
         );

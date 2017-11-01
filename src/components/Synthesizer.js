@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import WebMidi from 'webmidi';
 
 import config from '../synth/config';
 import Master from './modules/Master';
@@ -20,94 +21,108 @@ import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
 const StyledSynthesizer = styled.div`display: grid;`;
 
-const Synthesizer = ({
-    synth,
-    octave,
-    setParameter,
-    setOctave,
-    slideOctave,
-    keyboardNotes,
-    sequencerNotes,
-    currentOctave
-}) => (
-    <StyledSynthesizer>
-        <Master
-            master={synth.master}
-            setParameter={setParameter}
-            settings={config.master}
-        />
-        <Oscillator
-            oscillator={synth.oscillatorA}
-            setParameter={setParameter}
-            oscillatorId="A"
-            settings={config.oscillators}
-        />
-        <Oscillator
-            oscillator={synth.oscillatorB}
-            setParameter={setParameter}
-            oscillatorId="B"
-            settings={config.oscillators}
-        />
-        <Mixer
-            oscillatorA={synth.oscillatorA}
-            oscillatorB={synth.oscillatorB}
-            noise={synth.noise}
-            setParameter={setParameter}
-            settings={config.mixer}
-        />
-        <AmpEnvelope
-            ampEnvelope={synth.ampEnvelope}
-            setParameter={setParameter}
-            settings={config.envelopes}
-        />
-        <FilterEnvelope
-            filterEnvelope={synth.filterEnvelope}
-            setParameter={setParameter}
-            settings={config.envelopes}
-        />
-        <Filter
-            filter={synth.filter}
-            setParameter={setParameter}
-            settings={config.filter}
-        />
-        <LowFrequencyOscillator
-            lowFrequencyOscillator={synth.lowFrequencyOscillator}
-            setParameter={setParameter}
-            settings={config.lowFrequencyOscillator}
-        />
-        <Delay
-            delay={synth.delay}
-            setParameter={setParameter}
-            settings={config.delay}
-        />
-        <Reverb
-            reverb={synth.reverb}
-            setParameter={setParameter}
-            settings={config.reverb}
-        />
-        <PitchTempo
-            transport={synth.transport}
-            currentOctave={currentOctave}
-            setOctave={setOctave}
-            slideOctave={slideOctave}
-            setParameter={setParameter}
-            settings={config.pitchTempo}
-        />
-        <Keyboard
-            notes={keyboardNotes}
-            currentOctave={currentOctave}
-            synth={synth}
-            settings={config.keyboard}
-        />
-        <Sequencer
-            notes={sequencerNotes}
-            octave={octave}
-            currentOctave={currentOctave}
-            synth={synth}
-            settings={config.sequencer}
-        />
-    </StyledSynthesizer>
-);
+class Synthesizer extends Component {
+    componentDidMount() {
+        WebMidi.enable(err => {
+            if (err) {
+                console.log('WebMidi could not be enabled.', err);
+                return;
+            }
+        });
+    }
+
+    render() {
+        const {
+            synth,
+            octave,
+            setParameter,
+            setOctave,
+            slideOctave,
+            keyboardNotes,
+            sequencerNotes,
+            currentOctave
+        } = this.props;
+        return (
+            <StyledSynthesizer>
+                <Master
+                    master={synth.master}
+                    setParameter={setParameter}
+                    settings={config.master}
+                />
+                <Oscillator
+                    oscillator={synth.oscillatorA}
+                    setParameter={setParameter}
+                    oscillatorId="A"
+                    settings={config.oscillators}
+                />
+                <Oscillator
+                    oscillator={synth.oscillatorB}
+                    setParameter={setParameter}
+                    oscillatorId="B"
+                    settings={config.oscillators}
+                />
+                <Mixer
+                    oscillatorA={synth.oscillatorA}
+                    oscillatorB={synth.oscillatorB}
+                    noise={synth.noise}
+                    setParameter={setParameter}
+                    settings={config.mixer}
+                />
+                <AmpEnvelope
+                    ampEnvelope={synth.ampEnvelope}
+                    setParameter={setParameter}
+                    settings={config.envelopes}
+                />
+                <FilterEnvelope
+                    filterEnvelope={synth.filterEnvelope}
+                    setParameter={setParameter}
+                    settings={config.envelopes}
+                />
+                <Filter
+                    filter={synth.filter}
+                    setParameter={setParameter}
+                    settings={config.filter}
+                />
+                <LowFrequencyOscillator
+                    lowFrequencyOscillator={synth.lowFrequencyOscillator}
+                    setParameter={setParameter}
+                    settings={config.lowFrequencyOscillator}
+                />
+                <Delay
+                    delay={synth.delay}
+                    setParameter={setParameter}
+                    settings={config.delay}
+                />
+                <Reverb
+                    reverb={synth.reverb}
+                    setParameter={setParameter}
+                    settings={config.reverb}
+                />
+                <PitchTempo
+                    transport={synth.transport}
+                    currentOctave={currentOctave}
+                    setOctave={setOctave}
+                    slideOctave={slideOctave}
+                    setParameter={setParameter}
+                    settings={config.pitchTempo}
+                />
+                <Keyboard
+                    notes={keyboardNotes}
+                    currentOctave={currentOctave}
+                    synth={synth}
+                    settings={config.keyboard}
+                />
+                <Sequencer
+                    notes={sequencerNotes}
+                    octave={octave}
+                    currentOctave={currentOctave}
+                    synth={synth}
+                    settings={config.sequencer}
+                />
+            </StyledSynthesizer>
+        );
+    }
+}
 
 const mapStateToProps = state => ({
     sequencerNotes: getNotesAsOctaves(state.octave, 1),

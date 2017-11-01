@@ -10,12 +10,15 @@ import {
     FeedbackDelay,
     Noise,
     Transport,
-    PolySYnth
+    PolySynth
 } from 'tone';
 
 const initSynth = () => {
     const oscillatorA = new OmniOscillator({ volume: 24 }).start();
     const oscillatorB = new OmniOscillator({ volume: 24 }).start();
+    const polySynth = new PolySynth({
+        polyphony: 4
+    });
     const ampEnvelope = new AmplitudeEnvelope();
     const reverb = new Freeverb({ wet: 0 });
     const filter = new Filter({ Q: 12 });

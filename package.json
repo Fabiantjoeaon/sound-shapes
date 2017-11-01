@@ -13,7 +13,8 @@
     "redux": "^3.7.2",
     "styled-components": "^2.2.1",
     "tone": "^0.11.11",
-    "unlerp": "^1.0.1"
+    "unlerp": "^1.0.1",
+    "webmidi": "^2.0.0-rc.10"
   },
   "scripts": {
     "start": "react-scripts start",

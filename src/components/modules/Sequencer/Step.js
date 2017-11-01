@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const StyledStep = styled.div`
@@ -19,10 +19,6 @@ const StyledStep = styled.div`
 `;
 
 export default class Step extends Component {
-    state = {
-        active: 0
-    };
-
     //FIXME: for performance win, only the next column should be updated, and the one before
     // shouldComponentUpdate(nextProps, nextState) {
     //     return (
@@ -38,9 +34,8 @@ export default class Step extends Component {
     // }
 
     componentWillUpdate() {
-        const { active } = this.state;
-        const { synth, currentStep, column, note } = this.props;
-        if (active && currentStep === column) {
+        const { synth, currentStep, column, note, activeNotes } = this.props;
+        if (activeNotes.includes(note) && currentStep === column) {
             synth.oscillatorA.frequency.value = note;
             synth.oscillatorB.frequency.value = note;
             synth.ampEnvelope.triggerAttackRelease('16n');
@@ -50,8 +45,20 @@ export default class Step extends Component {
     }
 
     render() {
-        const { currentStep, note, column, addToSequence, steps } = this.props;
-        const { active } = this.state;
+        const {
+            currentStep,
+            note,
+            column,
+            addToSequence,
+            steps,
+            activateNote,
+            activeNotes,
+            deactivateNote
+        } = this.props;
+
+        const active = activeNotes.find(
+            activeNote => activeNote.note == note && activeNote.column == column
+        );
 
         const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;
 
@@ -59,7 +66,10 @@ export default class Step extends Component {
             <StyledStep
                 column={column}
                 stepAhead={stepAhead}
-                onClick={e => this.setState({ active: !active })}
+                onClick={e =>
+                    active
+                        ? deactivateNote({ note, column })
+                        : activateNote({ note, column })}
                 className={active ? 'active' : null}
             />
         );
