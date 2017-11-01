@@ -16,10 +16,13 @@ const initialState = {
     currentPos: 0
 };
 
+//TODO: Fix back to start array when out of bounds
 const octaveReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_OCTAVE':
-            const { octave } = action;
+            const {
+                octave
+            } = action;
 
             return {
                 ...state,
@@ -27,11 +30,25 @@ const octaveReducer = (state = initialState, action) => {
             };
 
         case 'SLIDE_OCTAVE':
-            const { movement } = action;
-            // const nextPosition = slide < 0 ? state.currentPos - slide : state.currentPos + slide;
-            const nextPos = state.currentPos + movement;
-            console.log(nextPos);
-            return { ...state, currentPos: nextPos };
+            const {
+                currentPos,
+                allNotes
+            } = state;
+            const {
+                movement
+            } = action;
+            let nextPos = currentPos + movement;
+
+            // Position can't go out of bounds
+            if (nextPos == allNotes.length) nextPos = 0;
+            // if (currentPos == allNotes.length - notes.length) console.log('hmm')
+            // if (currentPos < 0) nextPos = allNotes.length;
+            // else if (currentPos > allNotes.length) nextPos = allNotes.length;
+            // else nextPos = currentPos + movement;
+
+            return { ...state,
+                currentPos: nextPos
+            };
 
         default:
             return state;
