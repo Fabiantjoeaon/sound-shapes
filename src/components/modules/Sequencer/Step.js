@@ -18,60 +18,36 @@ const StyledStep = styled.div`
     }
 `;
 
-export default class Step extends Component {
-    //FIXME: for performance win, only the next column should be updated, and the one before
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return (
-    //         !(nextProps.currentStep === this.props.column) ||
-    //         !(nextProps.currentStep + 1 === this.props.column) ||
-    //         nextProps.currentStep - 1 === this.props.column ||
-    //         !(nextState.active === this.state.active)
-    //     );
-    // }
+const Step = ({
+    currentStep,
+    note,
+    column,
+    addToSequence,
+    steps,
+    activateNote,
+    activeNotes,
+    deactivateNote
+}) => {
+    const active = activeNotes.find(
+        activeNote => activeNote.note == note && activeNote.column == column
+    );
 
-    // componentDidUpdate() {
-    //     console.log('did update', this.props.column);
-    // }
+    const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;
 
-    componentWillUpdate() {
-        const { synth, currentStep, column, note, activeNotes } = this.props;
-        if (activeNotes.includes(note) && currentStep === column) {
-            synth.oscillatorA.frequency.value = note;
-            synth.oscillatorB.frequency.value = note;
-            synth.ampEnvelope.triggerAttackRelease('16n');
-            synth.filterEnvelope.triggerAttackRelease('16n');
-            synth.noise.start();
-        }
-    }
+    return (
+        <StyledStep
+            column={column}
+            stepAhead={stepAhead}
+            onClick={e =>
+                active
+                    ? deactivateNote({ note, column })
+                    : activateNote({
+                          note,
+                          column
+                      })}
+            className={active ? 'active' : null}
+        />
+    );
+};
 
-    render() {
-        const {
-            currentStep,
-            note,
-            column,
-            addToSequence,
-            steps,
-            activateNote,
-            activeNotes,
-            deactivateNote
-        } = this.props;
-
-        const active = activeNotes.find(
-            activeNote => activeNote.note == note && activeNote.column == column
-        );
-
-        const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;
-
-        return (
-            <StyledStep
-                column={column}
-                stepAhead={stepAhead}
-                onClick={e =>
-                    active
-                        ? deactivateNote({ note, column })
-                        : activateNote({ note, column })}
-                className={active ? 'active' : null}
-            />
-        );
-    }
-}
+export default Step;

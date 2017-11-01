@@ -46,8 +46,19 @@ export default class Sequencer extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const { transport } = this.props.synth;
-        nextState.isPlaying ? transport.start() : transport.stop();
+        const { synth } = this.props;
+        const { activeNotes, currentStep } = this.state;
+        nextState.isPlaying ? synth.transport.start() : synth.transport.stop();
+
+        activeNotes.map(({ note, column }) => {
+            if (currentStep === column) {
+                synth.oscillatorA.frequency.value = note;
+                synth.oscillatorB.frequency.value = note;
+                synth.ampEnvelope.triggerAttackRelease('16n');
+                synth.filterEnvelope.triggerAttackRelease('16n');
+                synth.noise.start();
+            }
+        });
     }
 
     render() {
