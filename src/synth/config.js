@@ -48,7 +48,7 @@ const config = {
             options: ['highpass', 'lowpass', 'bandpass']
         },
         rolloff: {
-            options: ['-24', '-48']
+            options: ['-12', '-24', '-48']
         },
         frequency: {
             min: -5000,

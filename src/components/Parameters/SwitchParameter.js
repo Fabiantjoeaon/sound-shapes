@@ -48,7 +48,7 @@ const StyledCircle = styled.span`
 export default class SwitchParameter extends Component {
     render() {
         const { options, module, param, value, setParameter } = this.props;
-        if (param === 'phase') console.log(value);
+        if (param === 'rolloff') console.log(value);
         return (
             <StyledSwitch optionLength={options.length}>
                 <span>{param}</span>
