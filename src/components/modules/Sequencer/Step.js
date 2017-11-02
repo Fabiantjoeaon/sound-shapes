@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const StyledStep = styled.div`
     border: 1px solid #000;
-
     background-color: ${props =>
         props.column === props.stepAhead ? 'rgba(0,0,0,0.3)' : 'white'};
 

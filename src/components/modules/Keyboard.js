@@ -120,6 +120,7 @@ export default class Keyboard extends Component {
 
     render() {
         const { notes } = this.props;
+        console.log(notes.length);
         return (
             <div>
                 <h2>Keyboard</h2>

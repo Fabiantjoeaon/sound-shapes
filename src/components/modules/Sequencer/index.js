@@ -28,8 +28,6 @@ export default class Sequencer extends Component {
         this.setState({ activeNotes });
     };
 
-    clearNotes = () => this.setState({ activeNotes: [] });
-
     componentDidMount() {
         let stepCounter = 0;
 
@@ -87,7 +85,11 @@ export default class Sequencer extends Component {
                         <option value={2}> 2 </option>{' '}
                     </select>{' '}
                 </div>{' '}
-                <button onClick={() => this.clearNotes()}>Clear</button>
+                {this.state.activeNotes.length > 0 && (
+                    <button onClick={() => this.setState({ activeNotes: [] })}>
+                        Clear
+                    </button>
+                )}
                 <div>
                     <label> Play / pause </label>{' '}
                     <button

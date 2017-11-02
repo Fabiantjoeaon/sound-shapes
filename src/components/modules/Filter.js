@@ -1,5 +1,6 @@
 import React from 'react';
-import { SwitchParameter } from '../Parameters/index';
+// import { SwitchParameter } from '../Parameters/index';
+import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
 
 const Filter = ({ filter, setParameter, settings }) => (
