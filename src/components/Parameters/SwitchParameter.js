@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledSwitch = styled.div`
@@ -45,27 +45,33 @@ const StyledCircle = styled.span`
     }
 `;
 
-export default class SwitchParameter extends Component {
-    render() {
-        const { options, module, param, value, setParameter } = this.props;
-        if (param === 'rolloff') console.log(value);
-        return (
-            <StyledSwitch optionLength={options.length}>
-                <span>{param}</span>
-                {options &&
-                    options.map(option => (
-                        <div
-                            key={option}
-                            className={value == option ? 'active' : null}
-                            onClick={e => {
-                                setParameter(module, param, option);
-                            }}
-                        >
-                            <StyledCircle className="circle" />
-                            <span>{option}</span>
-                        </div>
-                    ))}
-            </StyledSwitch>
-        );
-    }
-}
+const SwitchParameter = ({
+    options,
+    module,
+    param,
+    value,
+    setParameter,
+    setOctave
+}) => (
+    <StyledSwitch optionLength={options.length}>
+        <span>{param}</span>
+        {options &&
+            options.map(option => (
+                <div
+                    key={option}
+                    className={value == option ? 'active' : null}
+                    onClick={e => {
+                        console.log('clicked', value);
+                        setParameter
+                            ? setParameter(module, param, option)
+                            : setOctave(option);
+                    }}
+                >
+                    <StyledCircle className="circle" />
+                    <span>{option}</span>
+                </div>
+            ))}
+    </StyledSwitch>
+);
+
+export default SwitchParameter;

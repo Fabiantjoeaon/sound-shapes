@@ -1,3 +1,5 @@
+import '../helpers/range';
+
 const config = {
     master: {
         volume: {
@@ -7,12 +9,11 @@ const config = {
     },
     pitchTempo: {
         pitch: {
-            min: 1,
-            max: 5
+            options: [...5]
         },
         transport: {
-            min: 60,
-            max: 260
+            min: 30,
+            max: 200
         }
     },
     oscillators: {

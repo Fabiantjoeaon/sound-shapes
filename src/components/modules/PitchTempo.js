@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { NumberParameter } from '../Parameters/index';
+// import { NumberParameter } from '../Parameters/index';
+import KnobParameter from '../Parameters/KnobParameter';
+import SwitchParameter from '../Parameters/SwitchParameter';
 
 const PitchTempo = ({
     transport,
@@ -12,24 +14,21 @@ const PitchTempo = ({
     return (
         <div>
             <h2>Pitch / tempo</h2>
-            <div>
-                <label>Pitch</label>
-                <input
-                    type="number"
-                    min={settings.pitch.min}
-                    max={settings.pitch.max}
-                    step={1}
-                    value={currentOctave}
-                    onChange={e => setOctave(e.target.value)}
-                />
-            </div>
+
+            <SwitchParameter
+                setOctave={setOctave}
+                options={settings.pitch.options}
+                value={currentOctave}
+                module="octave"
+                param="octave"
+            />
 
             <div>
                 <button onClick={() => slideOctave(-1)}> &larr; </button>
                 <button onClick={() => slideOctave(1)}> &rarr; </button>
             </div>
 
-            <NumberParameter
+            <KnobParameter
                 param="bpm"
                 module="transport"
                 value={transport.bpm.value}
