@@ -245,18 +245,20 @@ export default class KnobParameter extends Component {
                     return this.arc(d);
                 };
             });
+
         // this.valueEl.text(
         //     () => (value % 1 == 0 ? value : parseFloat(value).toFixed(2))
         // );
+
         this.valueEl
             .transition()
             .duration(350)
+            .ease(d3.easeSinOut)
             .tween('text', function(d) {
-                const interpolate = d3.interpolate(
-                    this.textContent,
-                    value % 1 == 0 ? value : parseFloat(value).toFixed(2)
-                );
-                const prec = (d + '').split('.');
+                const nextValue =
+                    value % 1 == 0 ? value : parseFloat(value).toFixed(2);
+                const interpolate = d3.interpolate(this.textContent, nextValue);
+                const prec = (nextValue + '').split('.');
                 const round =
                     prec.length > 1 ? Math.pow(10, prec[1].length) : 1;
 
