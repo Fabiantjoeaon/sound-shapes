@@ -28,33 +28,29 @@ export default class KnobParameter extends Component {
     }
 
     handleDonutMouseClick = mouse => {
-        //TODO: RESPECT NEGATIVE VALUES!
+        // Calculate angle clicked
         const angle = this.calculateMouseAngle(mouse);
         const percentageFromAngle = saturatePercentage(0, 360, angle);
+        /**
+         * Calculate the total available values going 
+         * from min to max (for -100 to 100 this would be 200)
+         */
+        const total =
+            this.props.min < 0
+                ? this.props.max + Math.abs(this.props.min)
+                : this.props.max - this.props.min;
 
-        const value = percentageFromAngle / 100 * this.props.max;
-        const percentage = saturatePercentage(
-            this.props.min,
-            this.props.max,
-            value
-        );
-        const valueToAdd = percentage / 100 * this.props.max;
-        // if (this.props.min < 0) {
-        //     console.log(percentageFromAngle / 100 * this.props.max);
-        //     valueToAdd =
-        //         this.props.min + percentageFromAngle / 100 * this.props.max;
-        // } else {
-        //     valueToAdd = percentageFromAngle / 100 * this.props.max;
-        // }
+        // If min is under 100 it should be added from there and not from zero
+        const calculatedValueFromPercentage =
+            percentageFromAngle * (total / 100);
 
-        this.props.setParameter(
-            this.props.module,
-            this.props.param,
-            valueToAdd
-        );
+        const value = this.props.min + calculatedValueFromPercentage;
+
+        this.props.setParameter(this.props.module, this.props.param, value);
     };
 
     handleContainerMouseMoveDrag = () => {
+        d3.event.preventDefault();
         const {
             sensitivity,
             max,
@@ -64,7 +60,6 @@ export default class KnobParameter extends Component {
             module,
             param
         } = this.props;
-        d3.event.preventDefault();
         const percentage = saturatePercentage(min, max, value);
         const oneth = max / 100;
 
