@@ -12,7 +12,7 @@ const config = {
             options: [...5]
         },
         transport: {
-            min: 30,
+            min: 20,
             max: 200
         }
     },
