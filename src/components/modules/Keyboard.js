@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const StyledKeyboard = styled.div`
     display: flex;
     flex-flow: row nowrap;
-    height: 300px;
-    width: 1000px;
+    height: 100px;
+    width: 600px;
 `;
 
 const StyledNote = styled.div`
@@ -120,7 +120,7 @@ export default class Keyboard extends Component {
 
     render() {
         const { notes } = this.props;
-        console.log(notes.length);
+
         return (
             <div>
                 <h2>Keyboard</h2>
@@ -130,6 +130,7 @@ export default class Keyboard extends Component {
                             i={i}
                             key={i}
                             note={note}
+                            keyboardKey={this.keyMap[i]}
                             onMouseDownHandler={this.onMouseDownHandler}
                             onMouseUpHandler={this.onMouseUpHandler}
                             noteAmount={notes.length}

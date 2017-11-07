@@ -28,16 +28,25 @@ export default class Sequencer extends Component {
         this.setState({ activeNotes });
     };
 
+    playNote(note) {
+        const { synth } = this.props;
+        synth.oscillatorA.frequency.value = note;
+        synth.oscillatorB.frequency.value = note;
+        synth.ampEnvelope.triggerAttackRelease('16n');
+        synth.filterEnvelope.triggerAttackRelease('16n');
+        synth.noise.start();
+    }
+
     componentDidMount() {
         let stepCounter = 0;
 
-        this.props.synth.transport.schedule(time => {
+        this.props.synth.transport.scheduleRepeat(time => {
             const currentStep =
                 stepCounter++ % (this.state.steps * this.state.bars);
             this.setState({
                 currentStep
             });
-        }, '16n');
+        }, '0:0:1');
         this.props.synth.transport.start();
     }
 
@@ -51,13 +60,7 @@ export default class Sequencer extends Component {
         nextState.isPlaying ? synth.transport.start() : synth.transport.stop();
 
         activeNotes.map(({ note, column }) => {
-            if (currentStep === column) {
-                synth.oscillatorA.frequency.value = note;
-                synth.oscillatorB.frequency.value = note;
-                synth.ampEnvelope.triggerAttackRelease('16n');
-                synth.filterEnvelope.triggerAttackRelease('16n');
-                synth.noise.start();
-            }
+            currentStep === column && this.playNote(note);
         });
     }
 
@@ -104,7 +107,7 @@ export default class Sequencer extends Component {
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
-                    cellSize={30}
+                    cellSize={20}
                     synth={synth}
                     currentStep={this.state.currentStep}
                     activateNote={this.activateNote}

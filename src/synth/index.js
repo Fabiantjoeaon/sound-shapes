@@ -1,4 +1,4 @@
-import {
+import Tone, {
     Compressor,
     OmniOscillator,
     AmplitudeEnvelope,
@@ -10,22 +10,36 @@ import {
     FeedbackDelay,
     Noise,
     Transport,
-    PolySynth
+    PolySynth,
+    Instrument,
+    Synth,
+    TransportTime
 } from 'tone';
 
-const initSynth = () => {
-    const oscillatorA = new OmniOscillator({ volume: 24 }).start();
-    const oscillatorB = new OmniOscillator({ volume: 24 }).start();
-    const polySynth = new PolySynth({
-        polyphony: 4
-    });
+export default function initSynth() {
+    const oscillatorA = new OmniOscillator({
+        volume: 24
+    }).start();
+    const oscillatorB = new OmniOscillator({
+        volume: 24
+    }).start();
     const ampEnvelope = new AmplitudeEnvelope();
-    const reverb = new Freeverb({ wet: 0 });
-    const filter = new Filter({ Q: 12 });
+    const reverb = new Freeverb({
+        wet: 0
+    });
+    const filter = new Filter({
+        Q: 12
+    });
     const filterEnvelope = new FrequencyEnvelope();
     const lowFrequencyOscillator = new AutoFilter().toMaster().start();
-    const delay = new FeedbackDelay({ wet: 0 });
-    const noise = new Noise({ volume: -40 }).toMaster();
+    const delay = new FeedbackDelay({
+        wet: 0
+    });
+    const noise = new Noise({
+        volume: -40
+    }).toMaster();
+    const instrument = new Instrument();
+    // const merge = new Merge().toMaster();
     const master = Master;
     const transport = Transport;
 
@@ -75,11 +89,10 @@ const initSynth = () => {
      */
     transport.bpm.value = 120;
     transport.loop = true;
-    transport.timeSignature = 4;
-    transport.loopStart = '0:0';
-    transport.loopEnd = '0:1';
-
-    return {
+    transport.timeSignature = [4, 4];
+    transport.loopStart = new TransportTime('0:0:0');
+    transport.loopEnd = new TransportTime('0:1:0');
+    const synth = {
         oscillatorA,
         oscillatorB,
         noise,
@@ -92,6 +105,6 @@ const initSynth = () => {
         master,
         transport
     };
-};
-
-export default initSynth;
+    // console.log(synth);
+    return synth;
+}

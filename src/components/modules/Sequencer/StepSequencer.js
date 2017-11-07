@@ -24,7 +24,7 @@ const SequencerGrid = styled.div`
     );
 `;
 
-const StyledNote = styled.div``;
+const StyledNote = styled.div`font-size: 0.8em;`;
 
 const StepSequencer = ({ steps, notes, ...rest }) => {
     const notesCellWidth = rest.cellSize + 10;
