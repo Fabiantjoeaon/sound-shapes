@@ -23,23 +23,22 @@ export default function initSynth() {
     const oscillatorB = new OmniOscillator({
         volume: 24
     }).start();
-    const ampEnvelope = new AmplitudeEnvelope();
+    const ampEnvelope = new AmplitudeEnvelope().toMaster();
     const reverb = new Freeverb({
         wet: 0
-    });
+    }).toMaster();
     const filter = new Filter({
         Q: 12
-    });
+    }).toMaster();
     const filterEnvelope = new FrequencyEnvelope();
     const lowFrequencyOscillator = new AutoFilter().toMaster().start();
     const delay = new FeedbackDelay({
         wet: 0
-    });
+    }).toMaster();
     const noise = new Noise({
         volume: -40
     }).toMaster();
     const instrument = new Instrument();
-    // const merge = new Merge().toMaster();
     const master = Master;
     const transport = Transport;
 
@@ -64,14 +63,6 @@ export default function initSynth() {
     );
 
     /**
-     * TODO: Can be moved to assignments on top?
-     */
-    ampEnvelope.toMaster();
-    filter.toMaster();
-    delay.toMaster();
-    reverb.toMaster();
-
-    /**
      * Setup compressor and chain to master
      */
     const masterCompressor = new Compressor({
@@ -87,12 +78,13 @@ export default function initSynth() {
     /**
      * Setup transport
      */
-    transport.bpm.value = 120;
+    transport.bpm.value = 60;
     transport.loop = true;
     transport.timeSignature = [4, 4];
     transport.loopStart = new TransportTime('0:0:0');
     transport.loopEnd = new TransportTime('0:1:0');
-    const synth = {
+
+    return {
         oscillatorA,
         oscillatorB,
         noise,
@@ -105,6 +97,4 @@ export default function initSynth() {
         master,
         transport
     };
-    // console.log(synth);
-    return synth;
 }
