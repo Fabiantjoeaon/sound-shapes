@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import StepSequencer from './StepSequencer';
 
+import StyledModule from '../../styled/StyledModule';
+
 export default class Sequencer extends Component {
     state = {
         bars: 2,
@@ -65,8 +67,11 @@ export default class Sequencer extends Component {
         const { notes, synth } = this.props;
 
         return (
-            <div>
-                <h2> Sequencer </h2>{' '}
+            <StyledModule
+                flexDir="row"
+                gridColumns={this.props.gridColumns}
+                gridRows={this.props.gridRows}
+            >
                 <div>
                     <label> bars </label>{' '}
                     <select
@@ -99,14 +104,14 @@ export default class Sequencer extends Component {
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
-                    cellSize={20}
+                    cellSize={15}
                     synth={synth}
                     currentStep={this.state.currentStep}
                     activateNote={this.activateNote}
                     deactivateNote={this.deactivateNote}
                     activeNotes={this.state.activeNotes}
                 />{' '}
-            </div>
+            </StyledModule>
         );
     }
 }

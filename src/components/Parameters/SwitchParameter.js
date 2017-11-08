@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledSwitch = styled.div`
-    // height: ${props => props.optionLength * 20}px;
-    height: 80px;
-    width: 100px;
+    height: ${props => props.height}%;
+    width: ${props => props.width}%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
@@ -51,15 +50,17 @@ const SwitchParameter = ({
     param,
     value,
     setParameter,
-    setOctave
+    setOctave,
+    width,
+    height
 }) => (
-    <StyledSwitch optionLength={options.length}>
+    <StyledSwitch width={width} height={height} optionLength={options.length}>
         <span>{param}</span>
         {options &&
             options.map(option => (
                 <div
                     key={option}
-                    className={value === option ? 'active' : null}
+                    className={value == option ? 'active' : null}
                     onClick={e => {
                         console.log('clicked', value);
                         setParameter

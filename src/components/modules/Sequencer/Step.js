@@ -31,12 +31,10 @@ const Step = ({
         activeNote => activeNote.note === note && activeNote.column === column
     );
 
-    const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;
-
     return (
         <StyledStep
             column={column}
-            stepAhead={stepAhead}
+            stepAhead={currentStep - 1 === -1 ? steps - 1 : currentStep - 1}
             onClick={e =>
                 active
                     ? deactivateNote({ note, column })

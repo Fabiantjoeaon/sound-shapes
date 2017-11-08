@@ -1,9 +1,10 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Delay = ({ delay, setParameter, settings }) => (
-    <div>
-        <h2>Delay</h2>
+import StyledModule from '../styled/StyledModule';
+
+const Delay = ({ delay, setParameter, settings, gridColumns, gridRows }) => (
+    <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
         <KnobParameter
             param="delayTime"
             setParameter={setParameter}
@@ -29,7 +30,7 @@ const Delay = ({ delay, setParameter, settings }) => (
             max={settings.wet.max}
             min={settings.wet.min}
         />
-    </div>
+    </StyledModule>
 );
 
 export default Delay;

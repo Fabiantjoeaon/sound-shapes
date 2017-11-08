@@ -1,12 +1,15 @@
 import React from 'react';
-// import { SwitchParameter } from '../Parameters/index';
 import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
+import StyledModule from '../styled/StyledModule';
 
-const Filter = ({ filter, setParameter, settings }) => {
+const Filter = ({ filter, setParameter, settings, gridColumns, gridRows }) => {
     return (
-        <div>
-            <h2>Filter</h2>
+        <StyledModule
+            flexDir="row"
+            gridColumns={gridColumns}
+            gridRows={gridRows}
+        >
             <SwitchParameter
                 param="type"
                 value={filter.type}
@@ -46,7 +49,7 @@ const Filter = ({ filter, setParameter, settings }) => {
                 min={settings.gain.min}
                 max={settings.gain.max}
             />
-        </div>
+        </StyledModule>
     );
 };
 

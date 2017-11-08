@@ -19,7 +19,14 @@ import Sequencer from './modules/Sequencer/index';
 import { setParameter, setOctave, slideOctave } from '../actions';
 import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
-const StyledSynthesizer = styled.div`display: grid;`;
+const StyledSynthesizer = styled.div`
+    display: grid;
+    width: calc(100% - (4 * (5px * 2)));
+    height: 475px;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, minmax(calc(100% / 4), 1fr));
+    grid-template-rows: repeat(10, calc(475px / 10));
+`;
 
 class Synthesizer extends Component {
     componentDidMount() {
@@ -44,59 +51,85 @@ class Synthesizer extends Component {
         } = this.props;
         return (
             <StyledSynthesizer>
-                <Master
-                    master={synth.master}
-                    setParameter={setParameter}
-                    settings={config.master}
-                />
                 <Oscillator
+                    gridColumns="1 / span 1"
+                    gridRows="1 / span 2"
                     oscillator={synth.oscillatorA}
                     setParameter={setParameter}
                     oscillatorId="A"
                     settings={config.oscillators}
                 />
                 <Oscillator
+                    gridColumns="1 / span 1"
+                    gridRows="3 / span 4"
                     oscillator={synth.oscillatorB}
                     setParameter={setParameter}
                     oscillatorId="B"
                     settings={config.oscillators}
                 />
                 <Mixer
+                    gridColumns="1 / span 1"
+                    gridRows="7 / span 2"
                     oscillatorA={synth.oscillatorA}
                     oscillatorB={synth.oscillatorB}
                     noise={synth.noise}
                     setParameter={setParameter}
                     settings={config.mixer}
                 />
+                <Keyboard
+                    gridColumns="1 / span 2"
+                    gridRows="9 / span 1"
+                    notes={keyboardNotes}
+                    currentOctave={currentOctave}
+                    synth={synth}
+                    settings={config.keyboard}
+                />
                 <AmpEnvelope
+                    gridColumns="2 / span 1"
+                    gridRows="1 / span 2"
                     ampEnvelope={synth.ampEnvelope}
                     setParameter={setParameter}
                     settings={config.envelopes}
                 />
                 <FilterEnvelope
+                    gridColumns="2 / span 1"
+                    gridRows="3 / span 2"
                     filterEnvelope={synth.filterEnvelope}
                     setParameter={setParameter}
                     settings={config.envelopes}
                 />
                 <Filter
+                    gridColumns="2 / span 1"
+                    gridRows="5 / span 4"
                     filter={synth.filter}
                     setParameter={setParameter}
                     settings={config.filter}
                 />
                 <LowFrequencyOscillator
+                    gridColumns="3 / span 1"
+                    gridRows="1 / span 2"
                     lowFrequencyOscillator={synth.lowFrequencyOscillator}
                     setParameter={setParameter}
                     settings={config.lowFrequencyOscillator}
                 />
                 <Delay
+                    gridColumns="3 / span 1"
+                    gridRows="3 / span 2"
                     delay={synth.delay}
                     setParameter={setParameter}
                     settings={config.delay}
                 />
                 <Reverb
+                    gridColumns="3 / span 1"
+                    gridRows="5 / span 2"
                     reverb={synth.reverb}
                     setParameter={setParameter}
                     settings={config.reverb}
+                />
+                <Master
+                    master={synth.master}
+                    setParameter={setParameter}
+                    settings={config.master}
                 />
                 <PitchTempo
                     transport={synth.transport}
@@ -105,12 +138,6 @@ class Synthesizer extends Component {
                     slideOctave={slideOctave}
                     setParameter={setParameter}
                     settings={config.pitchTempo}
-                />
-                <Keyboard
-                    notes={keyboardNotes}
-                    currentOctave={currentOctave}
-                    synth={synth}
-                    settings={config.keyboard}
                 />
                 <Sequencer
                     notes={sequencerNotes}

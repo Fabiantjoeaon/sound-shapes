@@ -12,8 +12,6 @@ const PitchTempo = ({
 }) => {
     return (
         <div>
-            <h2>Pitch / tempo</h2>
-
             <SwitchParameter
                 setOctave={setOctave}
                 options={settings.pitch.options}

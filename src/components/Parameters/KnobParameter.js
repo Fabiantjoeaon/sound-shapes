@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import styled from 'styled-components';
 import {
     saturateZeroOne,
     saturatePercentage
@@ -9,6 +10,10 @@ import config from '../../synth/config';
 import calculateAngle from '../../helpers/calculateAngle';
 
 const { colors } = config;
+const StyledSVG = styled.svg`
+    width: ${props => props.styledWidth}%;
+    height: ${props => props.styledHeight}%;
+`;
 
 export default class KnobParameter extends Component {
     constructor() {
@@ -111,8 +116,7 @@ export default class KnobParameter extends Component {
 
         // CONTAINER
         const container = d3.select(this.node);
-        const width = container.attr('width');
-
+        const width = parseFloat(container.style('width'));
         // DONUT
         const donut = container
             .append('g')
@@ -280,7 +284,11 @@ export default class KnobParameter extends Component {
 
     render() {
         return (
-            <svg width={100} height={110} ref={node => (this.node = node)} />
+            <StyledSVG
+                styledWidth={this.props.width}
+                styledHeight={this.props.height}
+                innerRef={node => (this.node = node)}
+            />
         );
     }
 }

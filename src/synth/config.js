@@ -18,7 +18,15 @@ const config = {
     },
     oscillators: {
         type: {
-            options: ['sine', 'triangle', 'sawtooth', 'square', 'pulse', 'pwm']
+            options: [
+                'sine',
+                'triangle',
+                'sawtooth',
+                'square',
+                'pulse',
+                'pwm',
+                'fatsawtooth'
+            ]
         },
         detune: {
             min: -100,
@@ -83,8 +91,8 @@ const config = {
             max: 1
         },
         dampening: {
-            min: 0,
-            max: 1
+            min: 100,
+            max: 3000
         },
         wet: {
             min: 0,

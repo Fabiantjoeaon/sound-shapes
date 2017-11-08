@@ -1,9 +1,15 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
+import StyledModule from '../styled/StyledModule';
 
-const AmpEnvelope = ({ ampEnvelope, setParameter, settings }) => (
-    <div>
-        <h2>Amplifier envelope</h2>
+const AmpEnvelope = ({
+    ampEnvelope,
+    setParameter,
+    settings,
+    gridColumns,
+    gridRows
+}) => (
+    <StyledModule flexDir="row" gridColumns={gridColumns} gridRows={gridRows}>
         <KnobParameter
             module="ampEnvelope"
             param="attack"
@@ -38,7 +44,7 @@ const AmpEnvelope = ({ ampEnvelope, setParameter, settings }) => (
             min={settings.ADSR.min}
             max={settings.ADSR.max}
         />
-    </div>
+    </StyledModule>
 );
 
 export default AmpEnvelope;

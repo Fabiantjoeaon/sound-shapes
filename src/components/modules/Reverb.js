@@ -1,9 +1,10 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Reverb = ({ reverb, setParameter, settings }) => (
-    <div>
-        <h2>Reverb</h2>
+import StyledModule from '../styled/StyledModule';
+
+const Reverb = ({ reverb, setParameter, settings, gridColumns, gridRows }) => (
+    <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
         <KnobParameter
             param="roomSize"
             setParameter={setParameter}
@@ -28,7 +29,7 @@ const Reverb = ({ reverb, setParameter, settings }) => (
             max={settings.wet.max}
             min={settings.wet.min}
         />
-    </div>
+    </StyledModule>
 );
 
 export default Reverb;

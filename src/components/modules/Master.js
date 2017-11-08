@@ -3,7 +3,6 @@ import KnobParameter from '../Parameters/KnobParameter';
 
 const Master = ({ master, setParameter, settings }) => (
     <div>
-        <h2>Master</h2>
         <KnobParameter
             param="volume"
             setParameter={setParameter}

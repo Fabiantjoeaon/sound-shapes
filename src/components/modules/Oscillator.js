@@ -2,16 +2,26 @@ import React from 'react';
 // import { SwitchParameter } from '../Parameters/index';
 import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
+import StyledModule from '../styled/StyledModule';
 
-const Oscillator = ({ oscillator, oscillatorId, setParameter, settings }) => (
-    <div>
-        <h2>Oscillator {oscillatorId}</h2>
+const Oscillator = ({
+    oscillator,
+    oscillatorId,
+    setParameter,
+    settings,
+    gridColumns,
+    gridRows,
+    ...props
+}) => (
+    <StyledModule flexDir="row" gridColumns={gridColumns} gridRows={gridRows}>
         <SwitchParameter
             param="type"
             value={oscillator.type}
             module={`oscillator${oscillatorId}`}
             setParameter={setParameter}
             options={settings.type.options}
+            width={100 / 3}
+            height={100}
         />
         <KnobParameter
             param="detune"
@@ -20,6 +30,8 @@ const Oscillator = ({ oscillator, oscillatorId, setParameter, settings }) => (
             module={`oscillator${oscillatorId}`}
             min={settings.detune.min}
             max={settings.detune.max}
+            width={100 / 3}
+            height={100}
         />
         <SwitchParameter
             param="phase"
@@ -27,8 +39,10 @@ const Oscillator = ({ oscillator, oscillatorId, setParameter, settings }) => (
             value={oscillator.phase}
             module={`oscillator${oscillatorId}`}
             options={settings.phase.options}
+            width={100 / 3}
+            height={100}
         />
-    </div>
+    </StyledModule>
 );
 
 export default Oscillator;

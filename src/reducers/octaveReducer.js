@@ -15,7 +15,6 @@ const initialState = {
     currentPos: 0
 };
 
-//TODO: Fix back to start array when out of bounds
 const octaveReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_OCTAVE':

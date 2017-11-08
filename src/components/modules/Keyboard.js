@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const StyledKeyboard = styled.div`
-    display: flex;
-    flex-flow: row nowrap;
-    height: 100px;
-    width: 600px;
+import StyledModule from '../styled/StyledModule';
+
+const StyledKeyboard = styled(StyledModule)`
+    height: 100%;
+    width: 100%;
 `;
 
 const StyledNote = styled.div`
@@ -120,23 +120,24 @@ export default class Keyboard extends Component {
         const { notes } = this.props;
 
         return (
-            <div>
-                <h2>Keyboard</h2>
-                <StyledKeyboard>
-                    {notes.map((note, i) => (
-                        <Note
-                            i={i}
-                            key={i}
-                            note={note}
-                            keyboardKey={this.keyMap[i]}
-                            onMouseDownHandler={this.onMouseDownHandler}
-                            onMouseUpHandler={this.onMouseUpHandler}
-                            noteAmount={notes.length}
-                            isPressed={note === this.state.down}
-                        />
-                    ))}
-                </StyledKeyboard>
-            </div>
+            <StyledKeyboard
+                flexDir="row"
+                gridColumns={this.props.gridColumns}
+                gridRows={this.props.gridRows}
+            >
+                {notes.map((note, i) => (
+                    <Note
+                        i={i}
+                        key={i}
+                        note={note}
+                        keyboardKey={this.keyMap[i]}
+                        onMouseDownHandler={this.onMouseDownHandler}
+                        onMouseUpHandler={this.onMouseUpHandler}
+                        noteAmount={notes.length}
+                        isPressed={note === this.state.down}
+                    />
+                ))}
+            </StyledKeyboard>
         );
     }
 }

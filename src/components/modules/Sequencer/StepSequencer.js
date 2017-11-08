@@ -7,11 +7,8 @@ import Step from './Step';
 const SequencerGrid = styled.div`
     display: inline-grid;
     grid-gap: 1px;
-    width: calc(
-        ${props => props.steps} *
-            ${props => (props.cellWidth ? props.cellWidth : props.cellSize)}px
-    );
-    height: calc(${props => props.notesAmount} * ${props => props.cellSize}px);
+    width: calc(100%);
+    height: 100%;
 
     grid-template-columns: repeat(
         ${props => props.steps},
