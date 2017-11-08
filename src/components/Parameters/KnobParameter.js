@@ -27,6 +27,10 @@ export default class KnobParameter extends Component {
         );
     }
 
+    fixFloatValue(val) {
+        return val % 1 == 0 ? val : parseFloat(val).toFixed(2);
+    }
+
     handleDonutMouseClick = mouse => {
         // Calculate angle clicked
         const angle = this.calculateMouseAngle(mouse);
@@ -40,10 +44,10 @@ export default class KnobParameter extends Component {
                 ? this.props.max + Math.abs(this.props.min)
                 : this.props.max - this.props.min;
 
-        // If min is under 100 it should be added from there and not from zero
         const calculatedValueFromPercentage =
             percentageFromAngle * (total / 100);
 
+        // If min is under 100 it should be added from there and not from zero
         const value = this.props.min + calculatedValueFromPercentage;
 
         this.props.setParameter(this.props.module, this.props.param, value);
@@ -103,6 +107,7 @@ export default class KnobParameter extends Component {
      * typed out.
      */
     renderKnob(saturatedValue) {
+        const self = this;
         const innerRadius = 24;
         const outerRadius = 34;
         this.arc = d3
@@ -118,8 +123,6 @@ export default class KnobParameter extends Component {
         const height = container.attr('height');
 
         // DONUT
-        // const handleDonutMouseMove = this.handleDonutMouseMove;
-        const handleDonutMouseClick = this.handleDonutMouseClick;
         const donut = container
             .append('g')
             .attr('transform', `translate(${width / 2}, 46)`)
@@ -131,7 +134,7 @@ export default class KnobParameter extends Component {
                 parameter.transition().style('fill', '#7f7f7f');
             })
             .on('click', function() {
-                handleDonutMouseClick(d3.mouse(this));
+                self.handleDonutMouseClick(d3.mouse(this));
             });
 
         this.center = {
@@ -212,12 +215,7 @@ export default class KnobParameter extends Component {
             .append('text')
             .attr('fill', '#7f7f7f')
             .style('text-anchor', 'middle')
-            .text(
-                () =>
-                    this.props.value % 1 == 0
-                        ? this.props.value
-                        : parseFloat(this.props.value).toFixed(2)
-            )
+            .text(() => this.fixFloatValue(this.props.value))
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.6em');
 
@@ -230,6 +228,7 @@ export default class KnobParameter extends Component {
     }
 
     updateKnob(saturatedValue, { value }) {
+        const self = this;
         this.foreground
             .transition()
             .duration(350)
@@ -246,17 +245,12 @@ export default class KnobParameter extends Component {
                 };
             });
 
-        // this.valueEl.text(
-        //     () => (value % 1 == 0 ? value : parseFloat(value).toFixed(2))
-        // );
-
         this.valueEl
             .transition()
             .duration(350)
             .ease(d3.easeSinOut)
-            .tween('text', function(d) {
-                const nextValue =
-                    value % 1 == 0 ? value : parseFloat(value).toFixed(2);
+            .tween('text', function() {
+                const nextValue = self.fixFloatValue(value);
                 const interpolate = d3.interpolate(this.textContent, nextValue);
                 const prec = (nextValue + '').split('.');
                 const round =
