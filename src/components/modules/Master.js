@@ -1,8 +1,10 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
-const Master = ({ master, setParameter, settings }) => (
-    <div>
+import StyledModule from '../styled/StyledModule';
+
+const Master = ({ master, setParameter, settings, gridColumns, gridRows }) => (
+    <StyledModule gridColumns={gridColumns} gridRows={gridRows}>
         <KnobParameter
             param="volume"
             setParameter={setParameter}
@@ -11,7 +13,7 @@ const Master = ({ master, setParameter, settings }) => (
             min={settings.volume.min}
             max={settings.volume.max}
         />
-    </div>
+    </StyledModule>
 );
 
 export default Master;

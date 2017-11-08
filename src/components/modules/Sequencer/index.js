@@ -68,43 +68,47 @@ export default class Sequencer extends Component {
 
         return (
             <StyledModule
-                flexDir="row"
+                flexDir="column"
                 gridColumns={this.props.gridColumns}
                 gridRows={this.props.gridRows}
             >
                 <div>
-                    <label> bars </label>{' '}
-                    <select
-                        onChange={e =>
-                            this.setState({
-                                bars: e.target.value
-                            })}
-                        value={this.state.bars}
-                    >
-                        <option value={1}> 1 </option>{' '}
-                        <option value={2}> 2 </option>{' '}
-                    </select>{' '}
-                </div>{' '}
-                {this.state.activeNotes.length > 0 && (
-                    <button onClick={() => this.setState({ activeNotes: [] })}>
-                        Clear
-                    </button>
-                )}
-                <div>
-                    <label> Play / pause </label>{' '}
-                    <button
-                        onClick={() =>
-                            this.setState({
-                                isPlaying: !this.state.isPlaying
-                            })}
-                    >
-                        {this.state.isPlaying ? '❚❚' : '►'}{' '}
-                    </button>{' '}
+                    <div>
+                        <label> bars </label>{' '}
+                        <select
+                            onChange={e =>
+                                this.setState({
+                                    bars: e.target.value
+                                })}
+                            value={this.state.bars}
+                        >
+                            <option value={1}> 1 </option>{' '}
+                            <option value={2}> 2 </option>{' '}
+                        </select>{' '}
+                    </div>
+                    {this.state.activeNotes.length > 0 && (
+                        <button
+                            onClick={() => this.setState({ activeNotes: [] })}
+                        >
+                            Clear
+                        </button>
+                    )}
+                    <div>
+                        <label> Play / pause </label>{' '}
+                        <button
+                            onClick={() =>
+                                this.setState({
+                                    isPlaying: !this.state.isPlaying
+                                })}
+                        >
+                            {this.state.isPlaying ? '❚❚' : '►'}{' '}
+                        </button>{' '}
+                    </div>{' '}
                 </div>{' '}
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
-                    cellSize={15}
+                    cellSize={13}
                     synth={synth}
                     currentStep={this.state.currentStep}
                     activateNote={this.activateNote}

@@ -4,11 +4,13 @@ import times from 'lodash/times';
 
 import Step from './Step';
 
+const StyledWrapper = styled.div`
+    // width: 100%;
+    // height: 100%;
+`;
 const SequencerGrid = styled.div`
     display: inline-grid;
     grid-gap: 1px;
-    width: calc(100%);
-    height: 100%;
 
     grid-template-columns: repeat(
         ${props => props.steps},
@@ -28,7 +30,7 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
     let stepRenderCounter = 0;
     let row = 0;
     return (
-        <div>
+        <StyledWrapper>
             <SequencerGrid
                 steps={1}
                 notesAmount={notes.length}
@@ -69,7 +71,7 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
                     );
                 })}
             </SequencerGrid>
-        </div>
+        </StyledWrapper>
     );
 };
 

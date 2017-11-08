@@ -127,11 +127,15 @@ class Synthesizer extends Component {
                     settings={config.reverb}
                 />
                 <Master
+                    gridColumns="4 / span 1"
+                    gridRows="1 / span 2"
                     master={synth.master}
                     setParameter={setParameter}
                     settings={config.master}
                 />
                 <PitchTempo
+                    gridColumns="4 / span 1"
+                    gridRows="3 / span 2"
                     transport={synth.transport}
                     currentOctave={currentOctave}
                     setOctave={setOctave}
@@ -140,6 +144,8 @@ class Synthesizer extends Component {
                     settings={config.pitchTempo}
                 />
                 <Sequencer
+                    gridRows="5 / span 5"
+                    gridColumns="4 / span 1"
                     notes={sequencerNotes}
                     octave={octave}
                     currentOctave={currentOctave}
