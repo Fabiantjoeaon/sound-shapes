@@ -4,15 +4,17 @@ import {
     saturateZeroOne,
     saturatePercentage
 } from '../../helpers/saturateValue';
+import config from '../../synth/config';
 
 import calculateAngle from '../../helpers/calculateAngle';
+
+const { colors } = config;
 
 export default class KnobParameter extends Component {
     constructor() {
         super();
         this.tau = 2 * Math.PI;
         this.center = {};
-        this.foreGroundColor = '247, 182, 136';
     }
 
     state = {
@@ -109,7 +111,6 @@ export default class KnobParameter extends Component {
 
         // CONTAINER
         const container = d3.select(this.node);
-        // container.style('background-color', '#585858');
         const width = container.attr('width');
 
         // DONUT
@@ -121,7 +122,7 @@ export default class KnobParameter extends Component {
             })
             .on('mouseout', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
-                parameter.transition().style('fill', '#7f7f7f');
+                parameter.transition().style('fill', colors.darkGray);
             })
             .on('click', function() {
                 self.handleDonutMouseClick(d3.mouse(this));
@@ -140,8 +141,8 @@ export default class KnobParameter extends Component {
                 });
             })
             .on('mouseover', () => {
-                this.valueEl.transition().style('fill', '#f79139');
-                parameter.transition().style('fill', '#f79139');
+                this.valueEl.transition().style('fill', colors.lightGray);
+                parameter.transition().style('fill', colors.lightGray);
             })
             .on('mousemove', () => {
                 if (!this.state.isDragging) return;
@@ -155,8 +156,8 @@ export default class KnobParameter extends Component {
             })
             .on('mouseleave', () => {
                 d3.event.stopPropagation();
-                parameter.transition().style('fill', '#7f7f7f');
-                this.valueEl.transition().style('fill', '#7f7f7f');
+                parameter.transition().style('fill', colors.darkGray);
+                this.valueEl.transition().style('fill', colors.darkGray);
                 this.setState({
                     isDragging: false
                 });
@@ -177,7 +178,7 @@ export default class KnobParameter extends Component {
             .datum({
                 endAngle: saturatedValue * this.tau
             })
-            .style('fill', `rgba(${this.foreGroundColor}, 1)`)
+            .style('fill', `rgba(${colors.primary}, 1)`)
             .attr('d', this.arc);
 
         // DONUT LINE
@@ -190,7 +191,7 @@ export default class KnobParameter extends Component {
         // PARAMETER TEXT
         const parameter = container
             .append('text')
-            .attr('fill', '#7f7f7f')
+            .attr('fill', colors.darkGray)
             .style('text-anchor', 'middle')
             .attr('y', 98)
             .attr('font-family', 'Rubik Medium')
@@ -203,7 +204,7 @@ export default class KnobParameter extends Component {
         // VALUE TEXT
         this.valueEl = container
             .append('text')
-            .attr('fill', '#7f7f7f')
+            .attr('fill', colors.darkGray)
             .style('text-anchor', 'middle')
             .text(() => this.fixFloatValue(this.props.value))
             .attr('font-family', 'Rubik Light')
@@ -221,8 +222,8 @@ export default class KnobParameter extends Component {
         const self = this;
         this.foreground
             .transition()
-            .duration(350)
-            .ease(d3.easeSinOut)
+            .duration(900)
+            .ease(d3.easePolyOut)
             .attrTween('d', d => {
                 const interpolate = d3.interpolate(
                     d.endAngle,
@@ -237,7 +238,7 @@ export default class KnobParameter extends Component {
 
         this.valueEl
             .transition()
-            .duration(350)
+            .duration(850)
             .ease(d3.easeSinOut)
             .tween('text', function() {
                 const nextValue = self.fixFloatValue(value);

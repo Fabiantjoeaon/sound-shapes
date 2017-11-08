@@ -104,6 +104,11 @@ const config = {
             min: 0,
             max: 1
         }
+    },
+    colors: {
+        primary: '247, 182, 136',
+        darkGray: '#7f7f7f',
+        lightGray: '#f79139'
     }
 };
 
