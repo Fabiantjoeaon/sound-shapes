@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 import SwitchParameter from '../Parameters/SwitchParameter';
 

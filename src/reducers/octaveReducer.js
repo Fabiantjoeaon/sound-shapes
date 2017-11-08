@@ -1,7 +1,6 @@
 import '../helpers/range';
 import mode from '../helpers/mode';
 import flattenDeep from 'lodash/flattenDeep';
-import chunk from 'lodash/chunk';
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const mapNotesToOctave = octave => notes.map(note => `${note}${octave}`);
@@ -33,7 +32,7 @@ const octaveReducer = (state = initialState, action) => {
             let nextPos = currentPos + movement;
 
             // Position can't go out of bounds
-            if (nextPos == allNotes.length) nextPos = 0;
+            if (nextPos === allNotes.length) nextPos = 0;
 
             return {
                 ...state,

@@ -53,9 +53,7 @@ export default class Keyboard extends Component {
     createKeyMap(notes) {
         const keys = [65, 87, 83, 69, 68, 70, 84, 71, 89, 90, 72, 85, 74];
         const keyMap = {};
-        notes.map((note, i) => {
-            keyMap[keys[i]] = note;
-        });
+        notes.map((note, i) => (keyMap[keys[i]] = note));
 
         return keyMap;
     }

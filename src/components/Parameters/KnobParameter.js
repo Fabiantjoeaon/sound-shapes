@@ -10,7 +10,6 @@ import calculateAngle from '../../helpers/calculateAngle';
 export default class KnobParameter extends Component {
     constructor() {
         super();
-        this.sensitivity = 1;
         this.tau = 2 * Math.PI;
         this.center = {};
         this.foreGroundColor = '247, 182, 136';
@@ -28,7 +27,7 @@ export default class KnobParameter extends Component {
     }
 
     fixFloatValue(val) {
-        return val % 1 == 0 ? val : parseFloat(val).toFixed(2);
+        return val % 1 === 0 ? val : parseFloat(val).toFixed(2);
     }
 
     handleDonutMouseClick = mouse => {
@@ -55,16 +54,8 @@ export default class KnobParameter extends Component {
 
     handleContainerMouseMoveDrag = () => {
         d3.event.preventDefault();
-        const {
-            sensitivity,
-            max,
-            min,
-            value,
-            setParameter,
-            module,
-            param
-        } = this.props;
-        const percentage = saturatePercentage(min, max, value);
+        const { max, min, value, setParameter, module, param } = this.props;
+        // const percentage = saturatePercentage(min, max, value);
         const oneth = max / 100;
 
         /**
@@ -120,7 +111,6 @@ export default class KnobParameter extends Component {
         const container = d3.select(this.node);
         // container.style('background-color', '#585858');
         const width = container.attr('width');
-        const height = container.attr('height');
 
         // DONUT
         const donut = container
@@ -173,7 +163,7 @@ export default class KnobParameter extends Component {
             });
 
         // BACKGROUND
-        const background = donut
+        donut
             .append('path')
             .datum({
                 endAngle: this.tau

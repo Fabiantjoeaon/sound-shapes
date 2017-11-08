@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledStep = styled.div`
@@ -28,7 +28,7 @@ const Step = ({
     deactivateNote
 }) => {
     const active = activeNotes.find(
-        activeNote => activeNote.note == note && activeNote.column == column
+        activeNote => activeNote.note === note && activeNote.column === column
     );
 
     const stepAhead = currentStep - 1 === -1 ? steps - 1 : currentStep - 1;

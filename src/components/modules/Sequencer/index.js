@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Sequence } from 'tone';
-
 import StepSequencer from './StepSequencer';
-import { NumberParameter } from '../../Parameters/index';
 
 export default class Sequencer extends Component {
     state = {
@@ -20,7 +17,7 @@ export default class Sequencer extends Component {
 
     deactivateNote = ({ note, column }) => {
         const index = this.state.activeNotes.findIndex(
-            n => n.note == note && n.column == column
+            n => n.note === note && n.column === column
         );
 
         const activeNotes = this.state.activeNotes;
@@ -59,18 +56,13 @@ export default class Sequencer extends Component {
         const { activeNotes, currentStep } = this.state;
         nextState.isPlaying ? synth.transport.start() : synth.transport.stop();
 
-        activeNotes.map(({ note, column }) => {
-            currentStep === column && this.playNote(note);
-        });
+        activeNotes.map(
+            ({ note, column }) => currentStep === column && this.playNote(note)
+        );
     }
 
     render() {
-        const {
-            notes,
-            octave: { currentOctave },
-            synth: { transport },
-            synth
-        } = this.props;
+        const { notes, synth } = this.props;
 
         return (
             <div>

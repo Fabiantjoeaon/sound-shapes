@@ -59,7 +59,7 @@ const SwitchParameter = ({
             options.map(option => (
                 <div
                     key={option}
-                    className={value == option ? 'active' : null}
+                    className={value === option ? 'active' : null}
                     onClick={e => {
                         console.log('clicked', value);
                         setParameter
