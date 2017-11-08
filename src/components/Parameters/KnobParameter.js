@@ -118,7 +118,7 @@ export default class KnobParameter extends Component {
             .append('g')
             .attr('transform', `translate(${width / 2}, 46)`)
             .on('mouseover', function(data, i) {
-                d3.select(this).style('cursor', 'pointer');
+                d3.select(this).style('cursor', 'crosshair');
             })
             .on('mouseout', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
@@ -140,8 +140,9 @@ export default class KnobParameter extends Component {
                     isDragging: true
                 });
             })
-            .on('mouseover', () => {
-                this.valueEl.transition().style('fill', colors.lightGray);
+            .on('mouseover', function() {
+                d3.select(this).style('cursor', 'all-scroll');
+                self.valueEl.transition().style('fill', colors.lightGray);
                 parameter.transition().style('fill', colors.lightGray);
             })
             .on('mousemove', () => {
