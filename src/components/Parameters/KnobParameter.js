@@ -120,7 +120,7 @@ export default class KnobParameter extends Component {
         // DONUT
         const donut = container
             .append('g')
-            .attr('transform', `translate(${width / 2}, 33)`)
+            .attr('transform', `translate(${width / 2}, 40)`)
             .on('mouseover', function(data, i) {
                 d3.select(this).style('cursor', 'crosshair');
             })
@@ -198,11 +198,10 @@ export default class KnobParameter extends Component {
             .append('text')
             .attr('fill', colors.darkGray)
             .style('text-anchor', 'middle')
-            .attr('y', 73)
+            .attr('y', 81)
             .attr('font-family', 'Rubik Light')
-            .style('text-transform', 'uppercase')
             .style('letter-spacing', '1px')
-            .style('font-size', '0.45em')
+            .style('font-size', '0.55em')
             .text(() => (this.props.name ? this.props.name : this.props.param));
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
@@ -218,7 +217,7 @@ export default class KnobParameter extends Component {
         this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                this.valueEl.node().getBBox().height / 1
+                this.valueEl.node().getBBox().height / 0.55
         );
         this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }

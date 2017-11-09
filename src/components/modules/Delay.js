@@ -7,11 +7,14 @@ const Delay = ({ delay, setParameter, settings, gridColumns, gridRows }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
         <KnobParameter
             param="delayTime"
+            name="delay time"
             setParameter={setParameter}
             value={delay.delayTime.value}
             module="delay"
             min={settings.delayTime.min}
             max={settings.delayTime.max}
+            width={100 / 3}
+            height={100}
         />
         <KnobParameter
             param="feedback"
@@ -21,6 +24,8 @@ const Delay = ({ delay, setParameter, settings, gridColumns, gridRows }) => (
             step={0.01}
             max={settings.feedback.max}
             min={settings.feedback.min}
+            width={100 / 3}
+            height={100}
         />
         <KnobParameter
             param="wet"
@@ -29,6 +34,8 @@ const Delay = ({ delay, setParameter, settings, gridColumns, gridRows }) => (
             module="delay"
             max={settings.wet.max}
             min={settings.wet.min}
+            width={100 / 3}
+            height={100}
         />
     </StyledModule>
 );

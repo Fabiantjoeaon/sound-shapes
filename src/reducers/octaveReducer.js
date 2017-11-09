@@ -12,7 +12,7 @@ const allNotes = flattenDeep(
 
 const initialState = {
     allNotes,
-    currentPos: 0
+    currentPos: notes.length * 3
 };
 
 const octaveReducer = (state = initialState, action) => {

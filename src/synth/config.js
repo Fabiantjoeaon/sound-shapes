@@ -3,8 +3,8 @@ import '../helpers/range';
 const config = {
     master: {
         volume: {
-            min: -60,
-            max: 18
+            min: -80,
+            max: 5
         }
     },
     pitchTempo: {
@@ -115,9 +115,9 @@ const config = {
     },
     colors: {
         primary: '247, 182, 136',
-        darkGray: '#D8DCFF',
-        lightGray: '#3D518C',
-        background: '#3D518C'
+        darkGray: '#C5D5E4',
+        lightGray: '#fff',
+        background: '#66717E'
     }
 };
 

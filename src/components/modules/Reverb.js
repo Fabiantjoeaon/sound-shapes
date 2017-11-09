@@ -7,6 +7,7 @@ const Reverb = ({ reverb, setParameter, settings, gridColumns, gridRows }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
         <KnobParameter
             param="roomSize"
+            name="room size"
             setParameter={setParameter}
             value={reverb.roomSize.value}
             module="reverb"

@@ -20,6 +20,8 @@ const Mixer = ({
             module="oscillatorA"
             min={settings.oscillatorVolume.min}
             max={settings.oscillatorVolume.max}
+            width={100 / 3}
+            height={100}
         />
         <KnobParameter
             param="volume"
@@ -29,6 +31,8 @@ const Mixer = ({
             module="oscillatorB"
             min={settings.oscillatorVolume.min}
             max={settings.oscillatorVolume.max}
+            width={100 / 3}
+            height={100}
         />
         <KnobParameter
             param="volume"
@@ -38,6 +42,8 @@ const Mixer = ({
             module="noise"
             min={settings.noiseVolume.min}
             max={settings.noiseVolume.max}
+            width={100 / 3}
+            height={100}
         />
     </StyledModule>
 );
