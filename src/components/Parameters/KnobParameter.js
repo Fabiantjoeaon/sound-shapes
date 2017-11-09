@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import styled from 'styled-components';
+
 import {
     saturateZeroOne,
     saturatePercentage
 } from '../../helpers/saturateValue';
 import config from '../../synth/config';
-
 import calculateAngle from '../../helpers/calculateAngle';
 
 const { colors } = config;
@@ -106,8 +106,8 @@ export default class KnobParameter extends Component {
      */
     renderKnob(saturatedValue) {
         const self = this;
-        const innerRadius = 24;
-        const outerRadius = 34;
+        const innerRadius = 19;
+        const outerRadius = 26;
         this.arc = d3
             .arc()
             .innerRadius(innerRadius)
@@ -120,7 +120,7 @@ export default class KnobParameter extends Component {
         // DONUT
         const donut = container
             .append('g')
-            .attr('transform', `translate(${width / 2}, 46)`)
+            .attr('transform', `translate(${width / 2}, 33)`)
             .on('mouseover', function(data, i) {
                 d3.select(this).style('cursor', 'crosshair');
             })
@@ -198,11 +198,11 @@ export default class KnobParameter extends Component {
             .append('text')
             .attr('fill', colors.darkGray)
             .style('text-anchor', 'middle')
-            .attr('y', 98)
-            .attr('font-family', 'Rubik Medium')
+            .attr('y', 73)
+            .attr('font-family', 'Rubik Light')
             .style('text-transform', 'uppercase')
             .style('letter-spacing', '1px')
-            .style('font-size', '0.7em')
+            .style('font-size', '0.45em')
             .text(() => (this.props.name ? this.props.name : this.props.param));
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
 
@@ -213,12 +213,12 @@ export default class KnobParameter extends Component {
             .style('text-anchor', 'middle')
             .text(() => this.fixFloatValue(this.props.value))
             .attr('font-family', 'Rubik Light')
-            .style('font-size', '0.6em');
+            .style('font-size', '0.45em');
 
         this.valueEl.attr(
             'y',
             donut.node().getBBox().height / 2 +
-                this.valueEl.node().getBBox().height / 0.8
+                this.valueEl.node().getBBox().height / 1
         );
         this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }

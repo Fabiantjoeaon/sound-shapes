@@ -115,8 +115,9 @@ const config = {
     },
     colors: {
         primary: '247, 182, 136',
-        darkGray: '#7f7f7f',
-        lightGray: '#f79139'
+        darkGray: '#D8DCFF',
+        lightGray: '#3D518C',
+        background: '#3D518C'
     }
 };
 
