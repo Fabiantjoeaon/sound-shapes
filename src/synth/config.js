@@ -33,7 +33,7 @@ const config = {
             max: 100
         },
         phase: {
-            options: ['180', '90', '45', '0']
+            options: ['0', '45', '90', '180']
         }
     },
     mixer: {
@@ -115,8 +115,8 @@ const config = {
     },
     colors: {
         primary: '247, 182, 136',
-        darkGray: '#C5D5E4',
-        lightGray: '#fff',
+        white: '#fff',
+        lightGray: '#f3f3f3',
         background: '#66717E'
     }
 };

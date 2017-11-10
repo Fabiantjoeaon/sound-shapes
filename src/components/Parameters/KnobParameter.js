@@ -126,7 +126,7 @@ export default class KnobParameter extends Component {
             })
             .on('mouseout', function(data, i) {
                 d3.select(this).style('cursor', 'pointer');
-                parameter.transition().style('fill', colors.darkGray);
+                parameter.transition().style('fill', colors.white);
             })
             .on('click', function() {
                 self.handleDonutMouseClick(d3.mouse(this));
@@ -146,8 +146,8 @@ export default class KnobParameter extends Component {
             })
             .on('mouseover', function() {
                 d3.select(this).style('cursor', 'all-scroll');
-                self.valueEl.transition().style('fill', colors.lightGray);
-                parameter.transition().style('fill', colors.lightGray);
+                self.valueEl.transition().style('fill', colors.white);
+                parameter.transition().style('fill', colors.white);
             })
             .on('mousemove', () => {
                 if (!this.state.isDragging) return;
@@ -161,8 +161,8 @@ export default class KnobParameter extends Component {
             })
             .on('mouseleave', () => {
                 d3.event.stopPropagation();
-                parameter.transition().style('fill', colors.darkGray);
-                this.valueEl.transition().style('fill', colors.darkGray);
+                parameter.transition().style('fill', colors.lightGray);
+                this.valueEl.transition().style('fill', colors.lightGray);
                 this.setState({
                     isDragging: false
                 });
@@ -196,11 +196,12 @@ export default class KnobParameter extends Component {
         // PARAMETER TEXT
         const parameter = container
             .append('text')
-            .attr('fill', colors.darkGray)
+            .attr('fill', colors.lightGray)
             .style('text-anchor', 'middle')
-            .attr('y', 81)
+            .attr('y', 82)
             .attr('font-family', 'Rubik Light')
             .style('letter-spacing', '1px')
+            .style('text-transform', 'uppercase')
             .style('font-size', '0.55em')
             .text(() => (this.props.name ? this.props.name : this.props.param));
         parameter.attr('x', width / 2 - parameter.attr('width') / 2);
@@ -208,7 +209,7 @@ export default class KnobParameter extends Component {
         // VALUE TEXT
         this.valueEl = container
             .append('text')
-            .attr('fill', colors.darkGray)
+            .attr('fill', colors.lightGray)
             .style('text-anchor', 'middle')
             .text(() => this.fixFloatValue(this.props.value))
             .attr('font-family', 'Rubik Light')

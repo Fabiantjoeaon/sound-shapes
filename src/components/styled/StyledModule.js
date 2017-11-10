@@ -6,7 +6,7 @@ const StyledModule = styled.div`
     display: flex;
     flex-flow: ${props => props.flexDir} nowrap;
     justify-content: space-around;
-    border-right: 1px solid #000;
+    // border-right: 1px solid #000;
 `;
 
 export default StyledModule;

@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import config from '../../../synth/config';
+
+const { colors } = config;
+
 const StyledStep = styled.div`
-    border: 1px solid #000;
     background-color: ${props =>
-        props.column === props.stepAhead ? 'rgba(0,0,0,0.3)' : 'white'};
+        props.column === props.stepAhead ? '#d7d7d7' : '#efefef'};
 
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(${colors.primary}, 0.7);
     }
 
     &.active {
-        background-color: rgba(0, 0, 255, 0.6);
+        background-color: rgb(${colors.primary});
     }
 `;
 

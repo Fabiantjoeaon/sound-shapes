@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import times from 'lodash/times';
 
 import Step from './Step';
+import config from '../../../synth/config';
+
+const { colors } = config;
 
 const StyledWrapper = styled.div`
     // width: 100%;
@@ -23,7 +26,12 @@ const SequencerGrid = styled.div`
     );
 `;
 
-const StyledNote = styled.div`font-size: 0.8em;`;
+const StyledNote = styled.div`
+    font-size: 0.5em;
+    font-family: 'Rubik Light', sans-serif;
+    color: #fff;
+    vertical-align: text-top;
+`;
 
 const StepSequencer = ({ steps, notes, ...rest }) => {
     const notesCellWidth = rest.cellSize + 10;

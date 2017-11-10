@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import StyledModule from '../styled/StyledModule';
+import config from '../../synth/config';
+
+const { colors } = config;
 
 const StyledKeyboard = styled(StyledModule)`
     height: 100%;
@@ -11,10 +14,13 @@ const StyledKeyboard = styled(StyledModule)`
 const StyledNote = styled.div`
     width: calc(100% / ${props => props.noteAmount});
     height: 100%;
-    border: 1px solid black;
+    // border: 1px solid black;
     background-color: ${props =>
-        props.isPressed ? 'red' : props.isBlackKey ? 'black' : 'white'};
+        props.isPressed
+            ? `rgb(${colors.primary})`
+            : props.isBlackKey ? colors.lightGray : 'rgba(255, 255, 255, 0.4)'};
 
+    transition: all 0.1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     span {
         color: green;
     }
@@ -34,9 +40,7 @@ const Note = ({
         onMouseUp={onMouseUpHandler}
         isBlackKey={note.includes('#')}
         isPressed={isPressed}
-    >
-        <span>{note}</span>
-    </StyledNote>
+    />
 );
 
 export default class Keyboard extends Component {
