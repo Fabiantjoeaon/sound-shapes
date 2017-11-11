@@ -22,6 +22,7 @@ const ParameterWrapper = styled.div`
             }
 
             &::before {
+                opacity: 1;
             }
         }
     }
@@ -40,11 +41,11 @@ const ParameterText = styled.span`
     z-index: 0;
     overflow: hidden;
 
-    &:not(.active) {
-        &::before {
-            transition-delay: 0.1s;
-        }
-    }
+    // &:not(.active) {
+    //     &::before {
+    //         transition-delay: 0.1s;
+    //     }
+    // }
 
     &::before,
     &::after {
@@ -76,8 +77,9 @@ const ParameterText = styled.span`
         overflow: hidden;
         font-family: 'Rubik Regular', sans-serif;
         color: ${colors.background};
-        transform: translate3d(-110%, 0, 0);
-        transition: all 0.3s;
+        transform: translate3d(0, -70%, 0);
+        transition: transform 0.3s 0.1s;
+        opacity: 0;
     }
 `;
 
