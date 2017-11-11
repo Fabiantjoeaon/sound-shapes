@@ -108,7 +108,7 @@ export default class Sequencer extends Component {
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}
-                    cellSize={13}
+                    cellSize={16}
                     synth={synth}
                     currentStep={this.state.currentStep}
                     activateNote={this.activateNote}

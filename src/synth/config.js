@@ -118,7 +118,8 @@ const config = {
         white: '#fff',
         lightGray: '#f3f3f3',
         background: '#66717E'
-    }
+    },
+    gridGap: 2
 };
 
 export default config;

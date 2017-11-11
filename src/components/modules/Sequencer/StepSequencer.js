@@ -26,37 +26,11 @@ const SequencerGrid = styled.div`
     );
 `;
 
-const StyledNote = styled.div`
-    font-size: 0.5em;
-    font-family: 'Rubik Light', sans-serif;
-    color: #fff;
-    vertical-align: text-top;
-`;
-
 const StepSequencer = ({ steps, notes, ...rest }) => {
-    const notesCellWidth = rest.cellSize + 10;
     let stepRenderCounter = 0;
     let row = 0;
     return (
         <StyledWrapper>
-            <SequencerGrid
-                steps={1}
-                notesAmount={notes.length}
-                cellWidth={notesCellWidth}
-                cellSize={rest.cellSize}
-            >
-                {notes.map((note, i) => (
-                    <StyledNote
-                        key={i}
-                        note={note}
-                        cellWidth={notesCellWidth}
-                        isNote={true}
-                    >
-                        {note}
-                    </StyledNote>
-                ))}
-            </SequencerGrid>
-
             <SequencerGrid steps={steps} notesAmount={notes.length} {...rest}>
                 {times(steps * notes.length, i => {
                     const column = i % steps;

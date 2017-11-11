@@ -10,6 +10,10 @@ const StyledStep = styled.div`
         props.column === props.stepAhead ? '#d7d7d7' : '#efefef'};
 
     cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 
     &:hover {
         background-color: rgba(${colors.primary}, 0.7);
@@ -17,6 +21,11 @@ const StyledStep = styled.div`
 
     &.active {
         background-color: rgb(${colors.primary});
+    }
+
+    span {
+        color: #a7a7a7;
+        font-size: 0.3em;
     }
 `;
 
@@ -46,7 +55,9 @@ const Step = ({
                           column
                       })}
             className={active ? 'active' : null}
-        />
+        >
+            <span>{note}</span>
+        </StyledStep>
     );
 };
 

@@ -10,7 +10,7 @@ const StyledSwitch = styled.div`
     width: ${props => props.width}%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-around;
+    justify-content: flex-end;
     font-family: 'Rubik Light', sans-serif;
     color: ${colors.white};
     
@@ -48,6 +48,7 @@ const StyledSwitch = styled.div`
         font-size: 0.55em;
         text-transform: uppercase;
         letter-spacing: 1px;
+        align-self: baseline;
     }
 
     .option {
