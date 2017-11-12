@@ -41,12 +41,6 @@ const ParameterText = styled.span`
     z-index: 0;
     overflow: hidden;
 
-    // &:not(.active) {
-    //     &::before {
-    //         transition-delay: 0.1s;
-    //     }
-    // }
-
     &::before,
     &::after {
         position: absolute;
@@ -77,7 +71,7 @@ const ParameterText = styled.span`
         overflow: hidden;
         font-family: 'Rubik Regular', sans-serif;
         color: ${colors.background};
-        transform: translate3d(0, -70%, 0);
+        transform: translate3d(0, -80%, 0);
         transition: transform 0.3s 0.1s;
         opacity: 0;
     }

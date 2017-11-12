@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 
 import config from '../../synth/config';
+import StyledParameter from '../styled/StyledParameter';
 const { colors } = config;
 
 const StyledSwitch = styled.div`
@@ -10,7 +12,8 @@ const StyledSwitch = styled.div`
     width: ${props => props.width}%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-end;
+    justify-content: center;
+    position: relative;
     font-family: 'Rubik Light', sans-serif;
     color: ${colors.white};
     
@@ -27,6 +30,7 @@ const StyledSwitch = styled.div`
             margin: 0 auto;
             span {
                 align-self: center;
+                transition: all 0.2s cubic-bezier(0.7, 0, 0.3, 1);
             }
 
             &.active {
@@ -42,15 +46,6 @@ const StyledSwitch = styled.div`
         }
     }
 
-
-    .param {
-        text-align: center;
-        font-size: 0.55em;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        align-self: baseline;
-    }
-
     .option {
         font-size: 0.5em;
         padding-left: 5px;
@@ -63,44 +58,67 @@ const StyledCircle = styled.span`
     height: 6px;
     width: 6px;
     border: 1px solid ${colors.white};
+    transition: all 0.2s cubic-bezier(0.7, 0, 0.3, 1);
 `;
 
-const SwitchParameter = ({
-    options,
-    module,
-    param,
-    value,
-    setParameter,
-    setOctave,
-    width,
-    height
-}) => {
-    return (
-        <StyledSwitch
-            width={width}
-            height={height}
-            optionLength={options.length}
-        >
-            <div className="inner">
-                {options &&
-                    options.map(option => (
-                        <div
-                            key={option}
-                            className={value == option ? 'active' : null}
-                            onClick={e => {
-                                setParameter
-                                    ? setParameter(module, param, option)
-                                    : setOctave(option);
-                            }}
-                        >
-                            <StyledCircle className="circle" />
-                            <span className="option">{option}</span>
-                        </div>
-                    ))}
-                <span className="param">{param}</span>
-            </div>
-        </StyledSwitch>
-    );
-};
+export default class SwitchParameter extends Component {
+    componentDidMount() {
+        const node = findDOMNode(this.node);
+        const param = findDOMNode(this.param);
 
-export default SwitchParameter;
+        node.addEventListener('mouseenter', () =>
+            param.classList.add('active')
+        );
+        node.addEventListener('mouseleave', () =>
+            param.classList.remove('active')
+        );
+    }
+
+    componentWillUnmount() {
+        findDOMNode(this.param).removeEventListener('mouseenter');
+        findDOMNode(this.param).removeEventListener('mouseleave');
+    }
+
+    render() {
+        const {
+            options,
+            module,
+            param,
+            value,
+            setParameter,
+            setOctave,
+            width,
+            height
+        } = this.props;
+        return (
+            <StyledSwitch
+                width={width}
+                height={height}
+                optionLength={options.length}
+                ref={node => (this.node = node)}
+            >
+                <div className="inner">
+                    {options &&
+                        options.map(option => (
+                            <div
+                                key={option}
+                                className={value == option ? 'active' : null}
+                                onClick={e => {
+                                    setParameter
+                                        ? setParameter(module, param, option)
+                                        : setOctave(option);
+                                }}
+                            >
+                                <StyledCircle className="circle" />
+                                <span className="option">{option}</span>
+                            </div>
+                        ))}
+                </div>
+                <StyledParameter
+                    refProp={param => (this.param = param)}
+                    param={param}
+                />
+            </StyledSwitch>
+        );
+    }
+}

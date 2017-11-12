@@ -9,7 +9,7 @@ import {
 } from '../../helpers/saturateValue';
 import config from '../../synth/config';
 import calculateAngle from '../../helpers/calculateAngle';
-import Parameter from '../styled/Parameter';
+import StyledParameter from '../styled/StyledParameter';
 
 const { colors } = config;
 const StyledSVGWrapper = styled.div`
@@ -151,7 +151,7 @@ export default class KnobParameter extends Component {
             .on('mouseover', function() {
                 d3.select(this).style('cursor', 'all-scroll');
                 self.valueEl.transition().style('fill', colors.white);
-                self.foreground.transition().style('fill', 'red');
+                self.foreground.transition().style('fill', '#ff8a2d');
                 findDOMNode(self.param).classList.add('active');
             })
             .on('mousemove', () => {
@@ -276,7 +276,7 @@ export default class KnobParameter extends Component {
                 styledHeight={this.props.height}
             >
                 <svg ref={node => (this.node = node)} />
-                <Parameter
+                <StyledParameter
                     refProp={param => (this.param = param)}
                     param={this.props.name ? this.props.name : this.props.param}
                 />
