@@ -16,16 +16,25 @@ const StyledStep = styled.div`
     justify-content: center;
 
     &:hover {
-        background-color: rgba(${colors.primary}, 0.7);
+        // background-color: rgba(${colors.primary}, 0.7);
+        span {
+            opacity: 1;
+        }
     }
 
     &.active {
         background-color: rgb(${colors.primary});
+
+        span {
+            opacity: 1;
+        }
     }
 
     span {
-        color: #a7a7a7;
+        transition: opacity 0.2s ease-out;
+        color: #fff;
         font-size: 0.3em;
+        opacity: 0;
     }
 `;
 

@@ -21,8 +21,8 @@ const FilterEnvelope = ({
         />
         <KnobParameter
             module="filterEnvelope"
-            param="release"
-            value={filterEnvelope.release}
+            param="decay"
+            value={filterEnvelope.decay}
             setParameter={setParameter}
             sensitivity={1}
             min={settings.ADSR.min}
@@ -39,8 +39,8 @@ const FilterEnvelope = ({
         />
         <KnobParameter
             module="filterEnvelope"
-            param="decay"
-            value={filterEnvelope.decay}
+            param="release"
+            value={filterEnvelope.release}
             setParameter={setParameter}
             sensitivity={1}
             min={settings.ADSR.min}

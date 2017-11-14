@@ -103,8 +103,8 @@ class Synthesizer extends Component {
                     <ModulationFrequency
                         gridColumns="1 / span 1"
                         gridRows="5 / span 2"
-                        oscillatorAWaveShape={synth.oscillatorA.type.value}
-                        oscillatorBWaveShape={synth.oscillatorB.type.value}
+                        oscillatorA={synth.oscillatorA}
+                        oscillatorB={synth.oscillatorB}
                         setParameter={setParameter}
                     />
                     <Mixer

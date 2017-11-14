@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
-import StepSequencer from './StepSequencer';
+import styled from 'styled-components';
 
+import StepSequencer from './StepSequencer';
 import StyledModule from '../../styled/StyledModule';
+
+const StyledControls = styled.div`
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+`;
 
 export default class Sequencer extends Component {
     state = {
@@ -72,7 +79,7 @@ export default class Sequencer extends Component {
                 gridColumns={this.props.gridColumns}
                 gridRows={this.props.gridRows}
             >
-                <div>
+                <StyledControls>
                     <div>
                         <label> bars </label>{' '}
                         <select
@@ -93,18 +100,15 @@ export default class Sequencer extends Component {
                             Clear
                         </button>
                     )}
-                    <div>
-                        <label> Play / pause </label>{' '}
-                        <button
-                            onClick={() =>
-                                this.setState({
-                                    isPlaying: !this.state.isPlaying
-                                })}
-                        >
-                            {this.state.isPlaying ? '❚❚' : '►'}{' '}
-                        </button>{' '}
-                    </div>{' '}
-                </div>{' '}
+                    <button
+                        onClick={() =>
+                            this.setState({
+                                isPlaying: !this.state.isPlaying
+                            })}
+                    >
+                        {this.state.isPlaying ? '❚❚' : '►'}{' '}
+                    </button>{' '}
+                </StyledControls>{' '}
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}
                     notes={notes}

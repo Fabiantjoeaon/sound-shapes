@@ -8,8 +8,8 @@ import config from '../../../synth/config';
 const { colors } = config;
 
 const StyledWrapper = styled.div`
-    // width: 100%;
-    // height: 100%;
+    display: flex;
+    justify-content: center;
 `;
 const SequencerGrid = styled.div`
     display: inline-grid;

@@ -21,10 +21,9 @@ const AmpEnvelope = ({
         />
         <KnobParameter
             module="ampEnvelope"
-            param="release"
-            value={ampEnvelope.release}
+            param="decay"
+            value={ampEnvelope.decay}
             setParameter={setParameter}
-            step={settings.ADSR.step}
             min={settings.ADSR.min}
             max={settings.ADSR.max}
         />
@@ -38,9 +37,10 @@ const AmpEnvelope = ({
         />
         <KnobParameter
             module="ampEnvelope"
-            param="decay"
-            value={ampEnvelope.decay}
+            param="release"
+            value={ampEnvelope.release}
             setParameter={setParameter}
+            step={settings.ADSR.step}
             min={settings.ADSR.min}
             max={settings.ADSR.max}
         />

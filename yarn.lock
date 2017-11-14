@@ -6299,6 +6299,20 @@ text-table@~0.2.0, text-table@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+three:
+  version "0.88.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.88.0.tgz#4256c2fc38e4fb23a0d23eba2b6cce4df8e466d5"
+
+three-bas:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/three-bas/-/three-bas-2.3.0.tgz#708ef9ee13f687dd440b0bda9c2428060e842217"
+  dependencies:
+    three "^0.87.1"
+
+three@^0.87.1:
+  version "0.87.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.87.1.tgz#466a34edc4543459ced9b9d7d276b65216fe2ba8"
+
 throat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.2.0.tgz#50cb0670edbc40237b9e347d7e1f88e4620af836"
@@ -6616,6 +6630,10 @@ webidl-conversions@^3.0.0:
 webidl-conversions@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
+
+webmidi@^2.0.0-rc.10:
+  version "2.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/webmidi/-/webmidi-2.0.0-rc.10.tgz#19597b29ee863096d7e2c138a09adc702d41d073"
 
 webpack-dev-middleware@^1.11.0:
   version "1.12.0"
