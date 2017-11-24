@@ -1,20 +1,39 @@
-import store from '../store';
 import * as THREE from 'three';
+import { update } from 'tween.js';
 
-const listener = () => {};
+import store from '../store';
+import shapes from './objects/shapes';
+
+const listener = e => {
+    console.log('e', e);
+};
 store.subscribe(listener);
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-const viewAngle = 45;
-const aspect = width / height;
-const near = 0.1;
-const far = 10000;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+);
+camera.position.z = 1000;
+
+scene.add(shapes.instance);
 
 const renderer = new THREE.WebGLRenderer();
-const camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xffffff);
 
-const scene = new THREE.Scene();
-scene.add(camera);
-renderer.setSize(width, height);
 document.querySelector('.scene').appendChild(renderer.domElement);
+scene.fog = new THREE.FogExp2('#ffa977', 0.0005);
+scene.background = new THREE.Color(0xffffff);
+
+function animate() {
+    shapes.animate();
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+
+    update();
+}
+
+animate();
