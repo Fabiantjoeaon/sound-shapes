@@ -91,7 +91,7 @@ class Synthesizer extends Component {
                         setParameter={setParameter}
                         oscillatorId="A"
                         settings={config.oscillators}
-                    />
+                    />{' '}
                     <Oscillator
                         gridColumns="1 / span 1"
                         gridRows="3 / span 2"
@@ -99,23 +99,16 @@ class Synthesizer extends Component {
                         setParameter={setParameter}
                         oscillatorId="B"
                         settings={config.oscillators}
-                    />
-                    <ModulationFrequency
-                        gridColumns="1 / span 1"
-                        gridRows="5 / span 2"
-                        oscillatorA={synth.oscillatorA}
-                        oscillatorB={synth.oscillatorB}
-                        setParameter={setParameter}
-                    />
+                    />{' '}
                     <Mixer
                         gridColumns="1 / span 1"
-                        gridRows="7 / span 2"
+                        gridRows="5 / span 2"
                         oscillatorA={synth.oscillatorA}
                         oscillatorB={synth.oscillatorB}
                         noise={synth.noise}
                         setParameter={setParameter}
                         settings={config.mixer}
-                    />
+                    />{' '}
                     <Keyboard
                         gridColumns="1 / span 2"
                         gridRows="10 / span 1"
@@ -123,66 +116,66 @@ class Synthesizer extends Component {
                         currentOctave={currentOctave}
                         synth={synth}
                         settings={config.keyboard}
-                    />
+                    />{' '}
                     <AmpEnvelope
-                        gridColumns="2 / span 1"
-                        gridRows="1 / span 2"
+                        gridColumns="3 / span 1"
+                        gridRows="5 / span 2"
                         ampEnvelope={synth.ampEnvelope}
                         setParameter={setParameter}
                         settings={config.envelopes}
-                    />
+                    />{' '}
                     <FilterEnvelope
-                        gridColumns="2 / span 1"
-                        gridRows="3 / span 2"
+                        gridColumns="3 / span 1"
+                        gridRows="7 / span 2"
                         filterEnvelope={synth.filterEnvelope}
                         setParameter={setParameter}
                         settings={config.envelopes}
-                    />
+                    />{' '}
                     <Filter
                         gridColumns="2 / span 1"
-                        gridRows="5 / span 4"
+                        gridRows="1 / span 4"
                         filter={synth.filter}
                         setParameter={setParameter}
                         settings={config.filter}
-                    />
+                    />{' '}
                     <LowFrequencyOscillator
-                        gridColumns="3 / span 1"
-                        gridRows="1 / span 2"
+                        gridColumns="2 / span 1"
+                        gridRows="5 / span 2"
                         lowFrequencyOscillator={synth.lowFrequencyOscillator}
                         setParameter={setParameter}
                         settings={config.lowFrequencyOscillator}
-                    />
+                    />{' '}
                     <Delay
                         gridColumns="3 / span 1"
-                        gridRows="3 / span 2"
+                        gridRows="1 / span 2"
                         delay={synth.delay}
                         setParameter={setParameter}
                         settings={config.delay}
-                    />
+                    />{' '}
                     <Reverb
                         gridColumns="3 / span 1"
-                        gridRows="5 / span 2"
+                        gridRows="3 / span 2"
                         reverb={synth.reverb}
                         setParameter={setParameter}
                         settings={config.reverb}
-                    />
+                    />{' '}
                     <PitchTempo
-                        gridColumns="3 / span 1"
-                        gridRows="7 / span 2"
+                        gridColumns="4 / span 1"
+                        gridRows="3 / span 2"
                         transport={synth.transport}
                         currentOctave={currentOctave}
                         setOctave={setOctave}
                         slideOctave={slideOctave}
                         setParameter={setParameter}
                         settings={config.pitchTempo}
-                    />
+                    />{' '}
                     <Master
                         gridColumns="4 / span 1"
                         gridRows="1 / span 2"
                         master={synth.master}
                         setParameter={setParameter}
                         settings={config.master}
-                    />
+                    />{' '}
                     <Sequencer
                         gridRows="6 / span 5"
                         gridColumns="4 / span 1"
@@ -191,8 +184,8 @@ class Synthesizer extends Component {
                         currentOctave={currentOctave}
                         synth={synth}
                         settings={config.sequencer}
-                    />
-                </StyledSynthesizer>
+                    />{' '}
+                </StyledSynthesizer>{' '}
             </StyledWrapper>
         );
     }

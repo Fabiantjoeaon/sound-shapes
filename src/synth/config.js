@@ -22,10 +22,10 @@ const config = {
                 'sine',
                 'triangle',
                 'sawtooth',
-                'square',
-                'pulse',
-                'pwm',
-                'fatsawtooth'
+                'square'
+                // 'pulse',
+                // 'pwm',
+                // 'fatsawtooth'
             ]
         },
         detune: {

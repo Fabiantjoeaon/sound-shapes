@@ -1,13 +1,12 @@
 import * as THREE from 'three';
-import { update } from 'tween.js';
+import { update as updateTween } from 'tween.js';
 
 import store from '../store';
 import shapes from './objects/shapes';
 
-const listener = e => {
-    console.log('e', e);
-};
-store.subscribe(listener);
+store.subscribe(() => {
+    const { lastAction } = store.getState();
+});
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -25,15 +24,24 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffffff);
 
 document.querySelector('.scene').appendChild(renderer.domElement);
-scene.fog = new THREE.FogExp2('#ffa977', 0.0005);
-scene.background = new THREE.Color(0xffffff);
+scene.fog = new THREE.FogExp2(new THREE.Color('#202020'), 0.0005);
+scene.background = new THREE.Color('#202020');
 
-function animate() {
-    shapes.animate();
+const render = () => {
+    shapes.update();
+    updateTween();
     renderer.render(scene, camera);
-    requestAnimationFrame(animate);
+};
 
-    update();
-}
+const animate = () => {
+    render();
+    requestAnimationFrame(animate);
+};
 
 animate();
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});

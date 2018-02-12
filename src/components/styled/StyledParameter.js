@@ -27,6 +27,7 @@ const ParameterWrapper = styled.div`
         }
     }
 `;
+
 const ParameterText = styled.span`
     position: relative;
     transition: all 0.3s ease-out;

@@ -3,7 +3,8 @@ import { Tween, Easing } from 'tween.js';
 
 const shapes = new THREE.Object3D();
 const shapeMaterial = new THREE.MeshLambertMaterial({
-    color: 0x7f7f7f
+    color: 0x7f7f7f,
+    side: THREE.FrontSide
 });
 
 const leftShape = new THREE.Mesh(
@@ -49,7 +50,7 @@ moveDown.chain(moveUp);
 moveUp.chain(moveDown);
 moveUp.start();
 
-const animate = () => {
+const update = () => {
     leftShape.rotation.x += 0.005;
     leftShape.rotation.y += 0.002;
     leftShape.rotation.z += 0.001;
@@ -58,4 +59,4 @@ const animate = () => {
     rightShape.rotation.z += 0.005;
 };
 
-export default { instance: shapes, animate };
+export default { instance: shapes, update };

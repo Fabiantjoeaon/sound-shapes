@@ -11,6 +11,7 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
 `;
+
 const SequencerGrid = styled.div`
     display: inline-grid;
     grid-gap: 1px;
@@ -51,8 +52,8 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
                             {...rest}
                         />
                     );
-                })}
-            </SequencerGrid>
+                })}{' '}
+            </SequencerGrid>{' '}
         </StyledWrapper>
     );
 };

@@ -47,7 +47,7 @@ export default class KnobParameter extends Component {
         const angle = this.calculateMouseAngle(mouse);
         const percentageFromAngle = saturatePercentage(0, 360, angle);
         /**
-         * Calculate the total available values going 
+         * Calculate the total available values going
          * from min to max (for -100 to 100 this would be 200)
          */
         const total =
@@ -105,7 +105,7 @@ export default class KnobParameter extends Component {
      * HINT: The following method (renderKnob) lets D3
      * do all the rendering, so that transforms and such are
      * still available. The preffered way however is to let React take over the
-     * rendering, inside of the render method, with some of the svg already 
+     * rendering, inside of the render method, with some of the svg already
      * typed out.
      */
     renderKnob(saturatedValue) {
@@ -193,11 +193,11 @@ export default class KnobParameter extends Component {
             .attr('d', this.arc);
 
         // DONUT LINE
-        this.lineArc = d3
-            .arc()
-            .innerRadius(innerRadius)
-            .outerRadius(outerRadius)
-            .startAngle((saturatedValue - 0.003) * this.tau);
+        // this.lineArc = d3
+        //     .arc()
+        //     .innerRadius(innerRadius)
+        //     .outerRadius(outerRadius)
+        //     .startAngle((saturatedValue - 0.003) * this.tau);
 
         // VALUE TEXT
         this.valueEl = container
