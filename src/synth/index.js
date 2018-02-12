@@ -95,6 +95,7 @@ export default function initSynth() {
         delay,
         reverb,
         master,
-        transport
+        transport,
+        isVisible: true
     };
 }

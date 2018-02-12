@@ -11,3 +11,8 @@ export const setOctave = octave => ({
 });
 
 export const slideOctave = movement => ({ type: 'SLIDE_OCTAVE', movement });
+
+export const toggleSynthVisibility = isVisible => ({
+    type: 'TOGGLE_VISIBILITY',
+    isVisible
+});

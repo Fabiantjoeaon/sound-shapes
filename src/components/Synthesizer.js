@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import WebMidi from 'webmidi';
@@ -17,16 +18,28 @@ import PitchTempo from './modules/PitchTempo';
 import Keyboard from './modules/Keyboard';
 import ModulationFrequency from './modules/ModulationFrequency';
 import Sequencer from './modules/Sequencer/index';
-import { setParameter, setOctave, slideOctave } from '../actions';
+import {
+    setParameter,
+    setOctave,
+    slideOctave,
+    toggleSynthVisibility
+} from '../actions';
 import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
 const { colors, gridGap } = config;
 
 const StyledWrapper = styled.div`
+    transform: translate3d(
+        0px,
+        ${props => (props.isVisible ? '0px' : props.height + 'px')},
+        0px
+    );
     height: calc(450px + (${gridGap}px * 9));
     width: 100%;
     position: absolute;
     bottom: 0px;
+    transition: transform 1.8s cubic-bezier(0.86, 0, 0.07, 1);
+    will-change: transform;
 `;
 
 const StyledWrapperInner = styled.div`
@@ -59,8 +72,33 @@ const StyledBackground = styled(StyledWrapperInner)`
     transition: background-size 0.3s ease-out;
 `;
 
+const Toggle = styled.span`
+    background-color: #fff;
+    padding: 5px 10px;
+    color: #000;
+    display: inline;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    transform: translate3d(
+        0px,
+        ${props => (props.isVisible ? '150px' : '0px')},
+        0px
+    );
+    transition: transform 1.8s cubic-bezier(0.86, 0, 0.07, 1);
+    will-change: transform;
+`;
+
 class Synthesizer extends Component {
+    state = {
+        height: 0
+    };
+
     componentDidMount() {
+        this.setState({
+            height: findDOMNode(this.synth).offsetHeight
+        });
         WebMidi.enable(err => {
             if (err) {
                 console.log('WebMidi could not be enabled.', err);
@@ -68,6 +106,11 @@ class Synthesizer extends Component {
             }
         });
     }
+
+    toggle = () => {
+        const isVisible = this.props.isVisible;
+        this.props.toggleSynthVisibility(!isVisible);
+    };
 
     render() {
         const {
@@ -78,115 +121,128 @@ class Synthesizer extends Component {
             slideOctave,
             keyboardNotes,
             sequencerNotes,
-            currentOctave
+            currentOctave,
+            isVisible
         } = this.props;
+        const { height } = this.state;
+
         return (
-            <StyledWrapper>
-                <StyledBackground />
-                <StyledSynthesizer>
-                    <Oscillator
-                        gridColumns="1 / span 1"
-                        gridRows="1 / span 2"
-                        oscillator={synth.oscillatorA}
-                        setParameter={setParameter}
-                        oscillatorId="A"
-                        settings={config.oscillators}
-                    />{' '}
-                    <Oscillator
-                        gridColumns="1 / span 1"
-                        gridRows="3 / span 2"
-                        oscillator={synth.oscillatorB}
-                        setParameter={setParameter}
-                        oscillatorId="B"
-                        settings={config.oscillators}
-                    />{' '}
-                    <Mixer
-                        gridColumns="1 / span 1"
-                        gridRows="5 / span 2"
-                        oscillatorA={synth.oscillatorA}
-                        oscillatorB={synth.oscillatorB}
-                        noise={synth.noise}
-                        setParameter={setParameter}
-                        settings={config.mixer}
-                    />{' '}
-                    <Keyboard
-                        gridColumns="1 / span 2"
-                        gridRows="10 / span 1"
-                        notes={keyboardNotes}
-                        currentOctave={currentOctave}
-                        synth={synth}
-                        settings={config.keyboard}
-                    />{' '}
-                    <AmpEnvelope
-                        gridColumns="3 / span 1"
-                        gridRows="5 / span 2"
-                        ampEnvelope={synth.ampEnvelope}
-                        setParameter={setParameter}
-                        settings={config.envelopes}
-                    />{' '}
-                    <FilterEnvelope
-                        gridColumns="3 / span 1"
-                        gridRows="7 / span 2"
-                        filterEnvelope={synth.filterEnvelope}
-                        setParameter={setParameter}
-                        settings={config.envelopes}
-                    />{' '}
-                    <Filter
-                        gridColumns="2 / span 1"
-                        gridRows="1 / span 4"
-                        filter={synth.filter}
-                        setParameter={setParameter}
-                        settings={config.filter}
-                    />{' '}
-                    <LowFrequencyOscillator
-                        gridColumns="2 / span 1"
-                        gridRows="5 / span 2"
-                        lowFrequencyOscillator={synth.lowFrequencyOscillator}
-                        setParameter={setParameter}
-                        settings={config.lowFrequencyOscillator}
-                    />{' '}
-                    <Delay
-                        gridColumns="3 / span 1"
-                        gridRows="1 / span 2"
-                        delay={synth.delay}
-                        setParameter={setParameter}
-                        settings={config.delay}
-                    />{' '}
-                    <Reverb
-                        gridColumns="3 / span 1"
-                        gridRows="3 / span 2"
-                        reverb={synth.reverb}
-                        setParameter={setParameter}
-                        settings={config.reverb}
-                    />{' '}
-                    <PitchTempo
-                        gridColumns="4 / span 1"
-                        gridRows="3 / span 2"
-                        transport={synth.transport}
-                        currentOctave={currentOctave}
-                        setOctave={setOctave}
-                        slideOctave={slideOctave}
-                        setParameter={setParameter}
-                        settings={config.pitchTempo}
-                    />{' '}
-                    <Master
-                        gridColumns="4 / span 1"
-                        gridRows="1 / span 2"
-                        master={synth.master}
-                        setParameter={setParameter}
-                        settings={config.master}
-                    />{' '}
-                    <Sequencer
-                        gridRows="6 / span 5"
-                        gridColumns="4 / span 1"
-                        notes={sequencerNotes}
-                        octave={octave}
-                        currentOctave={currentOctave}
-                        synth={synth}
-                        settings={config.sequencer}
-                    />{' '}
-                </StyledSynthesizer>{' '}
-            </StyledWrapper>
+            <div>
+                <Toggle onClick={this.toggle}>TOGGLE</Toggle>
+                <StyledWrapper
+                    ref={synth => (this.synth = synth)}
+                    isVisible={isVisible}
+                    height={height}
+                >
+                    <StyledBackground />
+                    <StyledSynthesizer>
+                        <Oscillator
+                            gridColumns="1 / span 1"
+                            gridRows="1 / span 2"
+                            oscillator={synth.oscillatorA}
+                            setParameter={setParameter}
+                            oscillatorId="A"
+                            settings={config.oscillators}
+                        />{' '}
+                        <Oscillator
+                            gridColumns="1 / span 1"
+                            gridRows="3 / span 2"
+                            oscillator={synth.oscillatorB}
+                            setParameter={setParameter}
+                            oscillatorId="B"
+                            settings={config.oscillators}
+                        />{' '}
+                        <Mixer
+                            gridColumns="1 / span 1"
+                            gridRows="5 / span 2"
+                            oscillatorA={synth.oscillatorA}
+                            oscillatorB={synth.oscillatorB}
+                            noise={synth.noise}
+                            setParameter={setParameter}
+                            settings={config.mixer}
+                        />{' '}
+                        <Keyboard
+                            gridColumns="1 / span 2"
+                            gridRows="10 / span 1"
+                            notes={keyboardNotes}
+                            currentOctave={currentOctave}
+                            synth={synth}
+                            settings={config.keyboard}
+                        />{' '}
+                        <AmpEnvelope
+                            gridColumns="3 / span 1"
+                            gridRows="5 / span 2"
+                            ampEnvelope={synth.ampEnvelope}
+                            setParameter={setParameter}
+                            settings={config.envelopes}
+                        />{' '}
+                        <FilterEnvelope
+                            gridColumns="3 / span 1"
+                            gridRows="7 / span 2"
+                            filterEnvelope={synth.filterEnvelope}
+                            setParameter={setParameter}
+                            settings={config.envelopes}
+                        />{' '}
+                        <Filter
+                            gridColumns="2 / span 1"
+                            gridRows="1 / span 4"
+                            filter={synth.filter}
+                            setParameter={setParameter}
+                            settings={config.filter}
+                        />{' '}
+                        <LowFrequencyOscillator
+                            gridColumns="2 / span 1"
+                            gridRows="5 / span 2"
+                            lowFrequencyOscillator={
+                                synth.lowFrequencyOscillator
+                            }
+                            setParameter={setParameter}
+                            settings={config.lowFrequencyOscillator}
+                        />{' '}
+                        <Delay
+                            gridColumns="3 / span 1"
+                            gridRows="1 / span 2"
+                            delay={synth.delay}
+                            setParameter={setParameter}
+                            settings={config.delay}
+                        />{' '}
+                        <Reverb
+                            gridColumns="3 / span 1"
+                            gridRows="3 / span 2"
+                            reverb={synth.reverb}
+                            setParameter={setParameter}
+                            settings={config.reverb}
+                        />{' '}
+                        <PitchTempo
+                            gridColumns="4 / span 1"
+                            gridRows="3 / span 2"
+                            transport={synth.transport}
+                            currentOctave={currentOctave}
+                            setOctave={setOctave}
+                            slideOctave={slideOctave}
+                            setParameter={setParameter}
+                            settings={config.pitchTempo}
+                        />{' '}
+                        <Master
+                            gridColumns="4 / span 1"
+                            gridRows="1 / span 2"
+                            master={synth.master}
+                            setParameter={setParameter}
+                            settings={config.master}
+                            toggleSynthVisibility={this.toggle}
+                        />{' '}
+                        <Sequencer
+                            gridRows="6 / span 5"
+                            gridColumns="4 / span 1"
+                            notes={sequencerNotes}
+                            octave={octave}
+                            currentOctave={currentOctave}
+                            synth={synth}
+                            settings={config.sequencer}
+                        />{' '}
+                    </StyledSynthesizer>{' '}
+                </StyledWrapper>
+            </div>
         );
     }
 }
@@ -195,6 +251,7 @@ const mapStateToProps = state => ({
     sequencerNotes: getNotesAsOctaves(state.octave, 1),
     keyboardNotes: getNotesAsOctaves(state.octave, 2),
     currentOctave: getCurrentOctave(state.octave),
+    isVisible: state.synth.isVisible,
     ...state
 });
 
@@ -207,6 +264,9 @@ const mapDispatchToProps = dispatch => ({
     },
     slideOctave(movement) {
         dispatch(slideOctave(movement));
+    },
+    toggleSynthVisibility(isVisible) {
+        dispatch(toggleSynthVisibility(isVisible));
     }
 });
 
