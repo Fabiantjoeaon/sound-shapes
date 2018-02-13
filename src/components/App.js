@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Synthesizer from './Synthesizer';
 
-class App extends Component {
-  render() {
-    return (
-      <Synthesizer />
-    );
-  }
-}
+const App = () => <Synthesizer />;
 
 export default App;

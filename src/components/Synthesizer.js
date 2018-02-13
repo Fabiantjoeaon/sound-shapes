@@ -28,7 +28,10 @@ import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
 
 const { colors, gridGap } = config;
 
-const StyledWrapper = styled.div`
+const Container = styled.div`
+    overflow-y: hidden;
+`;
+const ContainerInner = styled.div`
     transform: translate3d(
         0px,
         ${props => (props.isVisible ? '0px' : props.height + 'px')},
@@ -38,7 +41,8 @@ const StyledWrapper = styled.div`
     width: 100%;
     position: absolute;
     bottom: 0px;
-    transition: transform 1.8s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: transform 0.4s cubic-bezier(0.44, 0.27, 0.21, 0.75);
+    transition-delay: ${props => (props.isVisible ? '0.8s' : '0s')};
     will-change: transform;
 `;
 
@@ -86,7 +90,8 @@ const Toggle = styled.span`
         ${props => (props.isVisible ? '150px' : '0px')},
         0px
     );
-    transition: transform 1.8s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: ${props => (props.isVisible ? '0s' : '0.8s')};
     will-change: transform;
 `;
 
@@ -107,10 +112,7 @@ class Synthesizer extends Component {
         });
     }
 
-    toggle = () => {
-        const isVisible = this.props.isVisible;
-        this.props.toggleSynthVisibility(!isVisible);
-    };
+    toggle = () => this.props.toggleSynthVisibility(!this.props.isVisible);
 
     render() {
         const {
@@ -127,9 +129,11 @@ class Synthesizer extends Component {
         const { height } = this.state;
 
         return (
-            <div>
-                <Toggle onClick={this.toggle}>TOGGLE</Toggle>
-                <StyledWrapper
+            <Container>
+                <Toggle isVisible={isVisible} onClick={this.toggle}>
+                    TOGGLE
+                </Toggle>
+                <ContainerInner
                     ref={synth => (this.synth = synth)}
                     isVisible={isVisible}
                     height={height}
@@ -241,8 +245,8 @@ class Synthesizer extends Component {
                             settings={config.sequencer}
                         />{' '}
                     </StyledSynthesizer>{' '}
-                </StyledWrapper>
-            </div>
+                </ContainerInner>
+            </Container>
         );
     }
 }
