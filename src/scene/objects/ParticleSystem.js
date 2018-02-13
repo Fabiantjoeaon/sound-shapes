@@ -1,4 +1,4 @@
-import { Points, Vector3 } from 'three';
+import { Points, Vector3, Matrix4 } from 'three';
 import { Tween, Easing } from 'tween.js';
 import shuffle from 'lodash/shuffle';
 import getRandomArbitrary from '../../helpers/getRandomArbitrary';
@@ -23,9 +23,9 @@ export default class ParticleSystem {
     initParticles() {
         [...this.particleCount].forEach(i => {
             const point = new Vector3(
-                Math.random() * 800 - 100,
-                Math.random() * 800 - 100,
-                Math.random() * 800 - 100
+                Math.random() * 2000 - 100,
+                Math.random() * 2000 - 100,
+                Math.random() * 2000 - 100
             );
             this.obj.geometry.vertices.push(point);
         });
