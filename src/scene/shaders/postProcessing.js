@@ -218,12 +218,15 @@ float pnoise(vec3 P, vec3 rep)
     void main() {
         vec2 uv = vec2(gl_FragCoord.xy / uResolution.xy);
         vec4 texel = texture2D(uPassTexture, uv);
-
-        vec3 g = vec3(grain(uv, uResolution / .4, uTime, .01));
+        
+        vec3 g = vec3(grain(uv, uResolution / .4, uTime, max(100.,uTime)));
   
         //blend the noise over the background,  
         //i.e. overlay, soft light, additive 
         vec3 color = blendSoftLight(texel.rgb, g);
+        color.r *= 1.;
+        color.g *= 1.;
+        color.b *= 1.;
         
         //get the luminance of the background 
         float luminance = luma(texel.rgb);

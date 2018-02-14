@@ -33,17 +33,21 @@ export default class ParticleSystem {
         this.obj.geometry.computeVertexNormals();
     }
 
-    formShape(geometry) {
+    formShape({ geometry = this.obj.geometry, offset = 0 }) {
         const targetVertices = shuffle(geometry.vertices);
         const currentGeometry = this.obj.geometry;
 
         currentGeometry.vertices.map((systemVertex, i) => {
+            //FIXME: Might run out of array bounds
             if (i <= this.particleCount) {
                 const { x, y, z } = targetVertices[i];
                 const targetVertex = {};
-                targetVertex.x = getRandomArbitrary(x, x + 10);
-                targetVertex.y = getRandomArbitrary(y, y + 10);
-                targetVertex.z = getRandomArbitrary(z, z + 10);
+                const totalOffset = offset * 3;
+
+                targetVertex.x = getRandomArbitrary(x, x + totalOffset);
+                targetVertex.y = getRandomArbitrary(y, y + totalOffset);
+                targetVertex.z = getRandomArbitrary(z, z + totalOffset);
+
                 const tween = new Tween(systemVertex)
                     .to(targetVertex, 1000)
                     .easing(Easing.Exponential.InOut)

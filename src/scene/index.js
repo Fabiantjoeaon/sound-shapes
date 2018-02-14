@@ -19,13 +19,15 @@ const camera = new THREE.PerspectiveCamera(
 );
 const clock = new THREE.Clock();
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffffff);
 
 document.querySelector('.scene').appendChild(renderer.domElement);
 scene.fog = new THREE.FogExp2(new THREE.Color('#000'), 0.0005);
-scene.background = new THREE.Color('#202020');
+scene.background = new THREE.Color('#1f1f1f');
 
 camera.position.z = 1800;
 camera.zoom = 1;
@@ -117,36 +119,48 @@ const dollyZoom = isVisible => {
         .start();
 };
 
-//TODO: PARTICLE SHADER  : https://stackoverflow.com/questions/40041335/three-js-particle-texture-shader
+//TODO: Init store with current store data
+// Then handle actions accordingly with values?
+// It might be easier to have the shapes mapped to the store state
+// So that it knows about the other values
 store.subscribe(() => {
     const { lastAction } = store.getState();
-    console.log(lastAction.module);
-    switch (lastAction.type) {
+    const { type, parameter, module, value, isVisible } = lastAction;
+
+    switch (type) {
         case 'TOGGLE_VISIBILITY':
-            dollyZoom(lastAction.isVisible);
+            dollyZoom(isVisible);
             break;
 
         case 'SET_PARAMETER':
-            switch (lastAction.parameter) {
+            switch (parameter) {
                 case 'type':
-                    switch (lastAction.module) {
+                    switch (module) {
                         case 'oscillatorA':
-                            switchOscillatorType(
-                                shapes.leftSystem,
-                                lastAction.value
-                            );
+                            switchOscillatorType(shapes.leftSystem, value);
                             break;
                         case 'oscillatorB':
-                            switchOscillatorType(
-                                shapes.rightSystem,
-                                lastAction.value
-                            );
+                            switchOscillatorType(shapes.rightSystem, value);
                             break;
                         case 'lowFrequencyOscillator':
-                            switchOscillatorType(
-                                shapes.midSystem,
-                                lastAction.value
-                            );
+                            switchOscillatorType(shapes.midSystem, value);
+                            break;
+                    }
+                    break;
+
+                case 'volume':
+                    switch (module) {
+                        case 'oscillatorA':
+                            shapes.leftSystem.formShape({
+                                offset: value
+                            });
+                            break;
+                        case 'oscillatorB':
+                            shapes.rightSystem.formShape({
+                                offset: value
+                            });
+                            break;
+                        case 'noise':
                             break;
                     }
                     break;
@@ -174,24 +188,34 @@ CustomSinCurve.prototype.getPoint = function(t) {
 const switchOscillatorType = (shape, val) => {
     switch (val) {
         case 'sine':
-            shape.formShape(new THREE.SphereGeometry(150, 150, 20));
+            shape.formShape({
+                geometry: new THREE.SphereGeometry(150, 150, 20),
+                offset: 0
+            });
             break;
         case 'triangle':
-            shape.formShape(new THREE.ConeGeometry(120, 250, 50, 50));
+            shape.formShape({
+                geometry: new THREE.ConeGeometry(120, 250, 50, 50),
+                offset: 0
+            });
             break;
         case 'square':
-            shape.formShape(new THREE.BoxGeometry(200, 200, 200, 20, 20, 20));
+            shape.formShape({
+                geometry: new THREE.BoxGeometry(200, 200, 200, 20, 20, 20),
+                offset: 0
+            });
             break;
         case 'sawtooth':
-            shape.formShape(
-                new THREE.TubeGeometry(
+            shape.formShape({
+                geometry: new THREE.TubeGeometry(
                     new CustomSinCurve(200),
                     16,
                     16,
-                    32,
-                    false
-                )
-            );
+                    42,
+                    true
+                ),
+                offset: 0
+            });
             break;
     }
 };
