@@ -1,6 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const Mixer = ({
     oscillatorA,
@@ -12,6 +13,7 @@ const Mixer = ({
     gridRows
 }) => (
     <StyledModule flexDir="row" gridColumns={gridColumns} gridRows={gridRows}>
+        <StyledTitle>Mixer</StyledTitle>
         <KnobParameter
             param="volume"
             name="osc a"

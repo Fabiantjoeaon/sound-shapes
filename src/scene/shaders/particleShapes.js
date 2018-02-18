@@ -17,6 +17,7 @@ export const fragmentShader = `
 
     // if ( tex.a < 0.5 ) discard;
     tex.b += 0.5;
+    tex.g *= 0.5;
     gl_FragColor = tex;
   }
 `;

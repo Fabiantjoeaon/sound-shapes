@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import WebMidi from 'webmidi';
 
@@ -16,25 +16,21 @@ import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
 import PitchTempo from './modules/PitchTempo';
 import Keyboard from './modules/Keyboard';
-import ModulationFrequency from './modules/ModulationFrequency';
 import Sequencer from './modules/Sequencer/index';
-import {
-    setParameter,
-    setOctave,
-    slideOctave,
-    toggleSynthVisibility
-} from '../actions';
-import { getNotesAsOctaves, getCurrentOctave } from '../reducers/octaveReducer';
+import {setParameter, setOctave, slideOctave, toggleSynthVisibility} from '../actions';
+import {getNotesAsOctaves, getCurrentOctave} from '../reducers/octaveReducer';
 
-const { colors, gridGap } = config;
+const {colors, gridGap} = config;
 
-const Container = styled.div`
+const Container = styled.div `
     overflow-y: hidden;
 `;
-const ContainerInner = styled.div`
+const ContainerInner = styled.div `
     transform: translate3d(
         0px,
-        ${props => (props.isVisible ? '0px' : props.height + 'px')},
+        ${props => (props.isVisible
+    ? '0px'
+    : props.height + 'px')},
         0px
     );
     height: calc(450px + (${gridGap}px * 9));
@@ -42,11 +38,13 @@ const ContainerInner = styled.div`
     position: absolute;
     bottom: 0px;
     transition: transform 0.4s cubic-bezier(0.44, 0.27, 0.21, 0.75);
-    transition-delay: ${props => (props.isVisible ? '0.8s' : '0s')};
+    transition-delay: ${props => (props.isVisible
+    ? '0.8s'
+    : '0s')};
     will-change: transform;
 `;
 
-const StyledWrapperInner = styled.div`
+const StyledWrapperInner = styled.div `
     width: 100%;
     height: 100%;
     position: absolute;
@@ -55,8 +53,9 @@ const StyledWrapperInner = styled.div`
 `;
 const StyledSynthesizer = styled(StyledWrapperInner)`
     display: grid;
+    padding-top: 10px;
     // background-color: ${colors.background};
-    background-color: rgba(52,70,122, 0.8);
+    background-color: rgba(52,70,122, 0.2);
     grid-gap: ${gridGap}px;
     grid-template-columns: repeat(4, minmax(calc((100% - (4 * ${gridGap}px)) / 4), 1fr));
     grid-template-rows: repeat(10, calc(450px / 10));
@@ -76,23 +75,35 @@ const StyledBackground = styled(StyledWrapperInner)`
     transition: background-size 0.3s ease-out;
 `;
 
-const Toggle = styled.span`
-    background-color: #fff;
+const Toggle = styled.span `
+    
     padding: 5px 10px;
-    color: #000;
+    color: #fff;
     display: inline;
+    font-family: 'Rubik Light',
+    sans-serif;
+    letter-spacing: 1px;
     cursor: pointer;
     position: absolute;
-    bottom: 50px;
+    bottom: 30px;
     right: 50px;
     transform: translate3d(
         0px,
-        ${props => (props.isVisible ? '150px' : '0px')},
+        ${props => (props.isVisible
+    ? '150px'
+    : '0px')},
         0px
     );
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition-delay: ${props => (props.isVisible ? '0s' : '0.8s')};
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease-out, color 0.3s ease-out;
+    transition-delay: ${props => (props.isVisible
+    ? '0s'
+    : '0.8s')};
     will-change: transform;
+
+    &:hover {
+        background-color: #fff;
+        color: #000;
+    }
 `;
 
 class Synthesizer extends Component {
@@ -112,7 +123,9 @@ class Synthesizer extends Component {
         });
     }
 
-    toggle = () => this.props.toggleSynthVisibility(!this.props.isVisible);
+    toggle = () => this
+        .props
+        .toggleSynthVisibility(!this.props.isVisible);
 
     render() {
         const {
@@ -126,19 +139,18 @@ class Synthesizer extends Component {
             currentOctave,
             isVisible
         } = this.props;
-        const { height } = this.state;
+        const {height} = this.state;
 
         return (
             <Container>
                 <Toggle isVisible={isVisible} onClick={this.toggle}>
-                    TOGGLE
+                    Toggle
                 </Toggle>
                 <ContainerInner
                     ref={synth => (this.synth = synth)}
                     isVisible={isVisible}
-                    height={height}
-                >
-                    <StyledBackground />
+                    height={height}>
+                    <StyledBackground/>
                     <StyledSynthesizer>
                         <Oscillator
                             gridColumns="1 / span 1"
@@ -146,77 +158,65 @@ class Synthesizer extends Component {
                             oscillator={synth.oscillatorA}
                             setParameter={setParameter}
                             oscillatorId="A"
-                            settings={config.oscillators}
-                        />{' '}
+                            settings={config.oscillators}/>{' '}
                         <Oscillator
                             gridColumns="1 / span 1"
                             gridRows="3 / span 2"
                             oscillator={synth.oscillatorB}
                             setParameter={setParameter}
                             oscillatorId="B"
-                            settings={config.oscillators}
-                        />{' '}
+                            settings={config.oscillators}/>{' '}
                         <Mixer
-                            gridColumns="1 / span 1"
-                            gridRows="5 / span 2"
+                            gridColumns="2 / span 1"
+                            gridRows="1 / span 2"
                             oscillatorA={synth.oscillatorA}
                             oscillatorB={synth.oscillatorB}
                             noise={synth.noise}
                             setParameter={setParameter}
-                            settings={config.mixer}
-                        />{' '}
+                            settings={config.mixer}/>{' '}
                         <Keyboard
-                            gridColumns="1 / span 2"
+                            gridColumns="1 / span 4"
                             gridRows="10 / span 1"
                             notes={keyboardNotes}
                             currentOctave={currentOctave}
                             synth={synth}
-                            settings={config.keyboard}
-                        />{' '}
+                            settings={config.keyboard}/>{' '}
                         <AmpEnvelope
-                            gridColumns="3 / span 1"
+                            gridColumns="1 / span 1"
                             gridRows="5 / span 2"
                             ampEnvelope={synth.ampEnvelope}
                             setParameter={setParameter}
-                            settings={config.envelopes}
-                        />{' '}
+                            settings={config.envelopes}/>{' '}
                         <FilterEnvelope
-                            gridColumns="3 / span 1"
+                            gridColumns="1 / span 1"
                             gridRows="7 / span 2"
                             filterEnvelope={synth.filterEnvelope}
                             setParameter={setParameter}
-                            settings={config.envelopes}
-                        />{' '}
+                            settings={config.envelopes}/>{' '}
                         <Filter
                             gridColumns="2 / span 1"
-                            gridRows="1 / span 4"
+                            gridRows="3 / span 4"
                             filter={synth.filter}
                             setParameter={setParameter}
-                            settings={config.filter}
-                        />{' '}
+                            settings={config.filter}/>{' '}
                         <LowFrequencyOscillator
                             gridColumns="2 / span 1"
-                            gridRows="5 / span 2"
-                            lowFrequencyOscillator={
-                                synth.lowFrequencyOscillator
-                            }
+                            gridRows="7 / span 2"
+                            lowFrequencyOscillator={synth.lowFrequencyOscillator}
                             setParameter={setParameter}
-                            settings={config.lowFrequencyOscillator}
-                        />{' '}
+                            settings={config.lowFrequencyOscillator}/>{' '}
                         <Delay
                             gridColumns="3 / span 1"
                             gridRows="1 / span 2"
                             delay={synth.delay}
                             setParameter={setParameter}
-                            settings={config.delay}
-                        />{' '}
+                            settings={config.delay}/>{' '}
                         <Reverb
                             gridColumns="3 / span 1"
                             gridRows="3 / span 2"
                             reverb={synth.reverb}
                             setParameter={setParameter}
-                            settings={config.reverb}
-                        />{' '}
+                            settings={config.reverb}/>{' '}
                         <PitchTempo
                             gridColumns="4 / span 1"
                             gridRows="3 / span 2"
@@ -225,25 +225,22 @@ class Synthesizer extends Component {
                             setOctave={setOctave}
                             slideOctave={slideOctave}
                             setParameter={setParameter}
-                            settings={config.pitchTempo}
-                        />{' '}
+                            settings={config.pitchTempo}/>{' '}
                         <Master
                             gridColumns="4 / span 1"
                             gridRows="1 / span 2"
                             master={synth.master}
                             setParameter={setParameter}
                             settings={config.master}
-                            toggleSynthVisibility={this.toggle}
-                        />{' '}
+                            toggleSynthVisibility={this.toggle}/>{' '}
                         <Sequencer
-                            gridRows="6 / span 5"
-                            gridColumns="4 / span 1"
+                            gridColumns="3 / span 1"
+                            gridRows="5 / span 5"
                             notes={sequencerNotes}
                             octave={octave}
                             currentOctave={currentOctave}
                             synth={synth}
-                            settings={config.sequencer}
-                        />{' '}
+                            settings={config.sequencer}/>{' '}
                     </StyledSynthesizer>{' '}
                 </ContainerInner>
             </Container>

@@ -119,7 +119,7 @@ const config = {
         lightGray: '#f3f3f3',
         background: '#66717E'
     },
-    gridGap: 2
+    gridGap: 12
 };
 
 export default config;

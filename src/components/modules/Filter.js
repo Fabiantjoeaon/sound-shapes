@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const StyledFilter = styled(StyledModule)`
     .top,
@@ -20,6 +21,7 @@ const Filter = ({ filter, setParameter, settings, gridColumns, gridRows }) => {
             gridColumns={gridColumns}
             gridRows={gridRows}
         >
+            <StyledTitle>Filter</StyledTitle>
             <div className="top">
                 <SwitchParameter
                     param="type"

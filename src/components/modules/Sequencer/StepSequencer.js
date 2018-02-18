@@ -5,20 +5,20 @@ import times from 'lodash/times';
 import Step from './Step';
 import config from '../../../synth/config';
 
-const { colors } = config;
+const {colors} = config;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div `
     display: flex;
     justify-content: center;
 `;
 
-const SequencerGrid = styled.div`
+const SequencerGrid = styled.div `
     display: inline-grid;
     grid-gap: 1px;
 
     grid-template-columns: repeat(
         ${props => props.steps},
-        ${props => props.cellSize}px
+        ${props => props.cellSize + 3}px
     );
 
     grid-template-rows: repeat(
@@ -27,7 +27,11 @@ const SequencerGrid = styled.div`
     );
 `;
 
-const StepSequencer = ({ steps, notes, ...rest }) => {
+const StepSequencer = ({
+    steps,
+    notes,
+    ...rest
+}) => {
     let stepRenderCounter = 0;
     let row = 0;
     return (
@@ -42,16 +46,13 @@ const StepSequencer = ({ steps, notes, ...rest }) => {
                     const note = notes[row];
                     stepRenderCounter++;
 
-                    return (
-                        <Step
-                            key={i}
-                            note={note}
-                            synth={rest.synth}
-                            column={column}
-                            steps={steps}
-                            {...rest}
-                        />
-                    );
+                    return (<Step
+                        key={i}
+                        note={note}
+                        synth={rest.synth}
+                        column={column}
+                        steps={steps}
+                        {...rest}/>);
                 })}{' '}
             </SequencerGrid>{' '}
         </StyledWrapper>

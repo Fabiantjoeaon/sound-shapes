@@ -3,6 +3,7 @@ import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
 
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const LowFrequencyOscillator = ({
     lowFrequencyOscillator,
@@ -12,6 +13,7 @@ const LowFrequencyOscillator = ({
     gridRows
 }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
+        <StyledTitle>Low frequency oscillator</StyledTitle>
         <SwitchParameter
             param="type"
             value={lowFrequencyOscillator.type}

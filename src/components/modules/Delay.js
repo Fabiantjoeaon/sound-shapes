@@ -2,9 +2,11 @@ import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const Delay = ({ delay, setParameter, settings, gridColumns, gridRows }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows} flexDir="row">
+        <StyledTitle>Delay</StyledTitle>
         <KnobParameter
             param="delayTime"
             name="delay time"

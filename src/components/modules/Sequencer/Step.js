@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 import config from '../../../synth/config';
 
-const { colors } = config;
+const {colors} = config;
 
-const StyledStep = styled.div`
-    background-color: ${props =>
-        props.column === props.stepAhead ? '#d7d7d7' : '#efefef'};
+const StyledStep = styled.div `
+    background-color: ${props => props.column === props.stepAhead
+    ? '#d7d7d7'
+    : '#efefef'};
 
     cursor: pointer;
     text-align: center;
@@ -48,23 +49,20 @@ const Step = ({
     activeNotes,
     deactivateNote
 }) => {
-    const active = activeNotes.find(
-        activeNote => activeNote.note === note && activeNote.column === column
-    );
+    const active = activeNotes.find(activeNote => activeNote.note === note && activeNote.column === column);
 
     return (
         <StyledStep
             column={column}
-            stepAhead={currentStep - 1 === -1 ? steps - 1 : currentStep - 1}
-            onClick={e =>
-                active
-                    ? deactivateNote({ note, column })
-                    : activateNote({
-                          note,
-                          column
-                      })}
-            className={active ? 'active' : null}
-        >
+            stepAhead={currentStep - 1 === -1
+            ? steps - 1
+            : currentStep - 1}
+            onClick={e => active
+            ? deactivateNote({note, column})
+            : activateNote({note, column})}
+            className={active
+            ? 'active'
+            : null}>
             <span>{note}</span>
         </StyledStep>
     );

@@ -17,27 +17,17 @@ import Tone, {
 } from 'tone';
 
 export default function initSynth() {
-    const oscillatorA = new OmniOscillator({
-        volume: 24
-    }).start();
-    const oscillatorB = new OmniOscillator({
-        volume: 24
-    }).start();
+    const oscillatorA = new OmniOscillator({volume: 24}).start();
+    const oscillatorB = new OmniOscillator({volume: 24}).start();
     const ampEnvelope = new AmplitudeEnvelope().toMaster();
-    const reverb = new Freeverb({
-        wet: 0
-    }).toMaster();
-    const filter = new Filter({
-        Q: 12
-    }).toMaster();
+    const reverb = new Freeverb({wet: 0}).toMaster();
+    const filter = new Filter({Q: 12}).toMaster();
     const filterEnvelope = new FrequencyEnvelope();
-    const lowFrequencyOscillator = new AutoFilter().toMaster().start();
-    const delay = new FeedbackDelay({
-        wet: 0
-    }).toMaster();
-    const noise = new Noise({
-        volume: -40
-    }).toMaster();
+    const lowFrequencyOscillator = new AutoFilter()
+        .toMaster()
+        .start();
+    const delay = new FeedbackDelay({wet: 0}).toMaster();
+    const noise = new Noise({volume: -40}).toMaster();
     const instrument = new Instrument();
     const master = Master;
     const transport = Transport;
@@ -47,30 +37,13 @@ export default function initSynth() {
      * filter envelope
      */
     filterEnvelope.connect(filter.frequency);
-    oscillatorA.chain(
-        ampEnvelope,
-        lowFrequencyOscillator,
-        filter,
-        delay,
-        reverb
-    );
-    oscillatorB.chain(
-        ampEnvelope,
-        lowFrequencyOscillator,
-        filter,
-        delay,
-        reverb
-    );
+    oscillatorA.chain(ampEnvelope, lowFrequencyOscillator, filter, delay, reverb);
+    oscillatorB.chain(ampEnvelope, lowFrequencyOscillator, filter, delay, reverb);
 
     /**
      * Setup compressor and chain to master
      */
-    const masterCompressor = new Compressor({
-        threshold: -6,
-        ratio: 3,
-        attack: 0.5,
-        release: 0.1
-    });
+    const masterCompressor = new Compressor({threshold: -6, ratio: 3, attack: 0.5, release: 0.1});
     const lowBump = new Filter(200, 'lowshelf');
     master.chain(lowBump, masterCompressor);
     master.volume.value = -35;

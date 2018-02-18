@@ -1,8 +1,8 @@
 import React from 'react';
-// import { SwitchParameter } from '../Parameters/index';
 import SwitchParameter from '../Parameters/SwitchParameter';
 import KnobParameter from '../Parameters/KnobParameter';
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const Oscillator = ({
     oscillator,
@@ -14,6 +14,7 @@ const Oscillator = ({
     ...props
 }) => (
     <StyledModule flexDir="row" gridColumns={gridColumns} gridRows={gridRows}>
+        <StyledTitle>{`Oscillator ${oscillatorId}`}</StyledTitle>
         <SwitchParameter
             param="type"
             value={oscillator.type}

@@ -1,6 +1,7 @@
 import React from 'react';
 import KnobParameter from '../Parameters/KnobParameter';
 import StyledModule from '../styled/StyledModule';
+import StyledTitle from '../styled/StyledTitle';
 
 const AmpEnvelope = ({
     ampEnvelope,
@@ -10,6 +11,7 @@ const AmpEnvelope = ({
     gridRows
 }) => (
     <StyledModule flexDir="row" gridColumns={gridColumns} gridRows={gridRows}>
+        <StyledTitle>Amplifier envelope</StyledTitle>
         <KnobParameter
             module="ampEnvelope"
             param="attack"

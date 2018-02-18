@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 import * as d3 from 'd3';
 import styled from 'styled-components';
 
-import {
-    saturateZeroOne,
-    saturatePercentage
-} from '../../helpers/saturateValue';
+import {saturateZeroOne, saturatePercentage} from '../../helpers/saturateValue';
 import config from '../../synth/config';
 import calculateAngle from '../../helpers/calculateAngle';
 import StyledParameter from '../styled/StyledParameter';
 
-const { colors } = config;
-const StyledSVGWrapper = styled.div`
+const {colors} = config;
+const StyledSVGWrapper = styled.div `
     width: ${props => props.styledWidth}%;
     height: ${props => props.styledHeight}%;
     position: relative;
@@ -29,17 +26,18 @@ export default class KnobParameter extends Component {
         this.center = {};
     }
 
-    state = { isDragging: false };
+    state = {
+        isDragging: false
+    };
 
     calculateMouseAngle(mouse) {
-        return calculateAngle(
-            mouse[0] - this.center.x,
-            this.center.y - mouse[1]
-        );
+        return calculateAngle(mouse[0] - this.center.x, this.center.y - mouse[1]);
     }
 
     fixFloatValue(val) {
-        return val % 1 === 0 ? val : parseFloat(val).toFixed(2);
+        return val % 1 === 0
+            ? val
+            : parseFloat(val).toFixed(2);
     }
 
     handleDonutMouseClick = mouse => {
@@ -50,23 +48,32 @@ export default class KnobParameter extends Component {
          * Calculate the total available values going
          * from min to max (for -100 to 100 this would be 200)
          */
-        const total =
-            this.props.min < 0
-                ? this.props.max + Math.abs(this.props.min)
-                : this.props.max - this.props.min;
+        const total = this.props.min < 0
+            ? this.props.max + Math.abs(this.props.min)
+            : this.props.max - this.props.min;
 
-        const calculatedValueFromPercentage =
-            percentageFromAngle * (total / 100);
+        const calculatedValueFromPercentage = percentageFromAngle * (total / 100);
 
         // If min is under 100 it should be added from there and not from zero
         const value = this.props.min + calculatedValueFromPercentage;
 
-        this.props.setParameter(this.props.module, this.props.param, value);
+        this
+            .props
+            .setParameter(this.props.module, this.props.param, value);
     };
 
     handleContainerMouseMoveDrag = () => {
-        d3.event.preventDefault();
-        const { max, min, value, setParameter, module, param } = this.props;
+        d3
+            .event
+            .preventDefault();
+        const {
+            max,
+            min,
+            value,
+            setParameter,
+            module,
+            param
+        } = this.props;
         const oneth = max / 100;
 
         /**
@@ -78,23 +85,23 @@ export default class KnobParameter extends Component {
         const isAboveMin = value >= min;
         const isInsideParameterBoundaries = isBelowMax && isAboveMin;
 
-        if (!isInsideParameterBoundaries)
-            setParameter(module, param, !isBelowMax ? max : min);
+        if (!isInsideParameterBoundaries) 
+            setParameter(module, param, !isBelowMax
+                ? max
+                : min);
+        
+        const hasMovedVertically = d3.event.movementY < 0 || d3.event.movementY > 0;
+        const hasMovedHorizontally = d3.event.movementX < 0 || d3.event.movementX > 0;
 
-        const hasMovedVertically =
-            d3.event.movementY < 0 || d3.event.movementY > 0;
-        const hasMovedHorizontally =
-            d3.event.movementX < 0 || d3.event.movementX > 0;
-
-        if (
-            isInsideParameterBoundaries &&
-            (hasMovedHorizontally || hasMovedVertically)
-        ) {
+        if (isInsideParameterBoundaries && (hasMovedHorizontally || hasMovedVertically)) {
             const movement = hasMovedHorizontally
                 ? d3.event.movementX * -1
-                : hasMovedVertically ? d3.event.movementY : 0;
+                : hasMovedVertically
+                    ? d3.event.movementY
+                    : 0;
 
-            // HINT: 1 / 100th of circle value (min and max) times movementY (times step prop?)
+            // HINT: 1 / 100th of circle value (min and max) times movementY (times step
+            // prop?)
             const addToValue = oneth * movement;
 
             setParameter(module, param, value + addToValue);
@@ -124,15 +131,19 @@ export default class KnobParameter extends Component {
         // DONUT
         const donut = container
             .append('g')
-            .attr('transform', `translate(${width / 2}, 40)`)
-            .on('mouseover', function(data, i) {
-                d3.select(this).style('cursor', 'crosshair');
+            .attr('transform', `translate(${width / 2}, 54)`)
+            .on('mouseover', function (data, i) {
+                d3
+                    .select(this)
+                    .style('cursor', 'crosshair');
             })
-            .on('mouseout', function(data, i) {
-                d3.select(this).style('cursor', 'pointer');
+            .on('mouseout', function (data, i) {
+                d3
+                    .select(this)
+                    .style('cursor', 'pointer');
                 // parameter.transition().style('fill', colors.white);
             })
-            .on('click', function() {
+            .on('click', function () {
                 self.handleDonutMouseClick(d3.mouse(this));
             });
 
@@ -141,37 +152,51 @@ export default class KnobParameter extends Component {
             y: donut.attr('height') / 2
         };
 
-        container
-            .on('mousedown', () => {
-                d3.event.preventDefault();
-                this.setState({
-                    isDragging: true
-                });
-            })
-            .on('mouseover', function() {
-                d3.select(this).style('cursor', 'all-scroll');
-                self.valueEl.transition().style('fill', colors.white);
-                self.foreground.transition().style('fill', '#ff8a2d');
-                findDOMNode(self.param).classList.add('active');
+        container.on('mousedown', () => {
+            d3
+                .event
+                .preventDefault();
+            this.setState({isDragging: true});
+        })
+            .on('mouseover', function () {
+                d3
+                    .select(this)
+                    .style('cursor', 'all-scroll');
+                self
+                    .valueEl
+                    .transition()
+                    .style('fill', colors.white);
+                self
+                    .foreground
+                    .transition()
+                    .style('fill', '#ff8a2d');
+                findDOMNode(self.param)
+                    .classList
+                    .add('active');
             })
             .on('mousemove', () => {
-                if (!this.state.isDragging) return;
-
+                if (!this.state.isDragging) 
+                    return;
+                
                 this.handleContainerMouseMoveDrag();
             })
             .on('mouseup', () => {
-                this.setState({
-                    isDragging: false
-                });
+                this.setState({isDragging: false});
             })
             .on('mouseleave', () => {
-                d3.event.stopPropagation();
-                this.valueEl.transition().style('fill', colors.lightGray);
-                this.setState({
-                    isDragging: false
-                });
-                findDOMNode(this.param).classList.remove('active');
-                this.foreground
+                d3
+                    .event
+                    .stopPropagation();
+                this
+                    .valueEl
+                    .transition()
+                    .style('fill', colors.lightGray);
+                this.setState({isDragging: false});
+                findDOMNode(this.param)
+                    .classList
+                    .remove('active');
+                this
+                    .foreground
                     .transition(550)
                     .style('fill', `rgba(${colors.primary}, 1)`);
             });
@@ -179,7 +204,7 @@ export default class KnobParameter extends Component {
         // BACKGROUND
         donut
             .append('path')
-            .datum({ endAngle: this.tau })
+            .datum({endAngle: this.tau})
             .style('fill', 'rgba(0,0,0,0.2)')
             .attr('d', this.arc);
 
@@ -192,14 +217,9 @@ export default class KnobParameter extends Component {
             .style('fill', `rgba(${colors.primary}, 1)`)
             .attr('d', this.arc);
 
-        // DONUT LINE
-        // this.lineArc = d3
-        //     .arc()
-        //     .innerRadius(innerRadius)
-        //     .outerRadius(outerRadius)
-        //     .startAngle((saturatedValue - 0.003) * this.tau);
-
-        // VALUE TEXT
+        // DONUT LINE this.lineArc = d3     .arc()     .innerRadius(innerRadius)
+        // .outerRadius(outerRadius)     .startAngle((saturatedValue - 0.003) *
+        // this.tau); VALUE TEXT
         this.valueEl = container
             .append('text')
             .attr('fill', colors.lightGray)
@@ -208,25 +228,23 @@ export default class KnobParameter extends Component {
             .attr('font-family', 'Rubik Light')
             .style('font-size', '0.45em');
 
-        this.valueEl.attr(
-            'y',
-            donut.node().getBBox().height / 2 +
-                this.valueEl.node().getBBox().height / 0.53
-        );
-        this.valueEl.attr('x', width / 2 - this.valueEl.attr('width') / 2);
+        this
+            .valueEl
+            .attr('y', donut.node().getBBox().height / 2 + this.valueEl.node().getBBox().height / 0.28);
+        this
+            .valueEl
+            .attr('x', width / 2 - this.valueEl.attr('width') / 2);
     }
 
-    updateKnob(saturatedValue, { value }) {
+    updateKnob(saturatedValue, {value}) {
         const self = this;
-        this.foreground
+        this
+            .foreground
             .transition()
             .duration(900)
             .ease(d3.easePolyOut)
             .attrTween('d', d => {
-                const interpolate = d3.interpolate(
-                    d.endAngle,
-                    saturatedValue * this.tau
-                );
+                const interpolate = d3.interpolate(d.endAngle, saturatedValue * this.tau);
 
                 return t => {
                     d.endAngle = interpolate(t);
@@ -234,28 +252,27 @@ export default class KnobParameter extends Component {
                 };
             });
 
-        this.valueEl
+        this
+            .valueEl
             .transition()
             .duration(850)
             .ease(d3.easeSinOut)
-            .tween('text', function() {
+            .tween('text', function () {
                 const nextValue = self.fixFloatValue(value);
                 const interpolate = d3.interpolate(this.textContent, nextValue);
                 const prec = (nextValue + '').split('.');
-                const round =
-                    prec.length > 1 ? Math.pow(10, prec[1].length) : 1;
+                const round = prec.length > 1
+                    ? Math.pow(10, prec[1].length)
+                    : 1;
 
                 return t => {
-                    this.textContent =
-                        Math.round(interpolate(t) * round) / round;
+                    this.textContent = Math.round(interpolate(t) * round) / round;
                 };
             });
     }
 
     componentDidMount() {
-        this.renderKnob(
-            saturateZeroOne(this.props.min, this.props.max, this.props.value)
-        );
+        this.renderKnob(saturateZeroOne(this.props.min, this.props.max, this.props.value));
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -263,23 +280,20 @@ export default class KnobParameter extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        this.updateKnob(
-            saturateZeroOne(this.props.min, this.props.max, nextProps.value),
-            nextProps
-        );
+        this.updateKnob(saturateZeroOne(this.props.min, this.props.max, nextProps.value), nextProps);
     }
 
     render() {
         return (
             <StyledSVGWrapper
                 styledWidth={this.props.width}
-                styledHeight={this.props.height}
-            >
-                <svg ref={node => (this.node = node)} />
+                styledHeight={this.props.height}>
+                <svg ref={node => (this.node = node)}/>
                 <StyledParameter
                     refProp={param => (this.param = param)}
-                    param={this.props.name ? this.props.name : this.props.param}
-                />
+                    param={this.props.name
+                    ? this.props.name
+                    : this.props.param}/>
             </StyledSVGWrapper>
         );
     }

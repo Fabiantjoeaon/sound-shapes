@@ -12,13 +12,11 @@ const synthReducer = (state = initSynth(), action) => {
             });
 
             return newState;
-            break;
 
         case 'TOGGLE_VISIBILITY':
             const { isVisible } = action;
 
             return { ...state, isVisible };
-            break;
 
         default:
             return state;
