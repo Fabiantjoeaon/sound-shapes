@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import { update as updateTween, Tween, Easing } from 'tween.js';
-import { EffectComposer, ShaderPass, RenderPass } from 'postprocessing';
+import {
+    EffectComposer,
+    ShaderPass,
+    RenderPass
+} from '../vendor/postprocessing';
 
 import store from '../store';
 import ParticleShapes from './objects/ParticleShapes';
