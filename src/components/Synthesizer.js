@@ -14,7 +14,7 @@ import Filter from './modules/Filter';
 import LowFrequencyOscillator from './modules/LowFrequencyOscillator';
 import Reverb from './modules/Reverb';
 import Delay from './modules/Delay';
-import PitchTempo from './modules/PitchTempo';
+import OctaveControls from './modules/OctaveControls';
 import Keyboard from './modules/Keyboard';
 import Sequencer from './modules/Sequencer/index';
 import {setParameter, setOctave, slideOctave, toggleSynthVisibility} from '../actions';
@@ -103,6 +103,25 @@ const Toggle = styled.span `
     &:hover {
         background-color: #fff;
         color: #000;
+    }
+`;
+
+const DashboardToggle = styled.span `
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    color: #fff;
+    font-family : 'Rubik Light', sans-serif;
+    font-size: 1em;
+    border: 1px solid #fff;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #fff;
+        color: #14004c;
     }
 `;
 
@@ -217,25 +236,26 @@ class Synthesizer extends Component {
                             reverb={synth.reverb}
                             setParameter={setParameter}
                             settings={config.reverb}/>{' '}
-                        <PitchTempo
+                        <OctaveControls
                             gridColumns="4 / span 1"
-                            gridRows="3 / span 2"
-                            transport={synth.transport}
+                            gridRows="7 / span 2"
                             currentOctave={currentOctave}
                             setOctave={setOctave}
                             slideOctave={slideOctave}
                             setParameter={setParameter}
-                            settings={config.pitchTempo}/>{' '}
+                            settings={config.master}/>{' '}
+                        <DashboardToggle onClick={this.toggle}>Toggle</DashboardToggle>
                         <Master
                             gridColumns="4 / span 1"
-                            gridRows="1 / span 2"
+                            gridRows="3 / span 2"
                             master={synth.master}
+                            transport={synth.transport}
                             setParameter={setParameter}
                             settings={config.master}
                             toggleSynthVisibility={this.toggle}/>{' '}
                         <Sequencer
                             gridColumns="3 / span 1"
-                            gridRows="5 / span 5"
+                            gridRows="5 / span 4"
                             notes={sequencerNotes}
                             octave={octave}
                             currentOctave={currentOctave}

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import config from '../../synth/config';
 
-const { colors } = config;
+const {colors} = config;
 
-const ParameterWrapper = styled.div`
+const ParameterWrapper = styled.div `
     position: absolute;
     width: 100%;
     bottom: 1px;
@@ -28,7 +28,7 @@ const ParameterWrapper = styled.div`
     }
 `;
 
-const ParameterText = styled.span`
+const ParameterText = styled.span `
     position: relative;
     transition: all 0.3s ease-out;
     align-self: center;
@@ -78,7 +78,7 @@ const ParameterText = styled.span`
     }
 `;
 
-export default ({ param, refProp }) => (
+export default({param, refProp}) => (
     <ParameterWrapper ref={refProp}>
         <ParameterText data-letters={param}>{param}</ParameterText>
     </ParameterWrapper>

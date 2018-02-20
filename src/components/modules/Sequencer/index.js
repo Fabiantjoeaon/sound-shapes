@@ -8,12 +8,18 @@ const StyledControls = styled.div `
     display: flex;
     flex-flow: row nowrap;
     justify-content: start;
+    width: 100%;
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 20px;
 `;
 
 const StyledSequencerModule = styled(StyledModule)`
     justify-content: start;
     padding-top: 10px;
+    position: relative;
 `;
+
 export default class Sequencer extends Component {
     state = {
         bars: 2,
@@ -104,6 +110,36 @@ export default class Sequencer extends Component {
                 flexDir="column"
                 gridColumns={this.props.gridColumns}
                 gridRows={this.props.gridRows}>
+                <StyledControls>
+                    <div>
+                        <label>
+                            bars
+                        </label>{' '}
+                        <select
+                            onChange={e => this.setState({bars: e.target.value})}
+                            value={this.state.bars}>
+                            <option value={1}>
+                                1
+                            </option>{' '}
+                            <option value={2}>
+                                2
+                            </option>{' '}
+                        </select>{' '}
+                    </div>
+                    {this.state.activeNotes.length > 0 && (
+                        <button onClick={() => this.setState({activeNotes: []})}>
+                            Clear
+                        </button>
+                    )}
+                    <button
+                        onClick={() => this.setState({
+                        isPlaying: !this.state.isPlaying
+                    })}>
+                        {this.state.isPlaying
+                            ? '❚❚'
+                            : '►'}{' '}
+                    </button>{' '}
+                </StyledControls>{' '}
 
                 <StepSequencer
                     steps={this.state.steps * this.state.bars}

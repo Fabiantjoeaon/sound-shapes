@@ -48,6 +48,8 @@ injectGlobal `
 
     html, body {
         background-color: #fff;
+        position: relative;
+        overflow: hidden;
     }
 
     *{

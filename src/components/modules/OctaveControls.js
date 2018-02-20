@@ -1,11 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 import KnobParameter from '../Parameters/KnobParameter';
 import SwitchParameter from '../Parameters/SwitchParameter';
 
 import StyledModule from '../styled/StyledModule';
 
-const PitchTempo = ({
-    transport,
+const StyledOctaves = styled(SwitchParameter)`
+    .inner {
+        flex-flow: row nowrap;
+        width: 100%;
+        height: 100%;
+        div {
+            
+        }
+    }
+`;
+
+const OctaveControls = ({
     currentOctave,
     setParameter,
     setOctave,
@@ -15,29 +26,23 @@ const PitchTempo = ({
     gridRows
 }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows}>
-        <SwitchParameter
+        <StyledOctaves
             setOctave={setOctave}
             options={settings.pitch.options}
             value={currentOctave}
             module="octave"
-            param="octave"
-        />
-
-        <KnobParameter
-            param="bpm"
-            module="transport"
-            value={transport.bpm.value}
-            setParameter={setParameter}
-            min={settings.transport.min}
-            max={settings.transport.max}
-            step={1}
-        />
-
+            width={100 / 3}
+            height={100}
+            param="octave"/>
         <div>
-            <button onClick={() => slideOctave(-1)}> &larr; </button>
-            <button onClick={() => slideOctave(1)}> &rarr; </button>
+            <button onClick={() => slideOctave(-1)}>
+                &larr;
+            </button>
+            <button onClick={() => slideOctave(1)}>
+                &rarr;
+            </button>
         </div>
     </StyledModule>
 );
 
-export default PitchTempo;
+export default OctaveControls;

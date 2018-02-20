@@ -7,8 +7,8 @@ const {colors} = config;
 
 const StyledStep = styled.div `
     background-color: ${props => props.column === props.stepAhead
-    ? '#d7d7d7'
-    : '#efefef'};
+    ? 'rgba(199,199,199,0.5)'
+    : 'rgba(255,255,255,0.7)'};
 
     cursor: pointer;
     text-align: center;

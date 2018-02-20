@@ -5,9 +5,7 @@ const config = {
         volume: {
             min: -80,
             max: 5
-        }
-    },
-    pitchTempo: {
+        },
         pitch: {
             options: [...5]
         },
@@ -19,13 +17,8 @@ const config = {
     oscillators: {
         type: {
             options: [
-                'sine',
-                'triangle',
-                'sawtooth',
-                'square'
-                // 'pulse',
-                // 'pwm',
-                // 'fatsawtooth'
+                'sine', 'triangle', 'sawtooth', 'square'
+                // 'pulse', 'pwm', 'fatsawtooth'
             ]
         },
         detune: {

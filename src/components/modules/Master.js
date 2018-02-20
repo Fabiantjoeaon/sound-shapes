@@ -5,24 +5,13 @@ import styled from 'styled-components';
 import StyledModule from '../styled/StyledModule';
 import StyledTitle from '../styled/StyledTitle';
 
-const Toggle = styled.span `
-    // background-color: #fff;
-    padding: 5px 10px;
-    margin-right: 10px;
-    color: #fff;
-    font-family : 'Rubik Light', sans-serif;
-    font-size: 1em;
-    // display: inline;
-    cursor: pointer;
-`;
-
 const Master = ({
     master,
     setParameter,
     settings,
     gridColumns,
     gridRows,
-    toggleSynthVisibility
+    transport
 }) => (
     <StyledModule gridColumns={gridColumns} gridRows={gridRows}>
         <StyledTitle>Master</StyledTitle>
@@ -33,7 +22,15 @@ const Master = ({
             module="master"
             min={settings.volume.min}
             max={settings.volume.max}/>
-        <Toggle onClick={toggleSynthVisibility}>Toggle</Toggle>
+
+        <KnobParameter
+            param="bpm"
+            module="transport"
+            value={transport.bpm.value}
+            setParameter={setParameter}
+            min={settings.transport.min}
+            max={settings.transport.max}
+            step={1}/>
     </StyledModule>
 );
 

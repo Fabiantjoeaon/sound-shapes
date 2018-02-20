@@ -18,7 +18,7 @@ const StyledSwitch = styled.div `
     color: ${colors.white};
     
     .inner {
-        calc(15px * ${props => props.optionLength});
+        // height: calc(15px * ${props => props.optionLength});
         align-self: center;
         div {
             display: flex;
