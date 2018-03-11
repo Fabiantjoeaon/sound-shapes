@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {findDOMNode} from 'react-dom';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 
 import config from '../../synth/config';
 import StyledParameter from '../styled/StyledParameter';
-const {colors} = config;
+const { colors } = config;
 
-const StyledSwitch = styled.div `
+const StyledSwitch = styled.div`
     height: 100%;
     max-height: 130px;
     width: ${props => props.width}%;
@@ -53,7 +53,7 @@ const StyledSwitch = styled.div `
     }
 `;
 
-const StyledCircle = styled.span `
+const StyledCircle = styled.span`
     border-radius: 100%;
     height: 6px;
     width: 6px;
@@ -66,13 +66,23 @@ export default class SwitchParameter extends Component {
         const node = findDOMNode(this.node);
         const param = findDOMNode(this.param);
 
-        node.addEventListener('mouseenter', () => param.classList.add('active'));
-        node.addEventListener('mouseleave', () => param.classList.remove('active'));
+        node.addEventListener('mouseenter', () =>
+            param.classList.add('active')
+        );
+        node.addEventListener('mouseleave', () =>
+            param.classList.remove('active')
+        );
     }
 
     componentWillUnmount() {
-        findDOMNode(this.param).removeEventListener('mouseenter');
-        findDOMNode(this.param).removeEventListener('mouseleave');
+        const node = findDOMNode(this.node);
+        const param = findDOMNode(this.param);
+        node.removeEventListener('mouseenter', () =>
+            param.classList.add('active')
+        );
+        node.removeEventListener('mouseleave', () =>
+            param.classList.remove('active')
+        );
     }
 
     render() {
@@ -91,25 +101,29 @@ export default class SwitchParameter extends Component {
                 width={width}
                 height={height}
                 optionLength={options.length}
-                ref={node => (this.node = node)}>
+                ref={node => (this.node = node)}
+            >
                 <div className="inner">
-                    {options && options.map(option => (
-                        <div
-                            key={option}
-                            className={value == option
-                            ? 'active'
-                            : null}
-                            onClick={e => {
-                            setParameter
-                                ? setParameter(module, param, option)
-                                : setOctave(option);
-                        }}>
-                            <StyledCircle className="circle"/>
-                            <span className="option">{option}</span>
-                        </div>
-                    ))}
+                    {options &&
+                        options.map(option => (
+                            <div
+                                key={option}
+                                className={value == option ? 'active' : null}
+                                onClick={e => {
+                                    setParameter
+                                        ? setParameter(module, param, option)
+                                        : setOctave(option);
+                                }}
+                            >
+                                <StyledCircle className="circle" />
+                                <span className="option">{option}</span>
+                            </div>
+                        ))}
                 </div>
-                <StyledParameter refProp={param => (this.param = param)} param={param}/>
+                <StyledParameter
+                    refProp={param => (this.param = param)}
+                    param={param}
+                />
             </StyledSwitch>
         );
     }

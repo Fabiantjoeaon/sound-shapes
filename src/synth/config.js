@@ -17,7 +17,10 @@ const config = {
     oscillators: {
         type: {
             options: [
-                'sine', 'triangle', 'sawtooth', 'square'
+                'sine',
+                'triangle',
+                'sawtooth',
+                'square'
                 // 'pulse', 'pwm', 'fatsawtooth'
             ]
         },
